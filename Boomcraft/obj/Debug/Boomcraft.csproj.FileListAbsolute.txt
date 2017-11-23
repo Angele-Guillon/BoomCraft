@@ -33,3 +33,4 @@ C:\Users\asuss\Documents\Visual Studio 2015\Projects\Boomcraft\Boomcraft\bin\MyS
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\Boomcraft\Boomcraft\obj\Debug\Boomcraft.dll
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\Boomcraft\Boomcraft\obj\Debug\Boomcraft.pdb
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\Boomcraft\Boomcraft\obj\Debug\Boomcraft.csprojResolveAssemblyReference.cache
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\obj\Debug\Boomcraft.csproj.CoreCompileInputs.cache
