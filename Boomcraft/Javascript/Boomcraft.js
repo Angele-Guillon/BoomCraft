@@ -1,9 +1,10 @@
 ﻿
-//  Url du Service WEB
+//  Url du Service WEB - LOCAL
 var aURL = "http://localhost:50728/Boomcraft_WebService.asmx/";
+//  Url du Service WEB - SERVEUR
+//  var aURL = "192.168.129.128:8080/Boomcraft_WebService.asmx/";
 
 $(document).ready(function () {
-    // Function code here.
     /**************************************** BOUTON NOUVEL ELEMENT ****************************************/
     $('#btn_AppelJavascript').on('click', function () {
         // On force un timeout pour que le focus fonctionne sur IE.

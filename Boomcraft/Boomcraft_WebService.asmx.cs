@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web.Script.Serialization;
+using System.Web.Script.Services;
 using System.Web.Services;
 
 namespace Boomcraft
@@ -18,14 +16,25 @@ namespace Boomcraft
     public class Boomcraft_WebService : System.Web.Services.WebService
     {
         // ************************************************** VARIABLES ************************************************** //
-        Test aTest = new Test();
+        DAL aDal = new DAL();
         // **************************************************  ************************************************** //
         [WebMethod]
-        public string get_Test(string sNom, int iAge)
+        public string get_Test()
         {
-            long iIdResult;
-            iIdResult = aTest.Insert_Test(sNom, iAge);
-            return "Le test a été créé dans la base. Son id est : " + iIdResult + ".";
+            return "Test.\nBlah !";
         }
+        // ************************************************** FV ENVOYER DON ************************************************** //
+        [WebMethod]
+        //  [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public string FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
+        //  FarmVillage => Boomcraft. Permet aux joueurs d'envoyer des ressources suite à une demande.
+        {
+            string sRetour = "{'msg_code': 'Merci !';}";
+            //  Ajoute les ressources envoyées au joueur de Boomcraft.
+            int iIdResult = aDal.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
+            //return new JavaScriptSerializer().Serialize(sRetour);
+            return sRetour;
+        }
+        // **************************************************  ************************************************** //
     }
 }

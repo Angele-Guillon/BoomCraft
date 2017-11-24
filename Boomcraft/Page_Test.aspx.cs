@@ -10,14 +10,14 @@ namespace Boomcraft
     public partial class WebForm1 : System.Web.UI.Page
     {
         // ************************************************** VARIABLES ************************************************** //
-        Test aTest = new Test();
+        DAL aTest = new DAL();
         // **************************************************  ************************************************** //
         protected void Page_Load(object sender, EventArgs e)
         {
         }
         protected void clic_BtnConnexionBase(object sender, EventArgs e)
         {
-            long iResult = aTest.Insert_Test("Dude", 24);
+            //long iResult = aTest.Insert_Test("Dude", 24);
         }
     }
 }

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data;
 using MySql.Data.MySqlClient;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
+using System.Data.SqlClient;
 
 namespace Boomcraft
 {
-    public class Test
+    public class DAL
     {
         // ************************************************** VARIABLES ************************************************** //
         DB_Connection aDb_Connection = new DB_Connection();
@@ -35,25 +29,25 @@ namespace Boomcraft
                     Console.WriteLine("\n" + sId + "," + sNom + "," + sAge);
                 }
             }
+            dbCon.Close();
         }
         // ************************************************************************************************************************ //
-        public long Insert_Test(string sNom, int iAge)
+        public int FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
         {
-            long iResult = -1;
+            int iResult = -1;
+            string sMessageBase = string.Empty;
             var dbCon = aDb_Connection;
             dbCon.DatabaseName = "boomcraft";
             if (dbCon.IsConnect())
             {
                 //  Requête à exécuter dans la base.
-                //string sQuery = "CALL boomcraft.ps_Insert_Test('" +sNom + "', " +iAge + ");";
-
-                string sQuery = "INSERT INTO boomcraft.test(nom, age) VALUES('" + sNom + "', " + iAge + ")";
+                string sQuery =
+                    "UPDATE boomcraft.userressource "
+                    + "SET qty = qty + " + iQuantite + " WHERE id_User = " + sUUID + " AND id_Ressource = " + iIdRessource + ";";
                 var cmd = new MySqlCommand(sQuery, dbCon.Connection);
                 cmd.ExecuteNonQuery();
-                //  Fonctionne avec un INSERT en dur dans le code.
-                //long id = cmd.LastInsertedId;
-                iResult = cmd.LastInsertedId;
             }
+            dbCon.Close();
             return iResult;
         }
         // ************************************************************************************************************************ //
