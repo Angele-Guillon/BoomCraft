@@ -1,0 +1,64 @@
+<!---------------------------------------------- Menu ------------------------------------------------> 
+<mat-toolbar class="NavBar" color="primary">
+    <!--Logo-->
+    <img class="toolbar-img" src="assets\img\logo.png" />
+    <!--Principal Menu -->
+    <button mat-icon-button class="toolbar-button" [matMenuTriggerFor]="appMenu">
+        <mat-icon>more_vert</mat-icon>
+        <mat-icon>web</mat-icon>
+        <span class="title">Home</span>
+    </button>
+    <mat-menu #appMenu="matMenu">
+        <button mat-menu-item>
+            <mat-icon svgIcon="sword"></mat-icon>
+            <span>Attack</span>
+        </button>
+        <button mat-menu-item routerLink="/user">
+            <mat-icon svgIcon="shield"></mat-icon>
+            <span>Defense</span>
+        </button>
+    </mat-menu>
+    
+    <button mat-button class="toolbar-button" routerLink="/user-current" >
+        <mat-icon svgIcon="sword-cross"></mat-icon>
+            <span class="title">Gestion de l'armée</span>
+        </button>
+
+        <button mat-icon-button class="toolbar-button" routerLink="/user-current">
+                <mat-icon>mail</mat-icon>
+                <span class="title">Messagerie</span>
+            </button>
+
+    <!--Right Menu-->
+    <div class="toolbar-right">
+        <!--link for view current user -->
+        <button mat-icon-button class="toolbar-button" routerLink="/user-current">
+            <mat-icon class="icon-toolbar">account_circle</mat-icon>
+        </button>
+        <!---->
+            <button mat-icon-button routerLink="">
+                <mat-icon> input </mat-icon>
+                <span> Déconnection </span>
+            </button>
+    </div>
+</mat-toolbar>
+
+<!------------------------------------------- vision générale  ---------------------------------------------->
+<p></p>
+<div class="demo-grid-list">
+        <mat-card>
+          <!--mat-card-title>Grid list with footer</mat-card-title-->
+          <mat-card-content>
+            <mat-grid-list cols="3" rowHeight="200px">
+              <mat-grid-tile *ngFor="let build of builds">
+                <img [alt]="build.name" src="https://material.angularjs.org/material2_assets/ngconf/{{build.name}}.png">
+                <mat-grid-tile-footer>
+                  <h3 mat-line>{{build.name}}</h3>
+                  <span mat-line>Human: {{build.human}}</span>
+                  <mat-icon>star_border</mat-icon>
+                </mat-grid-tile-footer>
+              </mat-grid-tile>
+            </mat-grid-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
