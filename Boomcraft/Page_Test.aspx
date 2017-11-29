@@ -15,8 +15,22 @@
 <body>
     <form id="form1" runat="server">
         <div style="text-align: center;">
-            <asp:Button ID="btn_ConnexionBase" runat="server" OnClick="clic_BtnConnexionBase" Text="CONNEXION BASE" />
+            <asp:Button ID="btn_Test" runat="server" OnClick="Clic_BtnConnexionBase" Text="CONNEXION BASE" />
+            <asp:Label ID="lbl_Test" runat="server" Text="Nothing"></asp:Label>
             <button id="btn_AppelJavascript">CONNEXION Javascript</button>
+            </br>
+            </br>
+            <div>
+                <span>BOOMCRAFT</span>
+                </br>
+            </div>
+            </br>
+            </br>
+            <div>
+                <span>FARM VILLAGE</span>
+                </br>
+                <button id="btn_FV_DoTransaction">FV_DoTransaction</button>
+            </div>
         </div>
     </form>
 </body>
