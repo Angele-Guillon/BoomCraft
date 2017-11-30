@@ -19,12 +19,12 @@
         </button>
     </mat-menu>
     
-    <button mat-button class="toolbar-button" routerLink="/user-current" >
+    <button mat-button class="toolbar-button" routerLink="/armee" >
         <mat-icon svgIcon="sword-cross"></mat-icon>
             <span class="title">Gestion de l'armée</span>
         </button>
 
-        <button mat-icon-button class="toolbar-button" routerLink="/user-current">
+        <button mat-icon-button class="toolbar-button" routerLink="/messagerie">
                 <mat-icon>mail</mat-icon>
                 <span class="title">Messagerie</span>
             </button>
@@ -44,21 +44,4 @@
 </mat-toolbar>
 
 <!------------------------------------------- vision générale  ---------------------------------------------->
-<p></p>
-<div class="demo-grid-list">
-        <mat-card>
-          <!--mat-card-title>Grid list with footer</mat-card-title-->
-          <mat-card-content>
-            <mat-grid-list cols="3" rowHeight="200px">
-              <mat-grid-tile *ngFor="let build of builds">
-                <img [alt]="build.name" src="https://material.angularjs.org/material2_assets/ngconf/{{build.name}}.png">
-                <mat-grid-tile-footer>
-                  <h3 mat-line>{{build.name}}</h3>
-                  <span mat-line>Human: {{build.human}}</span>
-                  <mat-icon>star_border</mat-icon>
-                </mat-grid-tile-footer>
-              </mat-grid-tile>
-            </mat-grid-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
+<img  class="background" [alt]="maitre" src="./assets/img/{{faction}}/maitre.png">

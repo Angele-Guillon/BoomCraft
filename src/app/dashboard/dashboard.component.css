@@ -36,72 +36,12 @@ span{
 
 }
 img.background{
-    width: 70%;
-    height: auto;
+    width: auto;
+    height: 70%;
     z-index: -1;
     position: absolute;
-    opacity: 0.15;
-    top: 55%;
-    left: 80%;
-    transform: translateX(-50%) translateY(-50%)
+    top: 50%;
+    left: 20%;
+    transform: translateX(-50%) translateY(-25%)
 }
-
-.logo{
-    opacity: 0.8;
-}
-.title{
-    font-size-adjust: auto;
-    font-size: 100%;
-}
-
-html{
-    size:0px;
-   padding-top: 0px;
-}
-.incident-container {
-    margin-top: 1vw;
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    backface-visibility:0.1 ;
-  }
-  
-  .incident-header {
-    min-height: 4em;
-    display: flex;
-    align-items: baseline;
-    padding: 1vw;
-    font-size-adjust: auto;
-    justify-content: space-between;
-  }
-  
-  .mat-form-field {
-    font-size: 1em;
-    flex-grow: 1;
-    margin-left: 1em;
-  }
-  
-  .mat-table {
-    overflow: auto;
-    font-size-adjust: auto;
-    max-height: 15em;
-
-  }
-  
-  
-  .add-icon{
-      color:royalblue;
-  }
-
-  .check-icon{
-      color: rgb(9, 201, 9);
-  }
-
-  .cancel-icon{
-      color: rgba(255, 0, 0, 0.87);
-  }
-
-  .img-icon{
-      color: grey;
-  }
 

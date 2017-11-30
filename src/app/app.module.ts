@@ -25,6 +25,7 @@ import { ForgetComponent } from './forget/forget.component';
 import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MessagerieComponent } from './messagerie/messagerie.component';
+import { ArmeeComponent } from './armee/armee.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MessagerieComponent } from './messagerie/messagerie.component';
     ForgetComponent,
     LoginComponent,
     ChangePasswordComponent,
-    MessagerieComponent
+    MessagerieComponent,
+    ArmeeComponent
   ],
   imports: [
     BrowserModule,
