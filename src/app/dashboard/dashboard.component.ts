@@ -19,6 +19,5 @@ faction='light';
 // faction='shadows';
   ngOnInit() {
   
-  
 }
 }
