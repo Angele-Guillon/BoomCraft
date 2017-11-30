@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./armee.component.css']
 })
 export class ArmeeComponent implements OnInit {
-  //faction='light';
-  faction='shadows';
+  faction='light';
+  //faction='shadows';
   constructor() { }
 
   characters: Object[] = [
