@@ -29,14 +29,14 @@ namespace Boomcraft
             #endregion Test GetAll_Joueur
 
             #region Test Update_Joueur
-            //DateTime? dt2 = null;
-            //DataSet ds2 = aREP.Update_Joueur(31, "aze", "aze", "aze", "aze", DateTime.Now, dt2, dt2, 1);
+            DateTime? dt2 = null;
+            int iResult_UpdateJoueur = aREP.Update_Joueur(39, "zzz", "aze", "aze", "aze", DateTime.Now, dt2, dt2, 1);
             #endregion Test Update_Joueur
 
             #region Test Insert_Joueur
-            DateTime? dt3 = null;
-            string sRetour = aREP.Insert_Joueur("Joueur20", "Biteboy", "mdp", "email", DateTime.Now, dt3, dt3, 1);
-            lbl_Test.Text = sRetour;
+            //DateTime? dt3 = null;
+            //int iRetour = aREP.Insert_Joueur("Joueur20", "aaaaa", "mdp", "email", DateTime.Now, dt3, dt3, 1);
+            //lbl_Test.Text = iRetour.ToString();
             #endregion Test Insert_Joueur
 
             #region Test Delete_Joueur

@@ -24,66 +24,27 @@ namespace Boomcraft
         #endregion VARIABLES ET CONSTRUCTEUR
         #region APPELS DE PROCEDURES
         // ************************************************************************+-************************************************ //
-        public int FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
+        public int FV_envoyerDon(string sId_Global, int iIdRessource, int iQuantite)
         {
-            int iResult = -1;
-            string sMessageBase = string.Empty;
-            var dbCon = aDb_Connection;
-            dbCon.DatabaseName = "boomcraft";
-            if (dbCon.IsConnect())
+            //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
+            int iResult = 0;
+            if (sConnexionLocal.State == ConnectionState.Closed)
             {
-                //  Requête à exécuter dans la base.
-                string sQuery =
-                    "UPDATE boomcraft.userressource UsrRes "
-                        + "INNER JOIN boomcraft.account Acc ON UsrRes.id_User = Acc.id "
-                        + "SET qty = qty + " + iQuantite + " WHERE id_User = Acc.id AND UsrRes.id_Ressource = " + iIdRessource + " AND Acc.id_global = '" + sUUID + "';";
-                var cmd = new MySqlCommand(sQuery, dbCon.Connection);
-                cmd.ExecuteNonQuery();
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
             }
-            dbCon.Close();
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_Update_Ressources", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Transmission des paramètres à la procédure stockée.
+            cmd.Parameters.AddWithValue("@sId_Global", sId_Global);
+            cmd.Parameters.AddWithValue("@iIdRessource", iIdRessource);
+            cmd.Parameters.AddWithValue("@iQuantite", iQuantite);
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
             return iResult;
-        }
-        // ************************************************************************************************************************ //
-        public string insert_Joueur_SQLPur(int iId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime dtEdition, DateTime dtSuppression, int iFaction)
-        //OUT bResult BOOLEAN,
-        //OUT iId INT(11),
-        //OUT sMessage VARCHAR(255)
-        {
-            //  Retourne l'id de l'account créé si la requête a fonctionné.
-            //  Retourne l'erreur s'il la requête n'a pas fonctionné.
-            string sRetourProc = string.Empty;
-            try
-            {
-                if (sConnexionLocal.State == ConnectionState.Closed)
-                {
-                    sConnexionLocal.Open();
-                }
-                MySqlCommand NewCmd = sConnexionLocal.CreateCommand();
-                NewCmd.Connection = sConnexionLocal;
-                NewCmd.CommandType = CommandType.Text;
-                //  Requête SQL à effectuée.
-                NewCmd.CommandText = "set @bResult = 0, @iId = 0, @sMessage = '0';"
-                    + "call boomcraft.ps_Insert_Account('joueur6', 'Tezzam', 'mdp', 'email', '2017-11-27', null, null, 1, @bResult, @iId, @sMessage);"
-                    + "select @bResult, @iId, @sMessage;";
-                int iEtatRequete = NewCmd.ExecuteNonQuery();
-                sConnexionLocal.Close();
-                if (iEtatRequete == 0)
-                {
-                    //Not updated.
-                    sRetourProc = "Not Updated";
-                }
-                else
-                {
-                    //Updated.
-                    sRetourProc = "Updated";
-                }
-            }
-            catch (Exception ex)
-            {
-                // Not updated
-                sRetourProc = "\n" + ex.ToString();
-            }
-            return sRetourProc;
         }
         // ************************************************************************************************************************ //
         public DataSet GetAll_Joueur()
@@ -110,11 +71,12 @@ namespace Boomcraft
             return ds;
         }
         // ************************************************************************************************************************ //
-        public string Insert_Joueur(string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
+        public int Insert_Joueur(string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
         {
             //  Retourne l'id de l'account créé si la requête a fonctionné.
             //  Retourne l'erreur s'il la requête n'a pas fonctionné.
-            string sRetourProc = string.Empty;
+            string sErreur = string.Empty;
+            int iIdResult = 0;
             try
             {
                 if (sConnexionLocal.State == ConnectionState.Closed)
@@ -134,25 +96,31 @@ namespace Boomcraft
                 cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
                 cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
                 cmd.Parameters.AddWithValue("@iFaction", iFaction);
+                //  Déclaration des paramètres d'entrée de la procédure.
+                MySqlParameter out_Id = new MySqlParameter("@out_Id", MySqlDbType.Int16);
+                out_Id.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(out_Id);
+
                 //  Exécution de la procédure stockée.
                 cmd.ExecuteNonQuery();
                 //  Récupération du dernier id créé.
-                sRetourProc = cmd.LastInsertedId.ToString();
+                iIdResult = int.Parse(out_Id.Value.ToString());
                 //  Fermeture de la connexion avec la base.
                 sConnexionLocal.Close();
             }
             catch (Exception ex)
             {
                 //  Erreur dans l'exécution du traitement SQL.
-                 sRetourProc = "\n" + ex.ToString();
+                 sErreur = "\n" + ex.ToString();
             }
-            return sRetourProc;
+            return iIdResult;
         }
         // ************************************************************************************************************************ //
-        public DataSet Update_Joueur(int iId, string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
+        public int Update_Joueur(int iId, string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
         //  Met à jour toutes les informations d'un joueur à partir de son id (local).
         {
-            DataSet ds = new DataSet();
+            //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
+            int iResult = 0;
             if (sConnexionLocal.State == ConnectionState.Closed)
             {
                 //  Ouverture d'une connexion avec la base.
@@ -172,15 +140,10 @@ namespace Boomcraft
             cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
             cmd.Parameters.AddWithValue("@iFaction", iFaction);
             //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
+            iResult = cmd.ExecuteNonQuery();
             //  Fermeture de la connexion avec la base.
             sConnexionLocal.Close();
-            return ds;
+            return iResult;
         }
         // ************************************************************************************************************************ //
         public int Delete_Joueur(int iId)

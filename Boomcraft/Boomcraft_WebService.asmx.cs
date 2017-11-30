@@ -26,16 +26,14 @@ namespace Boomcraft
         // ************************************************** FV ENVOYER DON ************************************************** //
         [WebMethod]
         //  [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public string FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
-        public string FV_envoyerDon()
+        public string FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
         //  FarmVillage => Boomcraft. Permet aux joueurs d'envoyer des ressources suite à une demande.
         {
-            string sRetour = "{'msg_code': 'Merci !';}";
             //  Ajoute les ressources envoyées au joueur de Boomcraft.
-            //int iIdResult = aDal.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
-            int iIdResult = aDal.FV_envoyerDon("joueur1", 1, 100);
+            int iResult = aDal.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
+            //int iResult = aDal.FV_envoyerDon("joueur1", 1, 100);
             //return new JavaScriptSerializer().Serialize(sRetour);
-            return sRetour;
+            return "{'msg_code': 'Merci !';}";
         }
         // **************************************************  ************************************************** //
     }
