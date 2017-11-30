@@ -1,6 +1,5 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 
@@ -8,6 +7,7 @@ namespace Boomcraft
 {
     public class Boomcraft_Repository
     {
+        #region VARIABLES ET CONSTRUCTEUR
         // ************************************************** VARIABLES ************************************************** //
         //  Déclaration d'une chaîne de connexion.
         DB_Connection aDb_Connection = new DB_Connection();
@@ -21,8 +21,9 @@ namespace Boomcraft
             //sConnexionLocal = new MySqlConnection("Server = localhost; database = boomcraft; uid = admin; pwd = admin");
         }
         // **************************************************  ************************************************** //
-        #region aaaaaaaaaaaa
-        // ************************************************************************************************************************ //
+        #endregion VARIABLES ET CONSTRUCTEUR
+        #region APPELS DE PROCEDURES
+        // ************************************************************************+-************************************************ //
         public int FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
         {
             int iResult = -1;
@@ -85,6 +86,30 @@ namespace Boomcraft
             return sRetourProc;
         }
         // ************************************************************************************************************************ //
+        public DataSet GetAll_Joueur()
+        //  Retourne toutes les informations de tous les joueurs.
+        {
+            DataSet ds = new DataSet();
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_getAll_Account", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération des données de la procédures dans un adapter.
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            adapter.SelectCommand = cmd;
+            //  Stockage des données dans un dataset.
+            adapter.Fill(ds);
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return ds;
+        }
+        // ************************************************************************************************************************ //
         public string Insert_Joueur(string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
         {
             //  Retourne l'id de l'account créé si la requête a fonctionné.
@@ -97,7 +122,7 @@ namespace Boomcraft
                     //  Ouverture d'une connexion avec la base.
                     sConnexionLocal.Open();
                 }
-                //  Requête SQL à effectuée.
+                //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
                 MySqlCommand cmd = new MySqlCommand("ps_Insert_Account", sConnexionLocal);
                 cmd.CommandType = CommandType.StoredProcedure;
                 //  Déclaration des paramètres d'entrée de la procédure.
@@ -124,30 +149,6 @@ namespace Boomcraft
             return sRetourProc;
         }
         // ************************************************************************************************************************ //
-        public DataSet GetAll_Joueur()
-        //  Retourne toutes les informations de tous les joueurs.
-        {
-            DataSet ds = new DataSet();
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour créer un appel à une procédure stockée..
-            MySqlCommand cmd = new MySqlCommand("ps_getAll_Account", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-            return ds;
-        }
-        // ************************************************************************************************************************ //
         public DataSet Update_Joueur(int iId, string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
         //  Met à jour toutes les informations d'un joueur à partir de son id (local).
         {
@@ -157,7 +158,7 @@ namespace Boomcraft
                 //  Ouverture d'une connexion avec la base.
                 sConnexionLocal.Open();
             }
-            //  Déclaration d'un objet MySqlCommand pour créer un appel à une procédure stockée..
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
             MySqlCommand cmd = new MySqlCommand("ps_Update_Account", sConnexionLocal);
             cmd.CommandType = CommandType.StoredProcedure;
             //  Transmission des paramètres à la procédure stockée.
@@ -182,6 +183,28 @@ namespace Boomcraft
             return ds;
         }
         // ************************************************************************************************************************ //
+        public int Delete_Joueur(int iId)
+        //  Supprime un joueur à partir de son id (local).
+        //  Renvoie le nombre de lignes affectées par la requête.
+        {
+            int iResult = 0;
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_Delete_Account", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Transmission des paramètres à la procédure stockée.
+            cmd.Parameters.AddWithValue("@iId", iId);
+            //  Exécution de la procédure stockée.
+            iResult = cmd.ExecuteNonQuery();
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return iResult;
+        }
+        // ************************************************************************************************************************ //
         public void FV_DoTransaction(string sUUID, int iWood, int iFood, int iGold, int iRock, int iCentralise)
         {
             //  TODO : EST-CE QUE LA STRUCTURE DE LA BASE EST PERTINENTE ??????????????????
@@ -201,7 +224,7 @@ namespace Boomcraft
             //return iResult;
         }
         // ************************************************************************************************************************ //
-        #endregion aaaaaaaaaaaa
+        #endregion APPELS DE PROCEDURES
         #region COMMUNICATION BASE AVEC CLASSE DB_CONNECTION
         // ************************************************************************************************************************ //
         //public void GetALL_Test()
