@@ -49,17 +49,24 @@
 
 <!------------------------------------------- vision générale  ---------------------------------------------->
 <p></p>
+<div class="overlay">
+</div>
 <div class="demo-grid-list">
   <mat-card>
-    <!--mat-card-title>Grid list with footer</mat-card-title-->
     <mat-card-content>
       <mat-grid-list cols="3" rowHeight="200px">
         <mat-grid-tile *ngFor="let character of characters">
+            <div class="overlay">
+              </div>
+              <h3 mat-line>{{character.name}} <br/> <h4>Stock:{{character.qty}} </h4></h3>
           <img class="character" [alt]="character.name" src="./assets/img/{{faction}}/{{character.name}}.png">
           <mat-grid-tile-footer>
-            <h3 mat-line>{{character.name}}</h3>
-            <span mat-line>life: {{character.life}} Heal: {{character.heal}} Dégats: {{character.Dps}} Stock:{{character.qty}}</span>
-            <input matInput mat-line #qty (keyup.enter)="qty.value" type="number" min="0" max={{character.qty}}>
+            <span mat-line>Life: {{character.life}}</span>
+                <span mat-line> Heal: {{character.heal}}</span>
+                    <span mat-line> Degats: {{character.Dps}}</span>
+                        
+            <input matInput  #qty (keyup.enter)="qty.value" type="number" min="0" placeholder={{character.qty}} max={{character.qty}}>
+          
             <input matInput #name value="{{character.name}}" style="visibility: hidden;">
             <button mat-icon-button (click)="sendattack(name.value,qty.value)">
               <mat-icon svgIcon="sword"></mat-icon>
@@ -70,10 +77,10 @@
             <button mat-icon-button (click)="deleteunit(name.value,qty.value)">
               <mat-icon>delete</mat-icon>
             </button>
-            <mat-icon>star_border</mat-icon>
           </mat-grid-tile-footer>
         </mat-grid-tile>
       </mat-grid-list>
     </mat-card-content>
   </mat-card>
 </div>
+

@@ -75,3 +75,29 @@ span{
 input{
     width: 30%;
 }
+h3{
+    color: white;
+    font-family: fantasy;
+    font-size-adjust: auto;
+}
+h4{
+    color: white;
+    font-family: fantasy;
+    font-size: 0.8em;
+}
+
+
+div.overlay {
+    z-index: -3;
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    right: 0%;
+    bottom: 0%;
+    background:rgba(32, 24, 24, 0.61);
+    filter:blur(4px);
+    -o-filter:blur(4px);
+    -ms-filter:blur(4px);
+    -moz-filter:blur(4px);
+    -webkit-filter:blur(4px);
+}

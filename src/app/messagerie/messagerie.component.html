@@ -1,3 +1,100 @@
-<p>
-  messagerie works!
-</p>
+<!---------------------------------------------- Menu ------------------------------------------------>
+<mat-toolbar class="NavBar" color="primary">
+    <!--Logo-->
+    <img class="toolbar-img" src="assets\img\logo.png" />
+    <!--Principal Menu -->
+    <button mat-icon-button class="toolbar-button" [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+      <mat-icon>web</mat-icon>
+      <span class="title">Home</span>
+    </button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item routerLink="/dashboard">
+        <mat-icon>web</mat-icon>
+        <span>Général</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon svgIcon="sword"></mat-icon>
+        <span>Attack</span>
+      </button>
+      <button mat-menu-item routerLink="/user">
+        <mat-icon svgIcon="shield"></mat-icon>
+        <span>Defense</span>
+      </button>
+    </mat-menu>
+  
+    <button mat-button class="toolbar-button" routerLink="/armee">
+      <mat-icon svgIcon="sword-cross"></mat-icon>
+      <span class="title">Gestion de l'armée</span>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" routerLink="/messagerie">
+      <mat-icon>mail</mat-icon>
+      <span class="title">Messagerie</span>
+    </button>
+  
+    <!--Right Menu-->
+    <div class="toolbar-right">
+      <!--link for view current user -->
+      <button mat-icon-button class="toolbar-button" routerLink="/user-current">
+        <mat-icon class="icon-toolbar">account_circle</mat-icon>
+      </button>
+      <!---->
+      <button mat-icon-button routerLink="">
+        <mat-icon> input </mat-icon>
+        <span> Déconnection </span>
+      </button>
+    </div>
+  </mat-toolbar>
+<!---------------------------------------------------------------------------------------->  
+<div class="data-container mat-elevation-z2">
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> Number </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+        </ng-container>
+    
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.date}} </mat-cell>
+        </ng-container>
+    
+        <!-- Account Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+        </ng-container>
+    
+        <!-- Color Column -->
+        <ng-container matColumnDef="text">
+          <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+          <mat-cell *matCellDef="let row" > {{row.text}} </mat-cell>
+        </ng-container>
+  
+        <!-- Icon Column -->
+        <ng-container matColumnDef="button">
+            <mat-header-cell *matHeaderCellDef> Button </mat-header-cell>
+            <mat-cell *matCellDef="let row"> 
+              <button mat-icon-button routerLink="/">
+                  <mat-icon class="check-icon"> check_circle </mat-icon>
+              </button>
+              <button mat-icon-button routerLink="/" >
+                  <mat-icon class="cancel-icon"> cancel </mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+      <!-- -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator [length]="100"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>
+
+    </div>
+    <!---------------------------------------------------------------------------------------->  

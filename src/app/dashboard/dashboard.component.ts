@@ -14,10 +14,17 @@ import 'rxjs/add/observable/fromEvent';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
+
 export class DashboardComponent implements OnInit {
 faction='light';
 // faction='shadows';
+
+
   ngOnInit() {
+
+    }
   
 }
-}
+
+  
