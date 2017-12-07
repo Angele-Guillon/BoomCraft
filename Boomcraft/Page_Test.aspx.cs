@@ -1,27 +1,29 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using Boomcraft.DAL;
 
 namespace Boomcraft
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
         // ************************************************** VARIABLES ************************************************** //
-        Boomcraft_Repository aREP = new Boomcraft_Repository();
+        Repository aREP = new Repository();
         // **************************************************  ************************************************** //
         protected void Page_Load(object sender, EventArgs e)
         {
+            Function_Test();
         }
         protected void Clic_BtnConnexionBase(object sender, EventArgs e)
         {
-            //long iResult = aTest.Insert_Test("Dude", 24);
-            //string sRetour = aREP.Insert_Account_Proc("joueur10", "Tommy", "mdp", "email", DateTime.Now, DateTime.Now, DateTime.Now, 1);
-            //string sRetour = aREP.Insert_Test("Jean", 42);
-
+            lbl_Test.Text = "Bouton non câblé.";
+        }
+        protected void Function_Test()
+        {
             #region Test GetAll_Joueur
             //DataSet ds = aREP.GetAll_Joueur();
             //DataTable dt = ds.Tables[0];
@@ -29,8 +31,8 @@ namespace Boomcraft
             #endregion Test GetAll_Joueur
 
             #region Test Update_Joueur
-            DateTime? dt2 = null;
-            int iResult_UpdateJoueur = aREP.Update_Joueur(39, "zzz", "aze", "aze", "aze", DateTime.Now, dt2, dt2, 1);
+            //DateTime? dt2 = null;
+            //int iResult_UpdateJoueur = aREP.Update_Joueur(39, "zzz", "aze", "aze", "aze", DateTime.Now, dt2, dt2, 1);
             #endregion Test Update_Joueur
 
             #region Test Insert_Joueur
@@ -43,6 +45,11 @@ namespace Boomcraft
             //int iRetour = aREP.Delete_Joueur(32);
             //lbl_Test.Text = iRetour.ToString();
             #endregion Test Delete_Joueur
+
+            #region Test Check_ExistenceJoueur
+            //string sExistenceJoueur = aREP.Check_ExistenceJoueur("Tim", "mdp");
+            //lbl_Test.Text = "Le joueur 'Tim' - 'mdp' existe ? ==>" + sExistenceJoueur;
+            #endregion Test Check_ExistenceJoueur
         }
     }
 }

@@ -23,6 +23,7 @@ C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Mic
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.ApplicationInsights.dll
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\MySql.Data.dll
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Newtonsoft.Json.dll
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.AI.DependencyCollector.xml
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.AI.Web.xml
@@ -30,6 +31,8 @@ C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Mic
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.ApplicationInsights.xml
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\MySql.Data.xml
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\Newtonsoft.Json.xml
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\obj\Debug\Boomcraft.dll
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\obj\Debug\Boomcraft.pdb
 C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\obj\Debug\Boomcraft.csprojResolveAssemblyReference.cache
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\System.Web.Mvc.dll
