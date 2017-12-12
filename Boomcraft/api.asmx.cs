@@ -1,4 +1,5 @@
 using System;
+using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
@@ -31,10 +32,10 @@ namespace Boomcraft
         #region API BASE
         // ************************************************** SIGN IN ************************************************** //
         [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public Object signin(string username, string password)
+        public void signin(string username, string password)
         //  Autres jeux => Boomcraft. Renvoie les informations d'un compte à partir d'un couple d'identifiants (NAME - PASSWORD).
         {
+            string sResult = string.Empty;
             try
             {
                 //username = "";
@@ -42,38 +43,56 @@ namespace Boomcraft
                 //  Création d'un objet joueur à l'aide du nom et du mot de passe.
                 Joueur aJoueur = new Joueur(username, password);
                 //  Obtention de l'objet joueur en format JSON.
-                string sJoueurJSON = aJoueur.get_JoueurJSON();
-                //  Sérialisation du string au format JSON.
-                return new JavaScriptSerializer().DeserializeObject(sJoueurJSON);
+                sResult = aJoueur.get_JoueurJSON();
             }
             catch (Exception ex)
             {
                 //  Renvoie d'erreur en cas d'échec.
-                //string sErreur = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-                string sErreur = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
-                return new JavaScriptSerializer().DeserializeObject(sErreur);
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
+                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
             }
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
         }
         // ************************************************** EXISTING ************************************************** //
         [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public Object existing(string username, string email)
+        public void existing(string username, string email)
         //  Autres jeux => Boomcraft. Permet de checker l'existence d'un couple d'identifiants (NAME - PASSWORD).
         {
+            string sResult = string.Empty;
             try
             {
                 //  Récupération du l'existence des données du joueur.
-                string sExistenceJoueur = aREP.Check_ExistenceJoueur(username, email);
-                //  Sérialisation du string au format JSON.
-                return new JavaScriptSerializer().DeserializeObject(sExistenceJoueur);
+                sResult = aREP.Check_ExistenceJoueur(username, email);
             }
             catch (Exception ex)
             {
                 //  Renvoie d'erreur en cas d'échec.
-                //string sErreur = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification de l'existence du joueur.', 'code': 401 } }";
-                string sErreur = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
-                return new JavaScriptSerializer().DeserializeObject(sErreur);
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification de l'existence du joueur.', 'code': 401 } }";
+                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
             }
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
         }
         // **************************************************  ************************************************** //
         #endregion API BASE
@@ -86,9 +105,18 @@ namespace Boomcraft
         //  VEGGIECRUSH =>  Boomcraft. Permet à un joueur Veggiecrush de consommer un bonus disponible dans la base boomcraft.
         {
             string sResult = string.Empty;
-            //  Récupération du résultat de la demande de consommation de bonus.
-            Boolean bResult = aREP.VC_Update_JoueurBonus(UUID, qte);
-            sResult = "{ 'success': " + bResult.ToString().ToLower() + " }";
+            try
+            {
+                //  Récupération du résultat de la demande de consommation de bonus.
+                Boolean bResult = aREP.VC_Update_JoueurBonus(UUID, qte);
+                sResult = "{ 'success': " + bResult.ToString().ToLower() + " }";
+            }
+            catch (Exception ex)
+            {
+                //  Renvoie d'erreur en cas d'échec.
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
+                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+            }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.

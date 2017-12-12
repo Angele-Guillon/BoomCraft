@@ -6,6 +6,7 @@ namespace Boomcraft.METIER
 {
     public class Joueur
     {
+        #region VARIABLES ET CONSTRUCTEURS
         // ************************************************** VARIABLES ************************************************** //
         //  Id unique pour les joueurs de Bomcraft.
         private int iId;
@@ -19,7 +20,7 @@ namespace Boomcraft.METIER
         private DateTime? dtSupression;
         private string sFaction;
         private Boolean bErreur;
-        // ************************************************** CONSTRUCTEURS ************************************************** //
+        // ************************************************** CONSTRUCTEUR CONNEXION JOUEUR ************************************************** //
         public Joueur(string sNom, string sMdp)
         //  Constructeur utilisé lors de la connexion du joueur.
         {
@@ -56,6 +57,7 @@ namespace Boomcraft.METIER
                 bErreur = true;
             }
         }
+        // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
         public Joueur(string sNom, string sEmail, string sMdp, string sFaction)
         //  Constructeur utilisé lors de la création du compte du joueur.
         {
@@ -87,6 +89,8 @@ namespace Boomcraft.METIER
                 //  TODO : Gérer le cas où la création de compte ne fonctionne pas. (Exemple : email déjà existant).
             }
         }
+        #endregion VARIABLES ET CONSTRUCTEURS
+        #region METHODES
         // ************************************************** METHODES ************************************************** //
         public string get_JoueurJSON()
         {
@@ -105,5 +109,6 @@ namespace Boomcraft.METIER
             }
         }
         // **************************************************  ************************************************** //
+        #endregion METHODES
     }
 }

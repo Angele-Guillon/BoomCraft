@@ -10,7 +10,7 @@ namespace Boomcraft.DAL
         #region VARIABLES ET CONSTRUCTEUR
         // ************************************************** VARIABLES ************************************************** //
         //  Déclaration de la chaîne de connexion à la base de données locale.
-        MySqlConnection sConnexionLocal = null;
+        private MySqlConnection sConnexionLocal = null;
         // ************************************************** CONSTRUCTEUR ************************************************** //
         public Repository()
         {
@@ -211,7 +211,7 @@ namespace Boomcraft.DAL
         }
         // ************************************************************************************************************************ //
         #endregion ACCOUNT
-        #region API VEGGUECRUSH
+        #region VEGGIECRUSH
         // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
         public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
         //  Renvoie un booléen qui indique si le bonus a été consommé ou non.
@@ -266,8 +266,8 @@ namespace Boomcraft.DAL
             return iQuantite;
         }
         // **************************************************  ************************************************** //
-        #endregion API VEGGUECRUSH
-        #region API FARMVILLAGE
+        #endregion VEGGIECRUSH
+        #region FARMVILLAGE
         // ************************************************************************************************************************ //
         public int FV_envoyerDon(string sId_Global, int iIdRessource, int iQuantite)
         {
@@ -311,6 +311,6 @@ namespace Boomcraft.DAL
             //return iResult;
         }
         // ************************************************************************************************************************ //
-        #endregion API FARMVILLAGE
+        #endregion FARMVILLAGE
     }
 }
