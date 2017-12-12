@@ -40,30 +40,27 @@ span{
     font-size: 100%;
 }
 
-.incident-container {
-    margin-top: 1vw;
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    backface-visibility:0.1 ;
-  }
   
-  .incident-header {
-    min-height: 4em;
-    display: flex;
-    align-items: baseline;
-    padding: 1vw;
-    font-size-adjust: auto;
-    justify-content: space-between;
-  }
-  
-  .mat-form-field {
-    font-size: 1em;
-    flex-grow: 1;
-    margin-left: 1em;
-  }
-  
+
  
   .img-icon{
       color: grey;
+  }
+  
+.col{
+    width: 50%;
+    align-items: right;
+}
+
+
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  .example-container > * {
+    width: 100%;
+ 
   }

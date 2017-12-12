@@ -87,17 +87,6 @@ h4{
 }
 
 
-div.overlay {
-    z-index: -3;
-    position: absolute;
-    left: 0%;
-    top: 0%;
-    right: 0%;
-    bottom: 0%;
-    background:rgba(32, 24, 24, 0.61);
-    filter:blur(4px);
-    -o-filter:blur(4px);
-    -ms-filter:blur(4px);
-    -moz-filter:blur(4px);
-    -webkit-filter:blur(4px);
+mat-card{
+    background-color: rgba(0,0,0,0.501)
 }

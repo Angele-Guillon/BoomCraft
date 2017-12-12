@@ -1,5 +1,5 @@
 import { Component,ViewChild} from '@angular/core';
-import {MatPaginator } from '@angular/material';
+import {MatPaginator, MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
@@ -17,16 +17,14 @@ export class MessagerieComponent  {
   // faction='shadows';
 
   displayedColumns = ['id', 'name', 'date', 'text', 'button'];
-  dataSource = ELEMENT_DATA;
-  
-  
+  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
   
     /**
      * Set the paginator after the view init since this component will
      * be able to query its view for the initialized paginator.
      */
     ngAfterViewInit() {
-     // this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator;
     }
   }
   

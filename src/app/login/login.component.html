@@ -1,19 +1,16 @@
-<div class="overlay">
-  </div>
+<div class="overlay"></div>
+
 <form class="log-form">
-    <mat-icon>person</mat-icon>
-    <mat-form-field>
-      <input matInput #login
-      (keyup.enter)="login.value"
-      placeholder="Login" required>
-    </mat-form-field>
-    <br/>
-    <mat-icon>https</mat-icon> 
-    <mat-form-field>
-      <input matInput #pass
-      (keyup.enter)="pass.value"
-       type="Password" placeholder="Password" required>
-    </mat-form-field>
-  </form>
-  <a routerLink="/forget">Forget Password ?</a>
-  <button mat-raised-button color="primary" (click)="connect(login.value,pass.value)" >Connection</button>
+  <mat-icon>person</mat-icon>
+  <mat-form-field>
+    <input matInput #login (keyup.enter)="login.value" placeholder="Login" required>
+  </mat-form-field>
+  <br/>
+  <mat-icon>https</mat-icon>
+  <mat-form-field>
+    <input matInput #pass (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
+  </mat-form-field>
+</form>
+<a routerLink="/forget">Forget Password ?</a>
+<button mat-raised-button color="primary" (click)="connect(login.value,pass.value)">Connection</button>
+
