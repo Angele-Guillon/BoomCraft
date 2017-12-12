@@ -40,7 +40,7 @@ $(document).ready(function () {
         FV_doTransaction("joueur1", 100, 100, 100, 100, 1);
     });
     //$('#btn_AppelJavascript').on('click', function () {
-    verifierDispoInscription('boomcraft', 'boomcraft@boomcraft.boomcraft');
+    //verifierDispoInscription('boomcraft', 'boomcraft@boomcraft.boomcraft');
     //});
     /**************************************** BOUTON ENVOYER DON ****************************************/
 });
