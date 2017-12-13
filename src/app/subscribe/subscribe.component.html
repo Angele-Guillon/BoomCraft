@@ -1,3 +1,25 @@
-<p>
-  subscribe works!
-</p>
+<div class="overlay"></div>
+
+<form class="sub-form">
+  <mat-icon>person</mat-icon>
+  <mat-form-field>
+    <input matInput #login (keyup.enter)="login.value" placeholder="Login" required>
+  </mat-form-field>
+  <br/>
+  <mat-icon>https</mat-icon>
+  <mat-form-field>
+    <input matInput #pass (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
+  </mat-form-field>
+  <br/>
+  <mat-icon>https</mat-icon>
+  <mat-form-field>
+    <input matInput #mail (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
+  </mat-form-field>
+  <mat-form-field>
+      <mat-select placeholder="Select">
+        <mat-option *ngFor="let faction of factions" [value]="faction.id">{{faction.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+</form>
+<a routerLink="">Retour</a>
+<button mat-raised-button class="connection" color="primary" (click)="sub(login.value,pass.value,mail.value)">Connection</button>

@@ -1,0 +1,60 @@
+div.overlay {
+    position: absolute;
+    left: 20%;
+    top: 10%;
+    right: 20%;
+    bottom: 20%;
+    background:black;
+    background:rgba(0,0,0,0.8);
+    filter:blur(4px);
+    -o-filter:blur(4px);
+    -ms-filter:blur(4px);
+    -moz-filter:blur(4px);
+    -webkit-filter:blur(4px);
+}
+
+form {
+    width: 40%;
+    height: 40%;
+    position: absolute;
+    top: 40%;
+    color: whitesmoke;
+    margin-left: 2vw;
+    left: 40%;
+    transform: translateX(-25%) translateY(-50%);
+    background-color: transparent; 
+}
+
+a {
+    font-style: italic;
+    height: 40%;
+    color: rgb(207, 39, 75);
+    top: 85%;
+    position: absolute;
+    border-radius: 2em;
+    left:70%;
+    transform: translateX(-50%) translateY(-50%);
+   
+}
+
+button.connection {
+    top: 65%;
+    margin-block-start: 5vw;
+    position: absolute;
+    border-radius: 2em;
+    left:50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+mat-form-field {
+    width: 60%;
+    height: 30%;
+}
+
+mat-icon {
+    width: 5%;
+    color: rgb(207, 39, 75);
+    font-size:4vw;
+    height: 40%;
+    transform: translateX(+10%) translateY(+14%);
+    margin-right:3vw;
+}

@@ -33,12 +33,12 @@ input{
 }
 h3{
     color: white;
-    font-family: fantasy;
+    font-family: -apple-system, fantasy, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size-adjust: auto;
 }
 h4{
     color: white;
-    font-family: fantasy;
+    font-family: -apple-system, fantasy, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 0.8em;
 }
 
