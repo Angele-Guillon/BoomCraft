@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 /*@import "./src/pink-bluegrey.css";*/
-
+@import url('https://fonts.googleapis.com/css?family=Lekton:400i');
 body{
     background-image: url("assets/img/light_vs_dark.jpg");
     background-repeat: no-repeat;
