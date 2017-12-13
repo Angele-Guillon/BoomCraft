@@ -6,6 +6,7 @@ namespace Boomcraft.METIER
 {
     public class Joueur
     {
+        #region VARIABLES ET CONSTRUCTEURS
         // ************************************************** VARIABLES ************************************************** //
         //  Id unique pour les joueurs de Bomcraft.
         private int iId;
@@ -18,7 +19,8 @@ namespace Boomcraft.METIER
         private DateTime? dtEdition;
         private DateTime? dtSupression;
         private string sFaction;
-        // ************************************************** CONSTRUCTEURS ************************************************** //
+        private Boolean bErreur;
+        // ************************************************** CONSTRUCTEUR CONNEXION JOUEUR ************************************************** //
         public Joueur(string sNom, string sMdp)
         //  Constructeur utilisé lors de la connexion du joueur.
         {
@@ -26,24 +28,36 @@ namespace Boomcraft.METIER
             Repository aREP = new Repository();
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
             DataTable dt = aREP.Get_JoueurByLogin(sNom, sMdp).Tables[0];
-            DateTime dtDateNull;
-            //  TODO : Gérer le cas où les identifiants saisis sont erronés.
-            this.iId = int.Parse(dt.Rows[0][0].ToString());
-            this.sUUID = dt.Rows[0][1].ToString();
-            this.sNom = dt.Rows[0][2].ToString();
-            this.sMdp = dt.Rows[0][3].ToString();
-            this.sEmail = dt.Rows[0][4].ToString();
-            this.dtCreation = DateTime.Parse(dt.Rows[0][5].ToString());
-            if (DateTime.TryParse(dt.Rows[0][6].ToString(), out dtDateNull))
+            //  Initialisation du champ erreur à true.
+            bErreur = true;
+            try
             {
-                this.dtEdition = dtDateNull;
+                DateTime dtDateNull;
+                //  TODO : Gérer le cas où les identifiants saisis sont erronés.
+                this.iId = int.Parse(dt.Rows[0][0].ToString());
+                this.sUUID = dt.Rows[0][1].ToString();
+                this.sNom = dt.Rows[0][2].ToString();
+                this.sMdp = dt.Rows[0][3].ToString();
+                this.sEmail = dt.Rows[0][4].ToString();
+                this.dtCreation = DateTime.Parse(dt.Rows[0][5].ToString());
+                if (DateTime.TryParse(dt.Rows[0][6].ToString(), out dtDateNull))
+                {
+                    this.dtEdition = dtDateNull;
+                }
+                if (DateTime.TryParse(dt.Rows[0][7].ToString(), out dtDateNull))
+                {
+                    this.dtSupression = dtDateNull;
+                }
+                this.sFaction = dt.Rows[0][8].ToString();
+                bErreur = false;
             }
-            if (DateTime.TryParse(dt.Rows[0][7].ToString(), out dtDateNull))
+            catch
             {
-                this.dtSupression = dtDateNull;
+                //  Le joueur n'a pas pu êre créé car la combinaison USERNAME - PASSWORD est fausse.
+                bErreur = true;
             }
-            this.sFaction = dt.Rows[0][8].ToString();
         }
+        // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
         public Joueur(string sNom, string sEmail, string sMdp, string sFaction)
         //  Constructeur utilisé lors de la création du compte du joueur.
         {
@@ -75,15 +89,26 @@ namespace Boomcraft.METIER
                 //  TODO : Gérer le cas où la création de compte ne fonctionne pas. (Exemple : email déjà existant).
             }
         }
+        #endregion VARIABLES ET CONSTRUCTEURS
+        #region METHODES
         // ************************************************** METHODES ************************************************** //
         public string get_JoueurJSON()
         {
             string sJoueurJSON = string.Empty;
-            sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
-                + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
-                + "', 'dateSuppression': '" + dtSupression.ToString() + "'} }";
-            return sJoueurJSON;
+            if (!bErreur)
+            {
+                //  La combinaison (USERNAME - PASSWORD) est correct. Le joueur a bien été créé et ses informations ont été récupérées en base.
+                sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
+                    + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
+                    + "', 'dateSuppression': '" + dtSupression.ToString() + "'} }";
+                return sJoueurJSON;
+            }
+            else
+            {
+                return sJoueurJSON = "{ 'error': { 'message': 'Combinaison (USERNAME - PASSWORD) erronée !', 'code': '401' } }";
+            }
         }
         // **************************************************  ************************************************** //
+        #endregion METHODES
     }
 }
