@@ -17,8 +17,8 @@ import 'rxjs/add/observable/fromEvent';
 
 
 export class DashboardComponent implements OnInit {
-faction='light';
-// faction='shadows';
+//faction='light';
+faction='shadows';
 
 
   ngOnInit() {

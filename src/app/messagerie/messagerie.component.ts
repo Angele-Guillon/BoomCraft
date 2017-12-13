@@ -18,7 +18,7 @@ export class MessagerieComponent  {
 
   displayedColumns = ['id', 'name', 'date', 'text', 'button'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  
+  dataressources = new MatTableDataSource<Ressource>(RESSOURCE_DATA);
     /**
      * Set the paginator after the view init since this component will
      * be able to query its view for the initialized paginator.
@@ -34,7 +34,19 @@ export class MessagerieComponent  {
     date: number;
     text: string;
   }
-  
+
+  export interface Ressource {
+    name: string ;
+    id: number ;
+  }
+
+  const RESSOURCE_DATA: Ressource[] = [
+    {id: 1, name: 'Wood'},
+    {id: 2, name: 'Gold'},
+    {id: 2, name: 'Food'},
+    {id: 2, name: 'Stone'},
+  ];
+
   const ELEMENT_DATA: Element[] = [
     {id: 1, name: 'Hydrogen', date: 1.0079, text: 'H'},
     {id: 2, name: 'Helium', date: 4.0026, text: 'He'},

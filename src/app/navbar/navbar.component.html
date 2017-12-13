@@ -1,0 +1,47 @@
+<!---------------------------------------------- Menu ------------------------------------------------>
+<mat-toolbar class="NavBar" color="primary">
+    <!--Logo-->
+    <img class="toolbar-img" src="assets\img\logo.png" />
+    <!--Principal Menu -->
+    <button mat-icon-button class="toolbar-button" [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+      <mat-icon>web</mat-icon>
+      <span class="title">Home</span>
+    </button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item routerLink="/dashboard">
+        <mat-icon>web</mat-icon>
+        <span>Général</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon svgIcon="sword"></mat-icon>
+        <span>Attack</span>
+      </button>
+      <button mat-menu-item routerLink="/user">
+        <mat-icon svgIcon="shield"></mat-icon>
+        <span>Defense</span>
+      </button>
+    </mat-menu>
+  
+    <button mat-button class="toolbar-button" routerLink="/armee">
+      <mat-icon svgIcon="sword-cross"></mat-icon>
+      <span class="title">Gestion de l'armée</span>
+    </button>
+  
+    <button mat-icon-button class="toolbar-button" routerLink="/messagerie">
+      <mat-icon>mail</mat-icon>
+      <span class="title">Messagerie</span>
+    </button>
+  
+    <!--Right Menu-->
+    <div class="toolbar-right">
+      <!--link for view current user -->
+      <button mat-icon-button class="toolbar-button" routerLink="/user-current">
+        <mat-icon class="icon-toolbar">account_circle</mat-icon>
+      </button>
+      <!---->
+      <button mat-icon-button routerLink="">
+        <mat-icon> input </mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>

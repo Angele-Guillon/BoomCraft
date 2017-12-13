@@ -5,36 +5,33 @@
     filter: grayscale(100%);
     
 }
-mat-toolbar{
-    background-color: gray;
-}
 
 img-icon{
-
    width: 2%;
    height: auto;
 }
+
 
 .toolbar-right{
     width: inherit;
     text-align:  right;
     margin-right: 3em;
 }
+
 .toolbar-button{
     margin-inline-end: 20%;
 }
 
 span{
     font-size-adjust: auto;
-    font-size: 70%;
 
 }
 
 .NavBar{
     width:100%;
     margin:0px;
-
 }
+
 img.background{
     width: auto;
     height: 70%;
@@ -45,3 +42,24 @@ img.background{
     transform: translateX(-50%) translateY(-25%)
 }
 
+.ressource{
+    width: 50%;
+    position: absolute;
+    top: 35%;
+    left: 70%;
+    z-index: -1;
+    transform: translateX(-50%) translateY(-50%)
+}
+
+mat-icon{
+    margin-right: 0.8em;
+    position: relative;
+}
+
+.col2{
+    margin-left: 4em;
+    margin-right: 1em;
+}
+.col{
+    text-align: center;
+}

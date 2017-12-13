@@ -1,47 +1,17 @@
-<!---------------------------------------------- Menu ------------------------------------------------> 
-<mat-toolbar class="NavBar" color="primary">
-    <!--Logo-->
-    <img class="toolbar-img" src="assets\img\logo.png" />
-    <!--Principal Menu -->
-    <button mat-icon-button class="toolbar-button" [matMenuTriggerFor]="appMenu">
-        <mat-icon>more_vert</mat-icon>
-        <mat-icon>web</mat-icon>
-        <span class="title">Home</span>
-    </button>
-    <mat-menu #appMenu="matMenu">
-        <button mat-menu-item>
-            <mat-icon svgIcon="sword"></mat-icon>
-            <span>Attack</span>
-        </button>
-        <button mat-menu-item routerLink="/user">
-            <mat-icon svgIcon="shield"></mat-icon>
-            <span>Defense</span>
-        </button>
-    </mat-menu>
-    
-    <button mat-button class="toolbar-button" routerLink="/armee" >
-        <mat-icon svgIcon="sword-cross"></mat-icon>
-            <span class="title">Gestion de l'armée</span>
-        </button>
-
-        <button mat-icon-button class="toolbar-button" routerLink="/messagerie">
-                <mat-icon>mail</mat-icon>
-                <span class="title">Messagerie</span>
-            </button>
-
-    <!--Right Menu-->
-    <div class="toolbar-right">
-        <!--link for view current user -->
-        <button mat-icon-button class="toolbar-button" routerLink="/user-current">
-            <mat-icon class="icon-toolbar">account_circle</mat-icon>
-        </button>
-        <!---->
-            <button mat-icon-button routerLink="">
-                <mat-icon> input </mat-icon>
-                <span> Déconnection </span>
-            </button>
-    </div>
-</mat-toolbar>
+<app-navbar></app-navbar>
 
 <!------------------------------------------- vision générale  ---------------------------------------------->
+<mat-card class="ressource">
+        <mat-card-content >
+        <mat-icon svgIcon="food-apple"></mat-icon>Food : qty <mat-icon class="col2" svgIcon="heart-half-full"></mat-icon>Life Potion (small) : qty <mat-icon class="col2" svgIcon="heart"></mat-icon>Life Potion (big) : qty </mat-card-content>
+        <mat-card-content><mat-icon svgIcon="tree"></mat-icon>Wood : qty <mat-icon class="col2" svgIcon="leaf"></mat-icon>Heal Potion (small) : qty <mat-icon class="col2" svgIcon="bowl"></mat-icon>Heal Potion (big) : qty </mat-card-content>
+        <mat-card-content><mat-icon svgIcon="wall"></mat-icon>Stone : qty <mat-icon  class="col2" svgIcon="fire"></mat-icon>Dps Potion (small) : qty <mat-icon class="col2" svgIcon="skull"></mat-icon>Dps Potion (big) : qty </mat-card-content>
+        <mat-card-content><mat-icon svgIcon="diamond"></mat-icon>Gold : qty </mat-card-content>
+        <mat-card-content><br/></mat-card-content>
+        <mat-card-content class="col"><mat-icon   svgIcon="emoticon-cool"></mat-icon> Victory : nb  <mat-icon  class="col2" svgIcon="emoticon-poop"></mat-icon> Defeat : nb </mat-card-content>
+        <mat-card-content></mat-card-content>
+        <mat-card-content><mat-icon class="col2"  svgIcon="sword"></mat-icon>Attack Power:</mat-card-content>
+        <mat-card-content><mat-icon  class="col2" svgIcon="shield"></mat-icon>Defense Power:</mat-card-content>
+</mat-card>
+
 <img  class="background" [alt]="maitre" src="./assets/img/{{faction}}/maitre.png">

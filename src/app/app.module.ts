@@ -50,6 +50,13 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { MessagerieComponent } from './messagerie/messagerie.component';
 import { ArmeeComponent } from './armee/armee.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RessourcesComponent } from './ressources/ressources.component';
+import { PotionsComponent } from './potions/potions.component';
+import { UserCurrentComponent } from './user-current/user-current.component';
+import { AttackComponent } from './attack/attack.component';
+import { DefenseComponent } from './defense/defense.component';
+import { SubscribeComponent } from './subscribe/subscribe.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +66,14 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     ChangePasswordComponent,
     MessagerieComponent,
-    ArmeeComponent
+    ArmeeComponent,
+    RessourcesComponent,
+    PotionsComponent,
+    UserCurrentComponent,
+    AttackComponent,
+    DefenseComponent,
+    SubscribeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

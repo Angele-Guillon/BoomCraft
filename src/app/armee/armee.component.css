@@ -1,44 +1,4 @@
-.toolbar-img{
-    width: 10%;
-    height: auto;
-    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-    filter: grayscale(100%);
-    
-}
-mat-toolbar{
-    background-color: gray;
-}
 
-img-icon{
-
-   width: 2%;
-   height: auto;
-}
-
-.toolbar-right{
-    width: inherit;
-    text-align:  right;
-    margin-right: 3em;
-}
-.toolbar-button{
-    margin-inline-end: 20%;
-}
-
-span{
-    font-size-adjust: auto;
-    font-size: 70%;
-
-}
-
-.NavBar{
-    width:100%;
-    margin:0px;
-
-}
-.title{
-    font-size-adjust: auto;
-    font-size: 100%;
-}
 
 .incident-container {
     margin-top: 1vw;
@@ -63,10 +23,6 @@ span{
     margin-left: 1em;
   }
   
- 
-  .img-icon{
-      color: grey;
-  }
 
 .character{
     width: auto;
