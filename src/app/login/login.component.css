@@ -37,7 +37,7 @@ a {
    
 }
 
-button {
+button.connection {
     top: 65%;
     margin-block-start: 5vw;
     position: absolute;
