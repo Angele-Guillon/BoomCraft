@@ -17,7 +17,7 @@ form {
     width: 40%;
     height: 40%;
     position: absolute;
-    top: 40%;
+    top: 35%;
     color: whitesmoke;
     margin-left: 2vw;
     left: 40%;
@@ -29,7 +29,7 @@ a {
     font-style: italic;
     height: 40%;
     color: rgb(207, 39, 75);
-    top: 85%;
+    top: 95%;
     position: absolute;
     border-radius: 2em;
     left:70%;
@@ -49,12 +49,24 @@ mat-form-field {
     width: 60%;
     height: 30%;
 }
+mat-form-field.mat-select {
+    width: 60%;
+    height: 100%;
+    margin-left: 5vw;
+}
+
 
 mat-icon {
     width: 5%;
     color: rgb(207, 39, 75);
     font-size:4vw;
-    height: 40%;
+    height: 30%;
     transform: translateX(+10%) translateY(+14%);
     margin-right:3vw;
+}
+mat-icon.select {
+    width: 45%;
+    size: 2em;
+    color: rgb(207, 39, 75);
+    
 }

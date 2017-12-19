@@ -55,6 +55,7 @@ import { AttackComponent } from './attack/attack.component';
 import { DefenseComponent } from './defense/defense.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     AttackComponent,
     DefenseComponent,
     SubscribeComponent,
-    NavbarComponent
+    NavbarComponent,
+    NavRessourceComponent
   ],
   imports: [
     BrowserModule,

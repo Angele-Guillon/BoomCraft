@@ -8,8 +8,12 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class SubscribeComponent implements OnInit {
 
-  dataressources = new MatTableDataSource<Factions>(RESSOURCE_DATA);
   constructor() { }
+
+  factions: Factions[] = [
+    {id: 1, name: 'Shadow'},
+    {id: 2, name: 'Light'},
+  ];
 
   ngOnInit() {
 
@@ -21,7 +25,4 @@ export interface Factions {
   id: number ;
 }
 
- const RESSOURCE_DATA: Factions[] = [
-    {id: 1, name: 'Shadow'},
-    {id: 2, name: 'light'},
-  ];
+ 

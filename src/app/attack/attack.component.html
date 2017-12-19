@@ -1,2 +1,45 @@
 <app-navbar>
 </app-navbar>
+<!------------------------------------------- vision générale  ---------------------------------------------->
+<app-nav-ressource></app-nav-ressource>
+<div class="tab">
+    <mat-card>
+        <mat-card-content>
+            <mat-grid-list cols="3" rowHeight="16em">
+                <mat-grid-tile *ngFor="let building of buildings">
+                    <div class="overlay">
+                    </div>
+                    <h3 mat-line>{{building.name | titlecase }}
+                        <br/>
+                        <h4>Level: {{building.lvl}} </h4>
+                    </h3>
+
+                    <img class="building" [alt]="building.name" src="./assets/img/bulding/{{building.name}}.png">
+                    <mat-grid-tile-footer>
+                        <span mat-line> Wood: {{building.wood}}</span>
+                        <span mat-line> Stone: {{building.stone}}</span>
+                        <span mat-line> Gold: {{building.gold}}</span>
+                        <p *ngIf="building.wood <= ressource && building.stone <= ressource && building.gold <= ressource">
+
+                            <span *ngIf="building.lvl==0">
+                                <button mat-icon-button>
+                                    <mat-icon svgIcon="plus-box-outline"></mat-icon>
+                                </button>
+                            </span>
+                            <span *ngIf="building.lvl != 0">
+                                <button mat-icon-button>
+                                    <mat-icon svgIcon="arrow-up-bold-circle-outline"></mat-icon>
+                                </button>
+                                <button mat-icon-button>
+                                    <mat-icon svgIcon="account-plus-outline"></mat-icon>
+                                </button>
+                            </span>
+
+                        </p>
+
+                    </mat-grid-tile-footer>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+    </mat-card>
+</div>
