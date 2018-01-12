@@ -115,6 +115,7 @@
   <ItemGroup>
     <Content Include="Javascript\Boomcraft.js" />
     <Content Include="Javascript\jquery-3.2.1.min.js" />
+    <Content Include="Log\boomcraft_log.txt" />
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -151,6 +152,7 @@
     </Compile>
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="METIER\Joueur.cs" />
+    <Compile Include="METIER\Log.cs" />
     <Compile Include="METIER\Metier.cs" />
     <Compile Include="Page_Test.aspx.cs">
       <DependentUpon>Page_Test.aspx</DependentUpon>
@@ -161,6 +163,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

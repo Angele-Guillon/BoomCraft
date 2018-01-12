@@ -6,13 +6,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using Boomcraft.DAL;
+using Boomcraft.METIER;
 
 namespace Boomcraft
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
         // ************************************************** VARIABLES ************************************************** //
+        //  Instanciation de la classe Repository pour accéder à la base de données.
         Repository aREP = new Repository();
+        //  Instanciation de la classe Log pour pouvoir générer des logs lors de l'exécution du code.
+        Log aLog = new Log();
         // **************************************************  ************************************************** //
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -3,6 +3,8 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Configuration;
 
+using Boomcraft.METIER;
+
 namespace Boomcraft.DAL
 {
     public class Repository
@@ -11,6 +13,8 @@ namespace Boomcraft.DAL
         // ************************************************** VARIABLES ************************************************** //
         //  Déclaration de la chaîne de connexion à la base de données locale.
         private MySqlConnection sConnexionLocal = null;
+        //  Instanciation de la classe Log pour pouvoir générer des logs lors de l'exécution du code.
+        Log aLog = new Log();
         // ************************************************** CONSTRUCTEUR ************************************************** //
         public Repository()
         {
@@ -234,7 +238,6 @@ namespace Boomcraft.DAL
             cmd.Parameters.Add(out_sConsommationBonus);
             //  Exécution de la procédure stockée.
             cmd.ExecuteNonQuery();
-            bResult = Boolean.Parse(out_sConsommationBonus.Value.ToString().ToLower());
             //  Fermeture de la connexion avec la base.
             sConnexionLocal.Close();
             return bResult;
@@ -255,12 +258,11 @@ namespace Boomcraft.DAL
             //  Déclaration des paramètres d'entrée de la procédure.
             cmd.Parameters.AddWithValue("@sUUID", sUUID);
             //  Déclaration des paramètres d'entrée de la procédure.
-            MySqlParameter out_sConsommationBonus = new MySqlParameter("@out_iConsommationBonus", MySqlDbType.Int16);
-            out_sConsommationBonus.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(out_sConsommationBonus);
+            MySqlParameter out_iConsommationBonus = new MySqlParameter("@out_iConsommationBonus", MySqlDbType.Int16);
+            out_iConsommationBonus.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(out_iConsommationBonus);
             //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            iQuantite = Int16.Parse(out_sConsommationBonus.Value.ToString());
+            iQuantite = Int16.Parse(out_iConsommationBonus.Value.ToString());
             //  Fermeture de la connexion avec la base.
             sConnexionLocal.Close();
             return iQuantite;

@@ -4,8 +4,9 @@ using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
-using Boomcraft.METIER;
+
 using Boomcraft.DAL;
+using Boomcraft.METIER;
 
 namespace Boomcraft
 {
@@ -27,6 +28,8 @@ namespace Boomcraft
         Repository aREP = new Repository();
         //  Instanciation de la classe métier.
         Metier aMetier = new Metier();
+        //  Instanciation de la classe Log.
+        Log aLog = new Log();
         // **************************************************  ************************************************** //
         #endregion VARIABLES
         #region API BASE
@@ -56,6 +59,8 @@ namespace Boomcraft
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
             // Sends all currently buffered output to the client.
             Context.Response.Flush();
             // Gets or sets a value indicating whether to send HTTP content to the client.
@@ -86,11 +91,13 @@ namespace Boomcraft
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
-            // Sends all currently buffered output to the client.
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            //  Sends all currently buffered output to the client.
             Context.Response.Flush();
-            // Gets or sets a value indicating whether to send HTTP content to the client.
+            //  Gets or sets a value indicating whether to send HTTP content to the client.
             Context.Response.SuppressContent = true;
-            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            //  Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
@@ -99,8 +106,6 @@ namespace Boomcraft
         #region API VEGGIECRUSH
         // ************************************************** POST - VC CONSOMMER BONUS ************************************************** //
         [WebMethod]
-        //[ScriptMethod(HttpMethod = HttpPutAttribute)]
-        //public Object VC_ConsommerBonus(string UUID, int qte)
         public void VC_ConsommerBonus(string UUID, int qte)
         //  VEGGIECRUSH =>  Boomcraft. Permet à un joueur Veggiecrush de consommer un bonus disponible dans la base boomcraft.
         {
@@ -122,6 +127,8 @@ namespace Boomcraft
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
             // Sends all currently buffered output to the client.
             Context.Response.Flush();
             // Gets or sets a value indicating whether to send HTTP content to the client.
@@ -141,12 +148,14 @@ namespace Boomcraft
             Repository aREP = new Repository();
             //  Récupération de la quantité de bonus du joueur.
             int iQuantite = aREP.Get_JoueurBonus(UUID);
-            sResult = "{ 'qte': " + iQuantite + " }";
+            sResult = "{ 'qte': " + iQuantite.ToString() + " }";
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
             // Sends all currently buffered output to the client.
             Context.Response.Flush();
             // Gets or sets a value indicating whether to send HTTP content to the client.
@@ -160,22 +169,45 @@ namespace Boomcraft
         #region API AUTRES
         // ************************************************** FV ENVOYER DON ************************************************** //
         [WebMethod]
-        //  [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public string FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
+        public void FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
         //  FarmVillage => Boomcraft. Permet aux joueurs d'envoyer des ressources suite à une demande.
         {
-            //  Ajoute les ressources envoyées au joueur de Boomcraft.
-            int iResult = aREP.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
-            //int iResult = aDal.FV_envoyerDon("joueur1", 1, 100);
-            //return new JavaScriptSerializer().Serialize(sRetour);
-            return "{'msg_code': 'Merci !';}";
+            string sResult = string.Empty;
+            try
+            {
+                //  Ajoute les ressources envoyées au joueur de Boomcraft.
+                int iResult = aREP.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
+                //int iResult = aDal.FV_envoyerDon("joueur1", 1, 100);
+                //return new JavaScriptSerializer().Serialize(sRetour);
+                sResult = "{'msg_code': 'Merci !';}";
+            }
+            catch (Exception ex)
+            {
+                //  Renvoie d'erreur en cas d'échec.
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors du don de ressources.', 'code': 401 } }";
+                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+            }
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
         }
         // ************************************************** FV ENVOYER DON ************************************************** //
         [WebMethod]
         //  [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string HW_Report(string sUUID, bool bSucces, int iQuantite)
         {
-            //  TODO : Comprendre dans quelle contexte cette fonction va être appelée. Quels sont les paramètres d'entrée ?
+            //  TODO : Comprendre dans quel contexte cette fonction va être appelée. Quels sont les paramètres d'entrée ?
             return "{'uid': 'joueur1', 'success': true, 'ressources': { 'wood': 100, 'food': 100, 'gold': 100, 'rock': 100 } }";
         }
         // **************************************************  ************************************************** //
