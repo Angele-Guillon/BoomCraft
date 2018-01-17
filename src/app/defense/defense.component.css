@@ -1,0 +1,36 @@
+  
+  .mat-form-field {
+    font-size: 1em;
+    flex-grow: 1;
+    margin-left: 1em;
+  }
+  
+.building{
+    width: auto;
+    height: 100%;
+}
+input{
+    width: 30%;
+}
+
+h3{
+    color: white;
+    font-family: 'Playball', cursive;
+    font-size-adjust: auto;
+    font-style: normal;
+}
+h4{
+    color: white;
+    font-family: 'Playball', cursive;
+    font-size: 0.8em;
+    font-style: normal;
+}
+
+mat-card{
+    background-color: rgba(0,0,0,0.501)
+}
+
+.character{
+    width: auto;
+    height: 100%;
+}

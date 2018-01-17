@@ -23,16 +23,16 @@
 
                             <span *ngIf="building.lvl==0">
                                 <button mat-icon-button>
-                                    <mat-icon svgIcon="plus-box-outline"></mat-icon>
+                                    <mat-icon svgIcon="plus-box-outline" onclick="levelplus()"></mat-icon>
                                 </button>
                             </span>
                             <span *ngIf="building.lvl != 0">
                                 <button mat-icon-button>
-                                    <mat-icon svgIcon="arrow-up-bold-circle-outline"></mat-icon>
+                                    <mat-icon svgIcon="arrow-up-bold-circle-outline" onclick="dialogAdd()"></mat-icon>
                                 </button>
-                                <button mat-icon-button>
+                                <!--button mat-icon-button>
                                     <mat-icon svgIcon="account-plus-outline"></mat-icon>
-                                </button>
+                                </button-->
                             </span>
 
                         </p>
