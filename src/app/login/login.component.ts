@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { NavigationExtras, Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertService, AuthenticationService } from '../_services/index';
 
 @Component({
   selector: 'app-login',
@@ -10,26 +9,34 @@ import { NavigationExtras, Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authService: AuthService, public router: Router) {
+    model: any = {};
+    loading = false;
+    returnUrl: string;
 
-  }
- 
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private authenticationService: AuthenticationService,
+        private alertService: AlertService) { }
 
-  connect(login, pass) {
+    ngOnInit() {
+        // reset login status
+        this.authenticationService.logout();
 
-    if (login == "test" && pass == "test" ) {
-
-      let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/dashboard';
-
-      this.router.navigate([redirect]);
+        // get return url from route parameters or default to '/'
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
-  }
-
-  logout() {
-
-  }
-  ngOnInit() {
-  }
-
+    login() {
+        this.loading = true;
+        this.authenticationService.login(this.model.username, this.model.password)
+            .subscribe(
+                data => {
+                    this.router.navigate([this.returnUrl]);
+                },
+                error => {
+                    this.alertService.error(error);
+                    this.loading = false;
+                });
+    }
 }
