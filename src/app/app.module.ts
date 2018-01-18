@@ -6,6 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule }     from './app-routing.module';
 import { AppComponent } from './app.component';
+import {AuthenticationService} from './_services/authentication.service';
+import { AlertService } from './_services/alert.service';
+import { UserService } from './_services/user.service';
 
 import {
   MatAutocompleteModule,
@@ -116,7 +119,10 @@ import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
     MatStepperModule,
     MatIconModule
   ],
-  providers: [],
+  providers: [AuthenticationService,
+    AlertService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
