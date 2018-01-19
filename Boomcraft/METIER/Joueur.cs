@@ -92,6 +92,7 @@ namespace Boomcraft.METIER
         #endregion VARIABLES ET CONSTRUCTEURS
         #region METHODES
         // ************************************************** METHODES ************************************************** //
+        // ************************************************** GET JOUEUR JSON ************************************************** //
         public string get_JoueurJSON()
         {
             string sJoueurJSON = string.Empty;
@@ -101,6 +102,23 @@ namespace Boomcraft.METIER
                 sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
                     + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
                     + "', 'dateSuppression': '" + dtSupression.ToString() + "'} }";
+                return sJoueurJSON;
+            }
+            else
+            {
+                return sJoueurJSON = "{ 'error': { 'message': 'Combinaison (USERNAME - PASSWORD) erronée !', 'code': '401' } }";
+            }
+        }
+        // ************************************************** GET JOUEUR JSON TOKEN ************************************************** //
+        public string get_JoueurJSONToken()
+        {
+            string sJoueurJSON = string.Empty;
+            if (!bErreur)
+            {
+                //  La combinaison (USERNAME - PASSWORD) est correct. Le joueur a bien été créé et ses informations ont été récupérées en base.
+                sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
+                    + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
+                    + "', 'dateSuppression': '" + dtSupression.ToString() + "', 'token': 'Token'} }";
                 return sJoueurJSON;
             }
             else

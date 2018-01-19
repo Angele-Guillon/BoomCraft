@@ -16,9 +16,8 @@ namespace Boomcraft
     [WebService(Namespace = "Boomcraft")]
     //[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     //[System.ComponentModel.ToolboxItem(false)]
-
     // Pour autoriser l'appel de ce service Web depuis un script à l'aide d'ASP.NET AJAX, supprimez les marques de commentaire de la ligne suivante. 
-    [System.Web.Script.Services.ScriptService]
+    [ScriptService]
     public class apiLocal : WebService
     {
         #region VARIABLES
@@ -35,7 +34,7 @@ namespace Boomcraft
         #endregion VARIABLES
         #region API OBTENIR JOUEUR
         // ************************************************** aaa ************************************************** //
-
+        [WebMethod]
         public void obtenirJoueur(string sNomUtilisateur, string sMdp)
         //  Retourne les informations du joueur à l'interface graphique.
         //  TODO : Cette fonction est ectuellement une fonction de test qui permet d'effectuer un bouchon au niveau de la conexion de l'interface.
@@ -43,9 +42,9 @@ namespace Boomcraft
             //  Déclaration d'une variable pour stocker les données d'un utilisateur.
             string sResult = string.Empty;
             //  Création d'un objet joueur à l'aide du nom et du mot de passe.
-            Joueur aJoueur = new Joueur("boomcraft", "boomcraft");
+            Joueur aJoueur = new Joueur(sNomUtilisateur, sMdp);
             //  Récupération des informations du joueur au format JSON.
-            sResult = aJoueur.get_JoueurJSON();
+            sResult = aJoueur.get_JoueurJSONToken();
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.

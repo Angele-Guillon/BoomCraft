@@ -13,7 +13,7 @@ namespace Boomcraft
         private int iIdCombat;
         //  Id du joueur qui attaque.
         private int iIdAttaquant;
-        //  Id du joueur qui déffend.
+        //  Id du joueur qui défend.
         private int iIdDefensseur;
         //	Temps en minutes avant le déroulement du combat.
         private int iDureeAvantCombat;
