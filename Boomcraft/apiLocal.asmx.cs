@@ -33,11 +33,12 @@ namespace Boomcraft
         // **************************************************  ************************************************** //
         #endregion VARIABLES
         #region API OBTENIR JOUEUR
-        // ************************************************** aaa ************************************************** //
+        // ************************************************** OBTENIR JOUEUR ************************************************** //
         [WebMethod]
-        public void obtenirJoueur(string sNomUtilisateur, string sMdp)
+        public void BC_ObtenirJoueur(string sNomUtilisateur, string sMdp)
         //  Retourne les informations du joueur à l'interface graphique.
-        //  TODO : Cette fonction est ectuellement une fonction de test qui permet d'effectuer un bouchon au niveau de la conexion de l'interface.
+        //  Retourne une erreur si les identifiants de connexions ne sont pas dans la base de données Boomcraft.
+        //  TODO : Etendre cette API aux joueurs de tous les jeux.
         {
             //  Déclaration d'une variable pour stocker les données d'un utilisateur.
             string sResult = string.Empty;
@@ -45,6 +46,38 @@ namespace Boomcraft
             Joueur aJoueur = new Joueur(sNomUtilisateur, sMdp);
             //  Récupération des informations du joueur au format JSON.
             sResult = aJoueur.get_JoueurJSONToken();
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** OBTENIR JOUEUR ************************************************** //
+        [WebMethod]
+        public void BC_CreerJoueur(string sNomUtilisateur, string sEmail, string sMdp, string sFaction)
+        //  Création d'un joueur dans la base.
+        {
+            string sResult;
+            //  Instanciation d'un joueur.
+            Joueur aJoueur = new Joueur(sNomUtilisateur, sEmail, sMdp, sFaction);
+            if (aJoueur.Get_Id() > 0)
+            {
+                sResult = "Le joueur a été créé.";
+            }
+            else
+            {
+                sResult = "Le joueur n a pas été créé car le nom d utilisateur et/ou l email est indisponible.";
+            }
+            sResult = "{ 'result' : '" + sResult + "' }";
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.

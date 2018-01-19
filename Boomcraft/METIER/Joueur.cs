@@ -67,31 +67,27 @@ namespace Boomcraft.METIER
             DateTime dtActuelle = DateTime.Now;
             //  Instanciation d'un DateTime null.
             DateTime? dtNull = null;
+            //  L'id vaut 0 car le joueur n'a pas encore été créé dans la base.
+            this.iId = 0;
+            //  Génération d'un id aléatoire unique.
+            this.sUUID = Guid.NewGuid().ToString();
+            this.sNom = sNom;
+            this.sEmail = sEmail;
+            this.sMdp = sMdp;
+            this.dtCreation = dtActuelle;
+            this.dtEdition = dtNull;
+            this.dtSupression = dtNull;
+            this.sFaction = sFaction;
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
-            int iIdResult = aREP.Create_Joueur(sNom, sEmail, sMdp, dtActuelle, sFaction);
-            //  Teste le retour de la fonction
-            if (iIdResult > 0)
-            {
-                //  L'id est strictement supérieur à 0 donc le joueur  bien été créé en base.
-                this.iId = iIdResult;
-                //  Génération d'un id aléatoire unique.
-                this.sUUID = Guid.NewGuid().ToString();
-                this.sNom = sNom;
-                this.sEmail = sEmail;
-                this.sMdp = sMdp;
-                this.dtCreation = dtActuelle;
-                this.dtEdition = dtNull;
-                this.dtSupression = dtNull;
-                this.sFaction = sFaction;
-            }
-            else
-            {
-                //  TODO : Gérer le cas où la création de compte ne fonctionne pas. (Exemple : email déjà existant).
-            }
+            this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, sFaction);
         }
         #endregion VARIABLES ET CONSTRUCTEURS
         #region METHODES
         // ************************************************** METHODES ************************************************** //
+        public int Get_Id()
+        {
+            return this.iId;
+        }
         // ************************************************** GET JOUEUR JSON ************************************************** //
         public string get_JoueurJSON()
         {

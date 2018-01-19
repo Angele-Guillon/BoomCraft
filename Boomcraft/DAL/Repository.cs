@@ -58,13 +58,14 @@ namespace Boomcraft.DAL
             return sResult;
         }
         // ************************************************** CREATE JOUEUR ************************************************** //
-        public int Create_Joueur(string sNom, string sEmail, string sMdp, DateTime dtCreation, string sFaction)
-        {
-            //  Renvoie l'id du joueur créé en base.
-            int iIdResult = 0;
-            //  TODO : Appeler la PS de création d'un joueur.
-            return iIdResult;
-        }
+        //public int Create_Joueur(string sNom, string sEmail, string sMdp, DateTime dtCreation, string sFaction)
+        ////  Remplacé par la fonction Insert_Joueur.
+        //{
+        //    //  Renvoie l'id du joueur créé en base.
+        //    int iIdResult = 0;
+        //    //  TODO : Appeler la PS de création d'un joueur.
+        //    return iIdResult;
+        //}
         // ************************************************** GET JOUEUR BY LOGIN ************************************************** //
         public DataSet Get_JoueurByLogin(string sNom, string sMdp)
         //  Renvoie les informations d'un joueur correspondant au couple (USERNAME - PASSWORD).
@@ -169,7 +170,7 @@ namespace Boomcraft.DAL
             return iResult;
         }
         // ************************************************** INSERT JOUEUR ************************************************** //
-        public int Insert_Joueur(string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
+        public int Insert_Joueur(string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, string sFaction)
         {
             //  Retourne l'id de l'account créé si la requête a fonctionné.
             //  Retourne l'erreur s'il la requête n'a pas fonctionné.
@@ -194,7 +195,7 @@ namespace Boomcraft.DAL
                 cmd.Parameters.AddWithValue("@dtCreation", dtCreation);
                 cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
                 cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
-                cmd.Parameters.AddWithValue("@iFaction", iFaction);
+                cmd.Parameters.AddWithValue("@sFaction", sFaction);
                 //  Déclaration des paramètres d'entrée de la procédure.
                 MySqlParameter out_Id = new MySqlParameter("@out_Id", MySqlDbType.Int16);
                 out_Id.Direction = ParameterDirection.Output;
