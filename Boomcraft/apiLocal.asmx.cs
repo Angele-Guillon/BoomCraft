@@ -1,14 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
-
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 using Boomcraft.DAL;
 using Boomcraft.METIER;
@@ -170,17 +168,37 @@ namespace Boomcraft
         #endregion API VERIFY EXISTENCE LOGIN
 
         #region API BC TEST
-        // ************************************************** BC CREER JOUEUR ************************************************** //
+        // ************************************************** BC TEST ************************************************** //
         [WebMethod]
         public void BC_Test()
-        //  Api de test. Doit appeler d'autres api.
+        //  Api de test. Doit appeler d'autres apis.
         {
             //  String Json pour le retour de l'api.
             string sResult = string.Empty;
-            
+
+            // Create a request for the URL. 		
+            WebRequest request = WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/HW_ListeCombats");
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            // Get the response.
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            // Display the status.
+            aLog.ecrire(response.StatusDescription);
+            // Get the stream containing content returned by the server.
+            Stream dataStream = response.GetResponseStream();
+            // Open the stream using a StreamReader for easy access.
+            StreamReader reader = new StreamReader(dataStream);
+            // Read the content.
+            string responseFromServer = reader.ReadToEnd();
+            //// Display the content.
+            //Console.WriteLine(responseFromServer);
+            //// Cleanup the streams and the response.
+            //reader.Close();
+            //dataStream.Close();
+            //response.Close();
 
             //  Sérialisation de la réponse en Objet.
-            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            Object oResult = new JavaScriptSerializer().DeserializeObject(responseFromServer);
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
