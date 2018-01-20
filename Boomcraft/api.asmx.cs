@@ -183,7 +183,7 @@ namespace Boomcraft
             catch (Exception ex)
             {
                 //  Renvoie d'erreur en cas d'échec.
-                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur. \t'Détail : " + ex + ", 'code': 401 } }";
                 //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
             }
             //  Sérialisation de la réponse en Objet.

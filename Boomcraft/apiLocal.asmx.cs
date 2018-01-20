@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web.Mvc;
+using Json;
 using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
@@ -103,10 +104,18 @@ namespace Boomcraft
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 //  Déclaration d'un string pour récupérer le résultat de la réponse qui est un JSON.
                 sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                if(sresu)
                 response.Close();
             }
-            //  Sérialisation de la réponse en Objet.
+
+            ////  TODO : TEST EN VRAC
+            //string sJsonTest = "{ 'user': { 'id': '1', 'globalId': 'sUUID'} }";
+            //Object oResultTest = new JavaScriptSerializer().DeserializeObject(sJsonTest);
+            //var jsonSerializer = new JsonSerializer();
+            ////  Récupérer un json au format string.
+            ////  Sérialiser ce string en objet sur lequel je vais pouvoir travailler.
+
+
+            //  Désérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
