@@ -118,7 +118,7 @@ namespace Boomcraft.DAL
             return ds;
         }
         // ************************************************** UPDATE JOUEUR ************************************************** //
-        public int Update_Joueur(int iId, string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
+        public int Update_Joueur(int iId, string sNom, string sMdp, string sEmail, string sFaction)
         //  Met à jour toutes les informations d'un joueur à partir de son id (local).
         {
             //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
@@ -133,14 +133,10 @@ namespace Boomcraft.DAL
             cmd.CommandType = CommandType.StoredProcedure;
             //  Transmission des paramètres à la procédure stockée.
             cmd.Parameters.AddWithValue("@iId", iId);
-            cmd.Parameters.AddWithValue("@sId_Global", sId_Global);
             cmd.Parameters.AddWithValue("@sNom", sNom);
             cmd.Parameters.AddWithValue("@sMdp", sMdp);
             cmd.Parameters.AddWithValue("@sEmail", sEmail);
-            cmd.Parameters.AddWithValue("@dtCreation", dtCreation);
-            cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
-            cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
-            cmd.Parameters.AddWithValue("@iFaction", iFaction);
+            cmd.Parameters.AddWithValue("@sFaction", sFaction);
             //  Exécution de la procédure stockée.
             iResult = cmd.ExecuteNonQuery();
             //  Fermeture de la connexion avec la base.
@@ -214,11 +210,36 @@ namespace Boomcraft.DAL
             }
             return iIdResult;
         }
-        // ************************************************************************************************************************ //
-        #endregion ACCOUNT
-        #region VEGGIECRUSH
-        // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
-        public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
+    //***************************************************** COMBAT **************************************************************//
+
+    public DataSet GetAll_Combat (int iIdCombat, int iIdAttaquant, int iIdDefenseur,int iDureeAvantCombat, int iIdVainqueur)
+    //  Renvoie la liste des combat présents dans la base.
+    {
+      DataSet ds = new DataSet();
+      if (sConnexionLocal.State == ConnectionState.Closed)
+      {
+        //  Ouverture d'une connexion avec la base.
+        sConnexionLocal.Open();
+      }
+      //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+      MySqlCommand cmd = new MySqlCommand("ps_GetAll_Combat", sConnexionLocal);
+      cmd.CommandType = CommandType.StoredProcedure;
+      //  Exécution de la procédure stockée.
+      cmd.ExecuteNonQuery();
+      //  Récupération des données de la procédures dans un adapter.
+      MySqlDataAdapter adapter = new MySqlDataAdapter();
+      adapter.SelectCommand = cmd;
+      //  Stockage des données dans un dataset.
+      adapter.Fill(ds);
+      //  Fermeture de la connexion avec la base.
+      sConnexionLocal.Close();
+      return ds;
+    }
+    // ************************************************************************************************************************ //
+    #endregion ACCOUNT
+    #region VEGGIECRUSH
+    // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
+    public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
         //  Renvoie un booléen qui indique si le bonus a été consommé ou non.
         {
             Boolean bResult = false;

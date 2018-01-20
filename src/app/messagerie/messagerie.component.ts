@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
 import {NgForm} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -13,22 +14,63 @@ import {NgForm} from '@angular/forms';
 })
 export class MessagerieComponent  {
 
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   faction='light';
   // faction='shadows';
 
-  displayedColumns = ['id', 'name', 'date', 'text', 'button'];
+  ressources : Ressource[] = [
+    {id: 1, name: 'Wood'},
+    {id: 2, name: 'Gold'},
+    {id: 3, name: 'Food'},
+    {id: 4, name: 'Stone'},
+  ];
+
+  numbers : Numbers[] = [
+    {id: 1, name: 100},
+    {id: 2, name: 1000},
+    {id: 3, name: 10000},
+  ];
+
+  //pris sur le net
+
+    results: string[];
+    
+
+  // Inject HttpClient into your component or service.
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+      // Make the HTTP request:
+    
+    this.http.get('/api/demande/'+this.faction).subscribe(data => {
+      // Read the result field from the JSON response.
+     // data.forEach(element =>{
+        
+      });
+     // this.results = data['results'];
+    //});
+  }
+
+  ask(idR : number,qty:number ){
+    // Make the HTTP request:
+    const data_info : Info[]=[
+      {id:idR,nb:qty,/*user*/}
+    ]
+    
+    this.http.post('/api/ask/',data_info)
+  }
+
+  ///
+
+  displayedColumns = ['id', 'nbunit', 'button'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  dataressources = new MatTableDataSource<Ressource>(RESSOURCE_DATA);
-    /**
-     * Set the paginator after the view init since this component will
-     * be able to query its view for the initialized paginator.
-     */
+  //dataressources = new MatTableDataSource<Ressource>(ressources);
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
     }
   }
-  
+
   export interface Element {
     name: string ;
     id: number ;
@@ -36,17 +78,20 @@ export class MessagerieComponent  {
     text: string;
   }
 
+  export interface Info {
+    nb: number ;
+    id: number ;
+  }
+
   export interface Ressource {
     name: string ;
     id: number ;
   }
+  export interface Numbers {
+    name: number ;
+    id: number ;
+  }
 
-  const RESSOURCE_DATA: Ressource[] = [
-    {id: 1, name: 'Wood'},
-    {id: 2, name: 'Gold'},
-    {id: 2, name: 'Food'},
-    {id: 2, name: 'Stone'},
-  ];
 
   const ELEMENT_DATA: Element[] = [
     {id: 1, name: 'Hydrogen', date: 1.0079, text: 'H'},

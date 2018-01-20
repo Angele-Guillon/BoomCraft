@@ -11,13 +11,13 @@ import { AttackComponent } from './attack/attack.component';
 import { DefenseComponent } from './defense/defense.component';
 import { UserCurrentComponent } from './user-current/user-current.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
-
+import { AuthGuard } from './_guards/index';
 
 
 
 const routes: Routes = [
 { path: '', component: LoginComponent },
-{ path: 'dashboard', component: DashboardComponent },
+{ path: 'dashboard', component: DashboardComponent,canActivate: [AuthGuard]},
 { path: 'forget', component: ForgetComponent },
 { path: 'messagerie',component: MessagerieComponent },
 { path: 'armee', component: ArmeeComponent },

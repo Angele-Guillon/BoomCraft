@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
+import { User } from '../_models/index';
+import { UserService } from '../_services/index';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +21,17 @@ import 'rxjs/add/observable/fromEvent';
 export class DashboardComponent implements OnInit {
 //faction='light';
 faction='shadows';
+currentUser: User;
+users: User[] = [];
+
+constructor(private userService: UserService) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+}
+
 
 
   ngOnInit() {
-
+    
     }
   
 }
