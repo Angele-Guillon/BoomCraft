@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
+using System.Collections.Generic;
 
 using Boomcraft.DAL;
 using Boomcraft.METIER;
@@ -79,10 +80,32 @@ namespace Boomcraft
         {
             //  Déclaration d'une variable pour stocker les données d'un utilisateur.
             string sResult = string.Empty;
-            //  Création d'un objet joueur à l'aide du nom et du mot de passe.
-            Joueur aJoueur = new Joueur(sNomUtilisateur, sMdp);
-            //  Récupération des informations du joueur au format JSON.
-            sResult = aJoueur.get_JoueurJSONToken();
+            List<WebRequest> liste_WebRequest = new List<WebRequest>();
+            //  Déclaration de la variable HttpWebRequest et spécification de l'URL.
+            liste_WebRequest.Add(WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/signin"));
+            //liste_WebRequest.Add(WebRequest.Create("http://artshared.fr/andev1/distribue/api/auth/signin/"));
+            //liste_WebRequest.Add(WebRequest.Create("http://howob.masi-henallux.be/api/auth/signin"));
+            //liste_WebRequest.Add(WebRequest.Create("https://veggiecrush.masi-henallux.be/rest_server/api/account/signin/"));
+            //  Boucle sur les apis signin des différents groupes.
+            foreach (HttpWebRequest request in liste_WebRequest)
+            {
+                var postData = "username=" + sNomUtilisateur + "&password=" + sMdp;
+                var data = Encoding.ASCII.GetBytes(postData);
+                request.Method = "POST";
+                //  Formatage du retour en de la requête.
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.ContentLength = data.Length;
+                using (var stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+                //  Déclaration de la variable HttpWebResponse et récupération du résultat de la requête.
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                //  Déclaration d'un string pour récupérer le résultat de la réponse qui est un JSON.
+                sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                if(sresu)
+                response.Close();
+            }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.
@@ -168,37 +191,71 @@ namespace Boomcraft
         #endregion API VERIFY EXISTENCE LOGIN
 
         #region API BC TEST
-        // ************************************************** BC TEST ************************************************** //
+        // ************************************************** BC TEST GET ************************************************** //
         [WebMethod]
-        public void BC_Test()
+        public void BC_Test_Get()
         //  Api de test. Doit appeler d'autres apis.
         {
             //  String Json pour le retour de l'api.
             string sResult = string.Empty;
-
-            // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/HW_ListeCombats");
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.
+            #region TEST1
+            //  Déclaration de la variable HttpWebRequest et spécification de l'URL.
+            //WebRequest request = WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/HW_ListeCombats");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://localhost:50728/api.asmx/HW_ListeCombats");
+            //// If required by the server, set the credentials.
+            //request.Credentials = CredentialCache.DefaultCredentials;
+            //  Déclaration de la variable HttpWebResponse et récupération du résultat de la requête.
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            // Display the status.
-            aLog.ecrire(response.StatusDescription);
-            // Get the stream containing content returned by the server.
-            Stream dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            //// Display the content.
-            //Console.WriteLine(responseFromServer);
-            //// Cleanup the streams and the response.
-            //reader.Close();
-            //dataStream.Close();
-            //response.Close();
-
+            //  Déclaration d'un string pour récupérer le résultat de la réponse qui est un JSON.
+            sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            response.Close();
+            #endregion TEST1
             //  Sérialisation de la réponse en Objet.
-            Object oResult = new JavaScriptSerializer().DeserializeObject(responseFromServer);
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** BC TEST POST ************************************************** //
+        [WebMethod]
+        public void BC_Test_Post()
+        //  Api de test. Doit appeler d'autres apis.
+        {
+            //  String Json pour le retour de l'api.
+            string sResult = string.Empty;
+            #region TEST1
+            //  Déclaration de la variable HttpWebRequest et spécification de l'URL.
+            WebRequest request = WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/existing");
+            //// If required by the server, set the credentials.
+            //request.Credentials = CredentialCache.DefaultCredentials;
+            var postData = "username=boomcraft" + "&email=boomcraft@boomcraft.boomcraft";
+            var data = Encoding.ASCII.GetBytes(postData);
+
+            request.Method = "POST";
+            //  Formatage du retour en de la requête.
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            //  Déclaration de la variable HttpWebResponse et récupération du résultat de la requête.
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            //  Déclaration d'un string pour récupérer le résultat de la réponse qui est un JSON.
+            sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            response.Close();
+            #endregion TEST1
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
             //  Sérialisation de la réponse au format JSON.
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
