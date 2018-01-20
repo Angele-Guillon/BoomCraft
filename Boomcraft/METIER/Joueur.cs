@@ -67,31 +67,28 @@ namespace Boomcraft.METIER
             DateTime dtActuelle = DateTime.Now;
             //  Instanciation d'un DateTime null.
             DateTime? dtNull = null;
+            //  L'id vaut 0 car le joueur n'a pas encore été créé dans la base.
+            this.iId = 0;
+            //  Génération d'un id aléatoire unique.
+            this.sUUID = Guid.NewGuid().ToString();
+            this.sNom = sNom;
+            this.sEmail = sEmail;
+            this.sMdp = sMdp;
+            this.dtCreation = dtActuelle;
+            this.dtEdition = dtNull;
+            this.dtSupression = dtNull;
+            this.sFaction = sFaction;
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
-            int iIdResult = aREP.Create_Joueur(sNom, sEmail, sMdp, dtActuelle, sFaction);
-            //  Teste le retour de la fonction
-            if (iIdResult > 0)
-            {
-                //  L'id est strictement supérieur à 0 donc le joueur  bien été créé en base.
-                this.iId = iIdResult;
-                //  Génération d'un id aléatoire unique.
-                this.sUUID = Guid.NewGuid().ToString();
-                this.sNom = sNom;
-                this.sEmail = sEmail;
-                this.sMdp = sMdp;
-                this.dtCreation = dtActuelle;
-                this.dtEdition = dtNull;
-                this.dtSupression = dtNull;
-                this.sFaction = sFaction;
-            }
-            else
-            {
-                //  TODO : Gérer le cas où la création de compte ne fonctionne pas. (Exemple : email déjà existant).
-            }
+            this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, sFaction);
         }
         #endregion VARIABLES ET CONSTRUCTEURS
         #region METHODES
         // ************************************************** METHODES ************************************************** //
+        public int Get_Id()
+        {
+            return this.iId;
+        }
+        // ************************************************** GET JOUEUR JSON ************************************************** //
         public string get_JoueurJSON()
         {
             string sJoueurJSON = string.Empty;
@@ -101,6 +98,23 @@ namespace Boomcraft.METIER
                 sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
                     + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
                     + "', 'dateSuppression': '" + dtSupression.ToString() + "'} }";
+                return sJoueurJSON;
+            }
+            else
+            {
+                return sJoueurJSON = "{ 'error': { 'message': 'Combinaison (USERNAME - PASSWORD) erronée !', 'code': '401' } }";
+            }
+        }
+        // ************************************************** GET JOUEUR JSON TOKEN ************************************************** //
+        public string get_JoueurJSONToken()
+        {
+            string sJoueurJSON = string.Empty;
+            if (!bErreur)
+            {
+                //  La combinaison (USERNAME - PASSWORD) est correct. Le joueur a bien été créé et ses informations ont été récupérées en base.
+                sJoueurJSON = "{ 'user': { 'id': " + iId + ", 'globalId': '" + sUUID + "', 'username': '" + sNom + "', 'email': '" + sEmail
+                    + "', 'faction': '" + sFaction + "', 'dateCreation': '" + dtCreation.ToString() + "', 'dateEdition': '" + dtEdition.ToString()
+                    + "', 'dateSuppression': '" + dtSupression.ToString() + "', 'token': 'Token'} }";
                 return sJoueurJSON;
             }
             else

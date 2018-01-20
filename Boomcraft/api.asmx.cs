@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
-
 using Boomcraft.DAL;
 using Boomcraft.METIER;
 
@@ -17,7 +16,6 @@ namespace Boomcraft
     [WebService(Namespace = "Boomcraft")]
     //[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     //[System.ComponentModel.ToolboxItem(false)]
-
     // Pour autoriser l'appel de ce service Web depuis un script à l'aide d'ASP.NET AJAX, supprimez les marques de commentaire de la ligne suivante. 
     [ScriptService]
     public class api : WebService
