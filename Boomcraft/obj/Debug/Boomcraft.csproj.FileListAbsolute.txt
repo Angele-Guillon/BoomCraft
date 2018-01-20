@@ -42,3 +42,5 @@ D:\Users\ced199\BoomCraft\Boomcraft\obj\Debug\Boomcraft.csprojResolveAssemblyRef
 D:\Users\ced199\BoomCraft\Boomcraft\obj\Debug\Boomcraft.csproj.CoreCompileInputs.cache
 D:\Users\ced199\BoomCraft\Boomcraft\obj\Debug\Boomcraft.dll
 D:\Users\ced199\BoomCraft\Boomcraft\obj\Debug\Boomcraft.pdb
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\System.Net.Http.Formatting.dll
+C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\bin\System.Net.Http.Formatting.xml

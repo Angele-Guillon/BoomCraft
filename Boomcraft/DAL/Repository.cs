@@ -212,7 +212,7 @@ namespace Boomcraft.DAL
         }
     //***************************************************** COMBAT **************************************************************//
 
-    public DataSet Get_Combat (int iIdCombat, int iIdAttaquant, int iIdDefenseur,int iDureeAvantCombat, int iIdVainqueur)
+    public DataSet GetAll_Combat (int iIdCombat, int iIdAttaquant, int iIdDefenseur,int iDureeAvantCombat, int iIdVainqueur)
     //  Renvoie la liste des combat présents dans la base.
     {
       DataSet ds = new DataSet();
@@ -222,7 +222,7 @@ namespace Boomcraft.DAL
         sConnexionLocal.Open();
       }
       //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-      MySqlCommand cmd = new MySqlCommand("ps_getCombat", sConnexionLocal);
+      MySqlCommand cmd = new MySqlCommand("ps_GetAll_Combat", sConnexionLocal);
       cmd.CommandType = CommandType.StoredProcedure;
       //  Exécution de la procédure stockée.
       cmd.ExecuteNonQuery();
