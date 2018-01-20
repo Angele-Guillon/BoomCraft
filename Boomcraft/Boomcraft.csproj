@@ -113,6 +113,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="apiLocal.asmx" />
     <Content Include="Javascript\Boomcraft.js" />
     <Content Include="Javascript\jquery-3.2.1.min.js" />
     <Content Include="Log\boomcraft_log.txt" />
@@ -150,6 +151,11 @@
       <DependentUpon>api.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="apiLocal.asmx.cs">
+      <DependentUpon>apiLocal.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="METIER\Combat.cs" />
     <Compile Include="DAL\Repository.cs" />
     <Compile Include="METIER\Joueur.cs" />
     <Compile Include="METIER\Log.cs" />
