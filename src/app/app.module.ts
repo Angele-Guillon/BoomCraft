@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import {AuthenticationService} from './_services/authentication.service';
 import { AlertService } from './_services/alert.service';
 import { UserService } from './_services/user.service';
-
+import { AuthGuard } from './_guards/auth.guard';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -52,7 +52,7 @@ import { LoginComponent } from './login/login.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { MessagerieComponent } from './messagerie/messagerie.component';
 import { ArmeeComponent } from './armee/armee.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule , HTTP_INTERCEPTORS} from '@angular/common/http';
 import { UserCurrentComponent } from './user-current/user-current.component';
 import { AttackComponent } from './attack/attack.component';
 import { DefenseComponent } from './defense/defense.component';
@@ -60,6 +60,7 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {AlertComponent} from './_directives/alert.component';
 import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
+import { JwtInterceptor } from './_helpers/index';
 
 @NgModule({
   declarations: [
@@ -123,7 +124,13 @@ import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
   ],
   providers: [AuthenticationService,
     AlertService,
-    UserService
+    AuthGuard,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+  }
   ],
   bootstrap: [AppComponent]
 })
