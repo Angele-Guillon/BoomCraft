@@ -26,7 +26,6 @@ namespace Boomcraft
     public Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
     //  Constructeur utilisé lors de la connexion du joueur.
     {
-<<<<<<< HEAD
       //  Instanciation d'un objet permettant l'accès à la base de données.
       Repository aREP = new Repository();
       //  Récupération des données du joueur en fonction des ses identifiants de connexion.
@@ -57,28 +56,6 @@ namespace Boomcraft
 
                      "}";
       return sCombatJSON;
-=======
-        #region VARIABLES ET CONSTRUCTEURS
-        // ************************************************** VARIABLES ************************************************** //
-        //  Id unique pour les combats qui se déroulent entre joueurs de Boomcraft.
-        private int iIdCombat;
-        //  Id du joueur qui attaque.
-        private int iIdAttaquant;
-        //  Id du joueur qui défend.
-        private int iIdDefensseur;
-        //	Temps en minutes avant le déroulement du combat.
-        private int iDureeAvantCombat;
-        //  Id du joueur qui a remporté le combat.
-        private int iIdVainqueur;
-        // ************************************************** CONSTRUCTEUR ??? ************************************************** //
-        // ************************************************** CONSTRUCTEUR ??? ************************************************** //
-        #endregion VARIABLES ET CONSTRUCTEURS
-        #region METHODES
-        // ************************************************** METHODES ************************************************** //
-        // **************************************************  ************************************************** //
-        #endregion METHODES
->>>>>>> 2bda2c5b10278fea55e75b2659d35440ec452105
-    }
   
     // ************************************************** METHODES ************************************************** //
     // **************************************************  ************************************************** //
