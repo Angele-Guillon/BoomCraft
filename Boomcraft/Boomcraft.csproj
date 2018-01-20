@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Combat.cs" />
     <Compile Include="DAL\Repository.cs" />
+    <Compile Include="METIER\Combat.cs" />
     <Compile Include="METIER\Joueur.cs" />
     <Compile Include="METIER\Log.cs" />
     <Compile Include="METIER\Metier.cs" />

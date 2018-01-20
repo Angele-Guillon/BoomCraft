@@ -213,11 +213,36 @@ namespace Boomcraft.DAL
             }
             return iIdResult;
         }
-        // ************************************************************************************************************************ //
-        #endregion ACCOUNT
-        #region VEGGIECRUSH
-        // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
-        public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
+    //***************************************************** COMBAT **************************************************************//
+
+    public DataSet Get_Combat (int iIdCombat, int iIdAttaquant, int iIdDefenseur,int iDureeAvantCombat, int iIdVainqueur)
+    //  Renvoie la liste des combat présents dans la base.
+    {
+      DataSet ds = new DataSet();
+      if (sConnexionLocal.State == ConnectionState.Closed)
+      {
+        //  Ouverture d'une connexion avec la base.
+        sConnexionLocal.Open();
+      }
+      //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+      MySqlCommand cmd = new MySqlCommand("ps_getCombat", sConnexionLocal);
+      cmd.CommandType = CommandType.StoredProcedure;
+      //  Exécution de la procédure stockée.
+      cmd.ExecuteNonQuery();
+      //  Récupération des données de la procédures dans un adapter.
+      MySqlDataAdapter adapter = new MySqlDataAdapter();
+      adapter.SelectCommand = cmd;
+      //  Stockage des données dans un dataset.
+      adapter.Fill(ds);
+      //  Fermeture de la connexion avec la base.
+      sConnexionLocal.Close();
+      return ds;
+    }
+    // ************************************************************************************************************************ //
+    #endregion ACCOUNT
+    #region VEGGIECRUSH
+    // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
+    public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
         //  Renvoie un booléen qui indique si le bonus a été consommé ou non.
         {
             Boolean bResult = false;
