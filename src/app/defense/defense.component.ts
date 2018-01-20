@@ -28,4 +28,8 @@ export class DefenseComponent implements OnInit {
   ngOnInit() {
   }
 
+  levelplus(){
+ 
+  }
+
 }

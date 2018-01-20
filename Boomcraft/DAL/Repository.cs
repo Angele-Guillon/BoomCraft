@@ -118,7 +118,7 @@ namespace Boomcraft.DAL
             return ds;
         }
         // ************************************************** UPDATE JOUEUR ************************************************** //
-        public int Update_Joueur(int iId, string sId_Global, string sNom, string sMdp, string sEmail, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
+        public int Update_Joueur(int iId, string sNom, string sMdp, string sEmail, string sFaction)
         //  Met à jour toutes les informations d'un joueur à partir de son id (local).
         {
             //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
@@ -133,14 +133,10 @@ namespace Boomcraft.DAL
             cmd.CommandType = CommandType.StoredProcedure;
             //  Transmission des paramètres à la procédure stockée.
             cmd.Parameters.AddWithValue("@iId", iId);
-            cmd.Parameters.AddWithValue("@sId_Global", sId_Global);
             cmd.Parameters.AddWithValue("@sNom", sNom);
             cmd.Parameters.AddWithValue("@sMdp", sMdp);
             cmd.Parameters.AddWithValue("@sEmail", sEmail);
-            cmd.Parameters.AddWithValue("@dtCreation", dtCreation);
-            cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
-            cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
-            cmd.Parameters.AddWithValue("@iFaction", iFaction);
+            cmd.Parameters.AddWithValue("@sFaction", sFaction);
             //  Exécution de la procédure stockée.
             iResult = cmd.ExecuteNonQuery();
             //  Fermeture de la connexion avec la base.

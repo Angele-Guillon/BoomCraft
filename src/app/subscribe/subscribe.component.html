@@ -1,30 +1,45 @@
 <div class="overlay"></div>
 
-<form class="sub-form" >
+<form name="form" class="sub-form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
   <mat-icon>person</mat-icon>
   <mat-form-field>
-    <input matInput #login (keyup.enter)="login.value" placeholder="Login" required>
+    <input matInput #login="ngModel" [(ngModel)]="model.login" name='login' (keyup.enter)="login.value" placeholder="Login" required>
   </mat-form-field>
+  <div *ngIf="f.submitted && !login.valid" class="help-block">Login is required</div>
+</div>
   <br/>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pass.valid }">
   <mat-icon>https</mat-icon>
   <mat-form-field>
-    <input matInput #pass (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
+    <input matInput [(ngModel)]="model.pass" #pass="ngModel" name='pass' (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
   </mat-form-field>
+  <div *ngIf="f.submitted && !pass.valid" class="help-block">Password is required</div>
+  </div>
   <br/>
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mail.valid }">
   <mat-icon>https</mat-icon>
   <mat-form-field>
-    <input matInput #mail (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
+    <input matInput #mail="ngModel" [(ngModel)]="model.pass"  name="mail" (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
   </mat-form-field>
+  <div *ngIf="f.submitted && !mail.valid" class="help-block">E-mail is required</div>
+</div>
   <br/>
+<div class="form-group">
   <mat-form-field class="mat-select">
-    
       <mat-placeholder><b>Faction</b></mat-placeholder>
       <mat-select>
         <mat-option *ngFor="let faction of factions" [value]="faction.id">{{faction.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-  
-
+  </div>
+<div class="form-group">
+      <button mat-raised-button class="connection" color="primary" [disabled]="loading" class="btn btn-primary">Register</button>
+      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+      <button mat-raised-button  color="primary" routerLink="/" class="btn btn-link">Cancel</button>
+  </div>
 </form>
+<!--
 <a routerLink="">Retour</a>
 <button mat-raised-button class="connection" color="primary" (click)="alert(login.value,pass.value,mail.value,select.value)">Connection</button>
+-->

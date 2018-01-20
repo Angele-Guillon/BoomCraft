@@ -27,6 +27,11 @@ export class AttackComponent implements OnInit {
   ngOnInit() {
 
   }
- 
+  levelplus(){
+
+  }
+  attackRamdom(){
+    
+  }
 }
 

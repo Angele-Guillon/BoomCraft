@@ -61,7 +61,7 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
-        // ************************************************** OBTENIR JOUEUR ************************************************** //
+        // ************************************************** BC OBTENIR JOUEUR ************************************************** //
         [WebMethod]
         public void BC_CreerJoueur(string sNomUtilisateur, string sEmail, string sMdp, string sFaction)
         //  Création d'un joueur dans la base.
@@ -76,6 +76,72 @@ namespace Boomcraft
             else
             {
                 sResult = "Le joueur n a pas été créé car le nom d utilisateur et/ou l email est indisponible.";
+            }
+            sResult = "{ 'result' : '" + sResult + "' }";
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** BC EDITER JOUEUR ************************************************** //
+        [WebMethod]
+        public void BC_EditerJoueur(int iId, string sNom, string sMdp, string sEmail, string sFaction)
+        //  Modification des informations d'un joueur de Boomcraft dans la base.
+        {
+            //  Déclaration de la réponse de la fonction qui sera transformée en JSON.
+            string sResult;
+            //  iResult correspond au nombre de lignes modifiées dans la base.
+            int iResult = aREP.Update_Joueur(iId, sNom, sMdp, sEmail, sFaction);
+            if (iResult > 0)
+            {
+                sResult = "Les informations du joueurs ont été mises à jour.";
+            }
+            else
+            {
+                sResult = "Les informations du joueurs n ont pas été mises à jour.";
+            }
+            sResult = "{ 'result' : '" + sResult + "' }";
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** BC SUPPRIMER JOUEUR ************************************************** //
+        [WebMethod]
+        public void BC_SupprimerJoueur(int iId)
+        //  Suppression des informations d'un joueur de Boomcraft dans la base.
+        {
+            //  Déclaration de la réponse de la fonction qui sera transformée en JSON.
+            string sResult;
+            //  iResult correspond au nombre de lignes modifiées dans la base.
+            int iResult = aREP.Delete_Joueur(iId);
+            if (iResult > 0)
+            {
+                sResult = "Le joueur a été supprimé.";
+            }
+            else
+            {
+                sResult = "Le joueur n a pas été supprimé.";
             }
             sResult = "{ 'result' : '" + sResult + "' }";
             //  Sérialisation de la réponse en Objet.
