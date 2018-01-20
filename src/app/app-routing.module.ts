@@ -28,6 +28,7 @@ const routes: Routes = [
 { path: 'subscribe', component: SubscribeComponent}
 ];
 
+//export const routing = RouterModule.forRoot(routes);
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
