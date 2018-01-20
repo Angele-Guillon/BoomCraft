@@ -172,34 +172,34 @@ namespace Boomcraft
         public void HW_ListeCombats()
         //  HOWOB => Boomcraft. Permet à un joueur Howob d'obtenir une list des combats qu'il peut rejoindre.
         {
-            //string sResult = string.Empty;
-            //try
-            //{
-            //    //  Création d'un objet joueur à l'aide du nom et du mot de passe.
-            //    Joueur aJoueur = new Joueur(username, password);
-            //    //  Obtention de l'objet joueur en format JSON.
-            //    sResult = aJoueur.get_JoueurJSON();
-            //}
-            //catch (Exception ex)
-            //{
-            //    //  Renvoie d'erreur en cas d'échec.
-            //    sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-            //    //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
-            //}
-            ////  Sérialisation de la réponse en Objet.
-            //Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
-            ////  Sérialisation de la réponse au format JSON.
-            //var jsonSerializer = new JsonSerializer();
-            //jsonSerializer.Serialize(Context.Response.Output, oResult);
-            ////  Formatage du retour en json.
-            //Context.Response.ContentType = "application/json";
-            //// Sends all currently buffered output to the client.
-            //Context.Response.Flush();
-            //// Gets or sets a value indicating whether to send HTTP content to the client.
-            //Context.Response.SuppressContent = true;
-            //// Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
-            //Context.ApplicationInstance.CompleteRequest();
-            //Context.Response.End();
+            string sResult = string.Empty;
+            try
+            {
+                //  Création d'un objet joueur à l'aide du nom et du mot de passe.
+                Joueur aJoueur = new Joueur("boomcraft", "boomcraft");
+                //  Obtention de l'objet joueur en format JSON.
+                sResult = aJoueur.get_JoueurJSON();
+            }
+            catch (Exception ex)
+            {
+                //  Renvoie d'erreur en cas d'échec.
+                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
+                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+            }
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
         }
         // **************************************************  ************************************************** //
         #endregion API HOWOB
