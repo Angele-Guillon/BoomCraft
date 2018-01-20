@@ -1,7 +1,7 @@
 <div class="overlay"></div>
 
 <form name="form" class="sub-form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
-  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !login.valid }">
   <mat-icon>person</mat-icon>
   <mat-form-field>
     <input matInput #login="ngModel" [(ngModel)]="model.login" name='login' (keyup.enter)="login.value" placeholder="Login" required>
@@ -9,22 +9,21 @@
   <div *ngIf="f.submitted && !login.valid" class="help-block">Login is required</div>
 </div>
   <br/>
-  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !pass.valid }">
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
   <mat-icon>https</mat-icon>
   <mat-form-field>
-    <input matInput [(ngModel)]="model.pass" #pass="ngModel" name='pass' (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
+    <input matInput [(ngModel)]="model.password" #password="ngModel" name='password' (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
   </mat-form-field>
-  <div *ngIf="f.submitted && !pass.valid" class="help-block">Password is required</div>
+  <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
   </div>
   <br/>
-  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mail.valid }">
+  <div class="form-group">
   <mat-icon>https</mat-icon>
   <mat-form-field>
-    <input matInput #mail="ngModel" [(ngModel)]="model.pass"  name="mail" (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
+    <input matInput #mail  name="mail" (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
   </mat-form-field>
-  <div *ngIf="f.submitted && !mail.valid" class="help-block">E-mail is required</div>
-</div>
   <br/>
+  </div>
 <div class="form-group">
   <mat-form-field class="mat-select">
       <mat-placeholder><b>Faction</b></mat-placeholder>

@@ -1,19 +1,26 @@
 <app-navbar></app-navbar>
   <app-nav-ressource></app-nav-ressource>
 <!---------------------------------------------------------------------------------------->
-<div class="col">
-  <mat-form-field>
-    <mat-select placeholder="Select" >
-      <mat-option value="Ressources">Ressources</mat-option>
-      <mat-option value="Potion">Potion</mat-option>
-    </mat-select>
-  </mat-form-field> 
+<form name="form" class="sub-form" (ngSubmit)="f.form.valid && ask(ressource.value,qty.value)" #f="ngForm" novalidate>
+  <div class="form-group">
     <mat-form-field>
-      <input matInput placeholder="Input" type="number" max="1000000">
-    </mat-form-field> 
+        <mat-placeholder><b>Ressource</b></mat-placeholder>
+        <mat-select>
+          <mat-option #ressource *ngFor="let ressource of ressources"  [value]="ressource.id">{{ressource.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-
-  <button mat-raised-button class="validation" color="primary">Send</button>
+      <mat-form-field>
+        <mat-placeholder><b>Number</b></mat-placeholder>
+        <mat-select>
+          <mat-option #qty *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button class="validation" [disabled]="loading" color="primary">Send</button>
+      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+</form>
+<button mat-raised-button class="validation" [disabled]="loading" color="primary">Get all Potion</button>
   <!------------------>
 
   <mat-table #table [dataSource]="dataSource">
@@ -23,22 +30,10 @@
       <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
     </ng-container>
 
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
+    <!-- QTY unit Column -->
+    <ng-container matColumnDef="nbunit">
       <mat-header-cell *matHeaderCellDef> Number units </mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.date}} </mat-cell>
-    </ng-container>
-
-    <!-- Account Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
-    </ng-container>
-
-    <!-- Color Column -->
-    <ng-container matColumnDef="text">
-      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.text}} </mat-cell>
     </ng-container>
 
     <!-- Icon Column -->

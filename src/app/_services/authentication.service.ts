@@ -8,12 +8,13 @@ export class AuthenticationService {
     constructor(private http: HttpClient) { }
 
     login(username: string, password: string) {
-        return this.http.post<any>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/obtenirJoueur/', { username: username, password: password })
+        return this.http.post<any>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_ObtenirJoueur', { sNomUtilisateur: username, sMdp: password })
             .map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    
                 }
                 return user;
             });

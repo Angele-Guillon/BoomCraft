@@ -58,6 +58,7 @@ import { AttackComponent } from './attack/attack.component';
 import { DefenseComponent } from './defense/defense.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import {AlertComponent} from './_directives/alert.component';
 import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
 
 @NgModule({
@@ -74,6 +75,7 @@ import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
     DefenseComponent,
     SubscribeComponent,
     NavbarComponent,
+    AlertComponent,
     NavRessourceComponent
   ],
   imports: [
