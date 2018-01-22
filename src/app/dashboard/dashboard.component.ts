@@ -35,7 +35,7 @@ constructor(private userService: UserService) {
 
   ngOnInit() {
     
-    if(this.currentUser.faction=="lum"){this.faction='light';}else{this.faction='shadows';}
+    this.faction=this.currentUser.faction;
 
     }
   

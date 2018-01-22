@@ -35,7 +35,7 @@ export class MessagerieComponent  {
   //pris sur le net
 
     results: string[];
-    
+    model: any = {};
 
   // Inject HttpClient into your component or service.
   constructor(private http: HttpClient) {}
@@ -52,10 +52,10 @@ export class MessagerieComponent  {
     //});
   }
 
-  ask(idR : number,qty:number ){
+  ask( ){
     // Make the HTTP request:
     const data_info : Info[]=[
-      {id:idR,nb:qty,/*user*/}
+      {id:this.model.id,nb:this.model.qty,/*user*/}
     ]
     
     this.http.post('/api/ask/',data_info)

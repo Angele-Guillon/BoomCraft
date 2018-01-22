@@ -1,12 +1,12 @@
 <app-navbar></app-navbar>
   <app-nav-ressource></app-nav-ressource>
 <!---------------------------------------------------------------------------------------->
-<form name="form" class="sub-form" (ngSubmit)="f.form.valid && ask(ressource.value,qty.value)" #f="ngForm" novalidate>
+<form name="form" class="sub-form" (ngSubmit)="f.form.valid && ask()" #f="ngForm" novalidate>
   <div class="form-group">
     <mat-form-field>
         <mat-placeholder><b>Ressource</b></mat-placeholder>
         <mat-select>
-          <mat-option #ressource *ngFor="let ressource of ressources"  [value]="ressource.id">{{ressource.name}}</mat-option>
+          <mat-option #res *ngFor="let ressource of ressources"  [value]="ressource.id">{{ressource.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 
