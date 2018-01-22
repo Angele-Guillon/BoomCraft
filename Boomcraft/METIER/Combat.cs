@@ -26,17 +26,17 @@ namespace Boomcraft
         public Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
         //  Constructeur utilisé lors de la connexion du joueur.
         {
-            //  Instanciation d'un objet permettant l'accès à la base de données.
-            Repository aREP = new Repository();
-            //  Récupération des données du joueur en fonction des ses identifiants de connexion.
-            DataTable dt = aREP.GetAll_Combat(iIdCombat, iIdAttaquant, iIdDefenseur, iDureeAvantCombat, iIdVainqueur).Tables[0];
+            ////  Instanciation d'un objet permettant l'accès à la base de données.
+            //Repository aREP = new Repository();
+            ////  Récupération des données du joueur en fonction des ses identifiants de connexion.
+            //DataTable dt = aREP.Insert_Combats(iIdCombat, iIdAttaquant, iIdDefenseur, iDureeAvantCombat, iIdVainqueur).Tables[0];
 
-            //  TODO : Gérer le cas où les identifiants saisis sont erronés.
-            this.iIdCombat = int.Parse(dt.Rows[0][0].ToString());
-            this.iIdAttaquant = int.Parse(dt.Rows[0][1].ToString());
-            this.iIdDefenseur = int.Parse(dt.Rows[0][2].ToString());
-            this.iDureeAvantCombat = int.Parse(dt.Rows[0][3].ToString());
-            this.iIdVainqueur = int.Parse(dt.Rows[0][4].ToString());
+            ////  TODO : Gérer le cas où les identifiants saisis sont erronés.
+            //this.iIdCombat = int.Parse(dt.Rows[0][0].ToString());
+            //this.iIdAttaquant = int.Parse(dt.Rows[0][1].ToString());
+            //this.iIdDefenseur = int.Parse(dt.Rows[0][2].ToString());
+            //this.iDureeAvantCombat = int.Parse(dt.Rows[0][3].ToString());
+            //this.iIdVainqueur = int.Parse(dt.Rows[0][4].ToString());
 
         }
         // ************************************************** CONSTRUCTEUR ??? ************************************************** //

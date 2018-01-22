@@ -3,7 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { PatternValidator } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, JsonpModule, Jsonp, Response } from '@angular/http';
 import { AppRoutingModule }     from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AuthenticationService} from './_services/authentication.service';
@@ -61,6 +61,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {AlertComponent} from './_directives/alert.component';
 import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
 import { JwtInterceptor } from './_helpers/index';
+import { DemandeService } from './_services/demande.service';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { JwtInterceptor } from './_helpers/index';
   ],
   imports: [
     BrowserModule,
+    JsonpModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
@@ -126,6 +128,7 @@ import { JwtInterceptor } from './_helpers/index';
     AlertService,
     AuthGuard,
     UserService,
+    DemandeService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
