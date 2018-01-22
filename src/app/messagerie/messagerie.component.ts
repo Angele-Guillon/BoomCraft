@@ -6,7 +6,7 @@ import { DataSource } from '@angular/cdk/collections';
 import {NgForm, FormControl} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../_services/index';
-import { User } from '../_models/index';
+import { User, Potion } from '../_models/index';
 import { Jsonp } from '@angular/http';
 import { DemandeService } from '../_services/demande.service';
 
@@ -49,6 +49,8 @@ export class MessagerieComponent  {
     //jsonp: Jsonp;
     demandes: Promise<Demande[]>;
 
+    Potions: Potion[];
+
     private loading: boolean = false;
     private searchField: FormControl;
   
@@ -56,6 +58,7 @@ export class MessagerieComponent  {
       this.faction=this.currentUser.faction;
       this.demandes=this.http.get<Array<Demande>>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/demande/params?:'+this.faction).toPromise();
       console.log(this.demandes);
+
     }
 
   ask(){

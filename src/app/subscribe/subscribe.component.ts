@@ -11,8 +11,8 @@ import { UserService, AlertService } from '../_services/index';
 export class SubscribeComponent implements OnInit {
 
   factions: Factions[] = [
-    {id: 1, name: 'Shadow'},
-    {id: 2, name: 'Light'},
+    {id: 2, name: 'Shadow'},
+    {id: 1, name: 'Light'},
   ];
   
   model: any = {};

@@ -29,7 +29,7 @@
   <mat-form-field class="mat-select">
       <mat-placeholder><b>Faction</b></mat-placeholder>
       <mat-select [(ngModel)]="model.faction" name="faction" >
-        <mat-option  *ngFor="let faction of factions" [value]= "faction.name">{{faction.name}}</mat-option>
+        <mat-option  *ngFor="let faction of factions" [value]= "faction.id">{{faction.name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <!--div *ngIf="f.submitted && !faction" class="help-block">Faction is required</div-->
