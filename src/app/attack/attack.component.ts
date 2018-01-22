@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/index';
 import { User } from '../_models/index';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-attack',
@@ -16,7 +17,7 @@ export class AttackComponent implements OnInit {
   currentUser: User;
   users: User[] = [];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private http: HttpClient,) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log(this.currentUser);
 }
@@ -35,15 +36,15 @@ export class AttackComponent implements OnInit {
     { id:9 , name: 'temple', wood: 900, stone:500, gold:0 , lvl:10},
     
   ];
-
+  attack(){
+    this.http.post('/api/attack/',this.currentUser.id_global);
+  }
   ngOnInit() {
 
   }
   levelplus(){
 
   }
-  attackRamdom(){
-    
-  }
+  
 }
 

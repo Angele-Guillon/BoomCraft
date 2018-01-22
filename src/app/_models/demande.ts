@@ -1,4 +1,9 @@
 class Demande {
-    constructor(public id: number,public nbUnit: number) {
+
+  id: number;
+  nbUnit:number;
+    constructor(id: number,nbUnit: number) {
+      this.id = id;
+      this.nbUnit = nbUnit;
     }
   }

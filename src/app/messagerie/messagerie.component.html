@@ -2,23 +2,61 @@
   <app-nav-ressource></app-nav-ressource>
 <!---------------------------------------------------------------------------------------->
 <form name="form" class="sub-form" (ngSubmit)="f.form.valid && ask()" #f="ngForm" novalidate>
-  <div class="form-group">
-    <mat-list *ngFor="let ressource of ressources" >
-      <mat-list-item > <label>{{ressource.name}} : </label> 
-         <mat-form-field>
-          <mat-placeholder> <b>Number</b> </mat-placeholder>
+  <!--div class="form-group">
+         <mat-form-field *ngFor="let ressource of ressources"  >
+          <mat-placeholder>{{ressource.name}} </mat-placeholder>
           <mat-select>
-            <mat-option #asking *ngFor="let number of numbers" [value]="ressource.name+': '+number.name">{{number.name}}</mat-option>
+            <mat-option  *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
           </mat-select>
         </mat-form-field>
-       </mat-list-item>
-    </mat-list>
-  </div>
-    <button mat-raised-button class="validation" [disabled]="loading" color="primary">Ask</button>
+    <button mat-raised-button class="validation"   [disabled]="loading" color="primary">Ask</button>
     <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
     
+  </div-->
+  <div class="form-group">
+      <mat-form-field>
+          <mat-placeholder>Wood:</mat-placeholder>
+          <mat-select [(ngModel)]="model.wood" name="wood" >
+            <mat-option  *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <mat-form-field>
+          <mat-placeholder>Food:</mat-placeholder>
+          <mat-select [(ngModel)]="model.food" name="food" >
+            <mat-option  *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <mat-form-field>
+          <mat-placeholder>Gold:</mat-placeholder>
+          <mat-select [(ngModel)]="model.gold" name="gold" >
+            <mat-option  *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <mat-form-field>
+          <mat-placeholder>Stone:</mat-placeholder>
+          <mat-select [(ngModel)]="model.stone" name="stone" >
+            <mat-option  *ngFor="let number of numbers" [value]="number.name">{{number.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button class="validation"   [disabled]="loading" color="primary">Ask</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />    
+  </div>
 </form>
-<button mat-raised-button class="validation" [disabled]="loading" color="primary">Get all Potion</button>
+<form name="form" class="sub-form" (ngSubmit)="fi.form.valid && use()" #fi="ngForm" novalidate>
+    <div class="form-group">
+        <mat-form-field>
+            <mat-placeholder>Potion</mat-placeholder>
+            <mat-select [(ngModel)]="model.potion" name="potion" >
+              <mat-option  *ngFor="let potion of Potions" [value]="potion.id">Type:{{potion.type}},{{potion.power}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button class="validation" [disabled]="loading" color="primary">Use</button>
+          <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />              
+    </div>
+</form>
+
+
+
   <!------------------>
 
   <mat-table #table [dataSource]="dataSource">
@@ -31,7 +69,7 @@
     <!-- QTY unit Column -->
     <ng-container matColumnDef="nbunit">
       <mat-header-cell *matHeaderCellDef> Number units </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.date}} </mat-cell>
+      <mat-cell *matCellDef="let row"> {{row.nbUnit}} </mat-cell>
     </ng-container>
 
     <!-- Icon Column -->

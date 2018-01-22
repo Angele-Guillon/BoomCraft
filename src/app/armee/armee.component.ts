@@ -1,14 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../_services/index';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../_models/index';
 
 @Component({
   selector: 'app-armee',
   templateUrl: './armee.component.html',
   styleUrls: ['./armee.component.css']
 })
+
 export class ArmeeComponent implements OnInit {
-  //faction='light';
-  faction='shadows';
-  constructor() { }
+  
+  faction :string;
+  currentUser: User;
+  users: User[] = [];
+ 
+ 
+  constructor(private userService: UserService,private http: HttpClient) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(this.currentUser);
+    this.faction=this.currentUser.faction;
+    
+}
 
   characters: Object[] = [
     

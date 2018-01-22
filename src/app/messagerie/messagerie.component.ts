@@ -30,6 +30,7 @@ export class MessagerieComponent  {
   ];
 
   numbers : Numbers[] = [
+    {id:0, name: 0},
     {id: 1, name: 100},
     {id: 2, name: 1000},
     {id: 3, name: 10000},
@@ -44,12 +45,11 @@ export class MessagerieComponent  {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
  
-    model: any = {};
+    model: any = [{}];
     //jsonp: Jsonp;
     demandes: Promise<Demande[]>;
 
     private loading: boolean = false;
-    private results: Observable<Demande[]>;
     private searchField: FormControl;
   
     ngOnInit() {
@@ -61,26 +61,22 @@ export class MessagerieComponent  {
   ask(){
     // Make the HTTP request:
     console.log(this.model);
-    const data_info : Info[]=[
-      {nb:this.model.qty,userId:this.currentUser.id_global}
-    ];
-    console.log(data_info);
-    this.http.post('/api/ask/',data_info);
+    
+    this.http.post('/api/ask/',this.model);
+  }
+
+  getPotion(){
+    this.http.post('/api/Potion',this.currentUser.id_global);
   }
 
   displayedColumns = ['id', 'nbunit', 'button'];
-  dataSource = new MatTableDataSource<Demande>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<Demande>(Demande_DATA);
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
     }
   }
 
-  export interface Element {
-    name: string ;
-    id: number ;
-    date: number;
-    text: string;
-  }
+
   export interface Info {
     nb: Text ;
     userId: Text;
@@ -95,25 +91,31 @@ export class MessagerieComponent  {
   }
 
 
-  const ELEMENT_DATA: Demande[] = [
-    {id: 1, name: 'Hydrogen', date: 1, text: 'H'},
-    {id: 2, name: 'Helium', date: 4, text: 'He'},
-    {id: 3, name: 'Lithium', date: 6, text: 'Li'},
-    {id: 4, name: 'Beryllium', date: 9, text: 'Be'},
-    {id: 5, name: 'Boron', date: 10, text: 'B'},
-    {id: 6, name: 'Carbon', date: 12, text: 'C'},
-    {id: 7, name: 'Nitrogen', date: 14, text: 'N'},
-    {id: 8, name: 'Oxygen', date: 15, text: 'O'},
-    {id: 9, name: 'Fluorine', date: 18, text: 'F'},
-    {id: 10, name: 'Neon', date: 20, text: 'Ne'},
-    {id: 11, name: 'Sodium', date: 22, text: 'Na'},
-    {id: 12, name: 'Magnesium', date: 24, text: 'Mg'},
-    {id: 13, name: 'Aluminum', date: 26, text: 'Al'},
-    {id: 14, name: 'Silicon', date: 28, text: 'Si'},
-    {id: 15, name: 'Phosphorus', date: 30, text: 'P'},
-    {id: 16, name: 'Sulfur', date: 32, text: 'S'},
-    {id: 17, name: 'Chlorine', date: 35, text: 'Cl'},
-    {id: 18, name: 'Argon', date: 39, text: 'Ar'},
-    {id: 19, name: 'Potassium', date: 39, text: 'K'},
-    {id: 20, name: 'Calcium', date: 40, text: 'Ca'},
+  const Demande_DATA: Demande[] = [
+    {id: 1, nbUnit: 1},
+    {id: 2, nbUnit: 1},
+    {id: 3, nbUnit: 1},
+    {id: 4, nbUnit: 1},
+    {id: 5, nbUnit: 1},
+    {id: 6, nbUnit: 1},
+    {id: 7, nbUnit: 1},
+    {id: 8, nbUnit: 1},
+    {id: 78, nbUnit: 300},
+    {id: 300, nbUnit: 400},
+    {id: 34, nbUnit: 500},
+    {id: 23, nbUnit: 600},
+    {id: 24, nbUnit: 700},
+    {id: 56, nbUnit: 800},
+    {id: 20, nbUnit: 1222},
+    {id: 70, nbUnit: 1112},
+    {id: 80, nbUnit: 1},
+    {id: 67, nbUnit: 1},
+    {id: 89, nbUnit: 1},
+    {id: 90, nbUnit: 1},
+    {id: 58, nbUnit: 1},
+    {id: 60, nbUnit: 1},
+    {id: 50, nbUnit: 1},
+    {id: 30, nbUnit: 1},
+    {id: 42, nbUnit: 1},
+
   ];

@@ -17,18 +17,3 @@ export class User {
     
 }
 
-//user creation Api
-export class APICUser {
-    
-      public name: string;
-      public password: string;
-      public email: string;
-      public faction: string;
-    
-      public constructor(name: string, password: string, email: string, faction: string){
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.faction = faction;
-      }
-    }
