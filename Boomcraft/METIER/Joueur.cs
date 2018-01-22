@@ -19,6 +19,7 @@ namespace Boomcraft.METIER
         private DateTime? dtEdition;
         private DateTime? dtSupression;
         private string sFaction;
+        private int iFaction;
         private Boolean bErreur;
         //  Instanciation de la classe Log.
         Log aLog = new Log();
@@ -60,7 +61,7 @@ namespace Boomcraft.METIER
             }
         }
         // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
-        public Joueur(string sNom,  string sMdp, string sEmail, string sFaction)
+        public Joueur(string sNom,  string sMdp, string sEmail, int iFaction)
         //  Constructeur utilisé lors de la création du compte du joueur.
         {
             //  Instanciation d'un objet permettant l'accès à la base de données.
@@ -79,9 +80,9 @@ namespace Boomcraft.METIER
             this.dtCreation = dtActuelle;
             this.dtEdition = dtNull;
             this.dtSupression = dtNull;
-            this.sFaction = sFaction;
+            this.iFaction = iFaction;
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
-            this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, sFaction);
+            this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, iFaction);
         }
         // ************************************************** CONSTRUCTEUR RECUPERATION COMPTE JOUEUR ************************************************** //
         public Joueur(string sId, string sUUID, string sNomUtilisateur, string sEmail, string sFaction)
