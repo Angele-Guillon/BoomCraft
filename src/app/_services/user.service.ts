@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User, APICUser} from '../_models/index';
+import { User } from '../_models/index';
 
 @Injectable()
 export class UserService {
@@ -15,8 +15,13 @@ export class UserService {
         return this.http.get('/api/users/' + id);
     }
 
-    create(user: User) {
-        return this.http.post('/api/users', user);
+    create(model: any) {
+        let url = 'http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur';
+        console.log(model);
+        //if (!model.faction){
+            console.log(this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username,sEmail:model.mail,sMdp:model.password,sFaction:model.faction}));
+        //}
+        return this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username, sMdp:model.password,sEmail:model.mail,sFaction:model.faction});
     }
 
     update(user: User) {

@@ -20,6 +20,8 @@ namespace Boomcraft.METIER
         private DateTime? dtSupression;
         private string sFaction;
         private Boolean bErreur;
+        //  Instanciation de la classe Log.
+        Log aLog = new Log();
         // ************************************************** CONSTRUCTEUR CONNEXION JOUEUR ************************************************** //
         public Joueur(string sNom, string sMdp)
         //  Constructeur utilisé lors de la connexion du joueur.
@@ -80,6 +82,34 @@ namespace Boomcraft.METIER
             this.sFaction = sFaction;
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
             this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, sFaction);
+        }
+        // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
+        public Joueur(string sId, string sUUID, string sNomUtilisateur, string sEmail, string sFaction)
+        //  Constructeur utilisé lors de la récupération du compte du joueur.
+        {
+            //  Instanciation d'un objet permettant l'accès à la base de données.
+            Repository aREP = new Repository();
+            //  Instanciation d'un DateTime null.
+            DateTime? dtNull = null;
+            try
+            {
+                //  L'id vaut 0 car le joueur n'a pas encore été créé dans la base.
+                this.iId = Int32.Parse(sId);
+                //  Génération d'un id aléatoire unique.
+                this.sUUID = Guid.NewGuid().ToString();
+                this.sNom = sNomUtilisateur;
+                this.sMdp = string.Empty;
+                this.sEmail = sEmail;
+                //this.dtCreation = DateTime.Parse(sDateCreation);
+                this.dtCreation = dtNull;
+                this.dtEdition = dtNull;
+                this.dtSupression = dtNull;
+                this.sFaction = sFaction;
+            }
+            catch (Exception ex)
+            {
+                aLog.ecrire("Erreur lors de la création de l'objet Joueur" + ex);
+            }
         }
         #endregion VARIABLES ET CONSTRUCTEURS
         #region METHODES

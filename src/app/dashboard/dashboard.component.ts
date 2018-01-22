@@ -19,19 +19,24 @@ import { UserService } from '../_services/index';
 
 
 export class DashboardComponent implements OnInit {
-//faction='light';
-faction='shadows';
+
+faction :string;
 currentUser: User;
 users: User[] = [];
 
+
+
 constructor(private userService: UserService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    console.log(this.currentUser);
 }
 
 
 
   ngOnInit() {
     
+    this.faction=this.currentUser.faction;
+
     }
   
 }

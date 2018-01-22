@@ -1,12 +1,12 @@
 <div class="overlay"></div>
 
 <form name="form" class="sub-form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
-  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !login.valid }">
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
   <mat-icon>person</mat-icon>
   <mat-form-field>
-    <input matInput #login="ngModel" [(ngModel)]="model.login" name='login' (keyup.enter)="login.value" placeholder="Login" required>
+    <input matInput #username="ngModel" [(ngModel)]="model.username" name='username' (keyup.enter)="username.value" placeholder="Login" required>
   </mat-form-field>
-  <div *ngIf="f.submitted && !login.valid" class="help-block">Login is required</div>
+  <mat-error *ngIf="f.submitted && !username.valid" class="help-block">Login is required</mat-error>
 </div>
   <br/>
   <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
@@ -14,23 +14,25 @@
   <mat-form-field>
     <input matInput [(ngModel)]="model.password" #password="ngModel" name='password' (keyup.enter)="pass.value" type="Password" placeholder="Password" required>
   </mat-form-field>
-  <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+  <mat-error *ngIf="f.submitted && !password.valid" class="help-block">Password is required</mat-error>
   </div>
   <br/>
-  <div class="form-group">
+  <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mail.valid }">
   <mat-icon>https</mat-icon>
   <mat-form-field>
-    <input matInput #mail  name="mail" (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
+    <input matInput [(ngModel)]="model.mail" #mail="ngModel"  name="mail" (keyup.enter)="mail.value" type="mail" placeholder="Email" required>
   </mat-form-field>
+  <mat-error *ngIf="f.submitted && !mail.valid" class="help-block">Email is required</mat-error>
   <br/>
   </div>
-<div class="form-group">
+  <div class="form-group" >
   <mat-form-field class="mat-select">
       <mat-placeholder><b>Faction</b></mat-placeholder>
-      <mat-select>
-        <mat-option *ngFor="let faction of factions" [value]="faction.id">{{faction.name}}</mat-option>
+      <mat-select [(ngModel)]="model.faction" name="faction" >
+        <mat-option  *ngFor="let faction of factions" [value]= "faction.name">{{faction.name}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <!--div *ngIf="f.submitted && !faction" class="help-block">Faction is required</div-->
   </div>
 <div class="form-group">
       <button mat-raised-button class="connection" color="primary" [disabled]="loading" class="btn btn-primary">Register</button>

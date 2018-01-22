@@ -1,5 +1,4 @@
 using System;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
@@ -39,8 +38,6 @@ namespace Boomcraft
             string sResult = string.Empty;
             try
             {
-                //username = "";
-                //password = "984g-èf&_ètvdçvdcçoyb";
                 //  Création d'un objet joueur à l'aide du nom et du mot de passe.
                 Joueur aJoueur = new Joueur(username, password);
                 //  Obtention de l'objet joueur en format JSON.
@@ -50,7 +47,7 @@ namespace Boomcraft
             {
                 //  Renvoie d'erreur en cas d'échec.
                 sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
@@ -82,7 +79,7 @@ namespace Boomcraft
             {
                 //  Renvoie d'erreur en cas d'échec.
                 sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification de l'existence du joueur.', 'code': 401 } }";
-                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
@@ -117,8 +114,8 @@ namespace Boomcraft
             catch (Exception ex)
             {
                 //  Renvoie d'erreur en cas d'échec.
-                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+                sResult = "{ 'error': { 'message': 'Une erreur s est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
@@ -184,7 +181,7 @@ namespace Boomcraft
             {
                 //  Renvoie d'erreur en cas d'échec.
                 sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
@@ -206,23 +203,21 @@ namespace Boomcraft
         #region API AUTRES
         // ************************************************** FV ENVOYER DON ************************************************** //
         [WebMethod]
-        public void FV_envoyerDon(string sUUID, int iIdRessource, int iQuantite)
+        public void FV_EnvoyerDon(string sUUID, int iIdRessource, int iQuantite)
         //  FarmVillage => Boomcraft. Permet aux joueurs d'envoyer des ressources suite à une demande.
         {
             string sResult = string.Empty;
             try
             {
                 //  Ajoute les ressources envoyées au joueur de Boomcraft.
-                int iResult = aREP.FV_envoyerDon(sUUID, iIdRessource, iQuantite);
-                //int iResult = aDal.FV_envoyerDon("joueur1", 1, 100);
-                //return new JavaScriptSerializer().Serialize(sRetour);
+                int iResult = aREP.FV_EnvoyerDon(sUUID, iIdRessource, iQuantite);
                 sResult = "{'msg_code': 'Merci !';}";
             }
             catch (Exception ex)
             {
                 //  Renvoie d'erreur en cas d'échec.
                 sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors du don de ressources.', 'code': 401 } }";
-                //sResult = "{ 'error': { 'message': '" + ex + "', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
@@ -239,7 +234,47 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
-        // ************************************************** FV ENVOYER DON ************************************************** //
+        // ************************************************** FV DEMANDER DON ************************************************** //
+        [WebMethod]
+        public void FV_DemanderTroupe(string sUUID, string sFaction, int iQuantite)
+        //  FarmVillage => Boomcraft. Permet aux joueurs d'effectuer une demande de troupes.
+        {
+            string sResult = string.Empty;
+            try
+            {
+                //  Ajoute les ressources envoyées au joueur de Boomcraft. iResult prend le nombre de lignes créé en base.
+                int iResult = aREP.FV_DemanderTroupe(sUUID, sFaction, iQuantite);
+                if (iResult > 0)
+                {
+                    sResult = "{'msg_code': 'La demande de troupes a bien été prise en compte.'}";
+                }
+                else
+                {
+                    sResult = "{'msg_code': 'Ce joueur a déjà effectué une demande de troupes.'}";
+                }
+            }
+            catch (Exception ex)
+            {
+                //  Renvoie d'erreur en cas d'échec.
+                sResult = "{ 'error': { 'message': 'Une erreur s est produite lors de la demande de troupes.', 'code': 401 } }";
+                aLog.ecrire(sResult + "\rDétails : \r" + ex);
+            }
+            //  Sérialisation de la réponse en Objet.
+            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** HW REPORT ************************************************** //
         [WebMethod]
         //  [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public string HW_Report(string sUUID, bool bSucces, int iQuantite)

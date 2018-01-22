@@ -3,8 +3,12 @@ import {MatPaginator, MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { DataSource } from '@angular/cdk/collections';
-import {NgForm} from '@angular/forms';
+import {NgForm, FormControl} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from '../_services/index';
+import { User } from '../_models/index';
+import { Jsonp } from '@angular/http';
+import { DemandeService } from '../_services/demande.service';
 
 
 @Component({
@@ -13,11 +17,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./messagerie.component.css']
 })
 export class MessagerieComponent  {
-
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  faction='light';
-  // faction='shadows';
+  faction :string;
+  currentUser: User;
+  users: User[] = [];
 
   ressources : Ressource[] = [
     {id: 1, name: 'Wood'},
@@ -31,41 +33,37 @@ export class MessagerieComponent  {
     {id: 2, name: 1000},
     {id: 3, name: 10000},
   ];
-
-  //pris sur le net
-
-    results: string[];
-    
-
-  // Inject HttpClient into your component or service.
-  constructor(private http: HttpClient) {}
-
-  ngOnInit(): void {
-      // Make the HTTP request:
-    
-    this.http.get('/api/demande/'+this.faction).subscribe(data => {
-      // Read the result field from the JSON response.
-     // data.forEach(element =>{
-        
-      });
-     // this.results = data['results'];
-    //});
+ 
+  constructor(private userService: UserService,private http: HttpClient,private demande: DemandeService) {
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      console.log(this.currentUser);
   }
 
-  ask(idR : number,qty:number ){
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+    demandes: any[];
+    model: any = {};
+    //jsonp: Jsonp;
+
+    private loading: boolean = false;
+    private results: Observable<Demande[]>;
+    private searchField: FormControl;
+  
+    ngOnInit() {
+      this.faction=this.currentUser.faction;
+      this.demandes = this.demande.getdemande(this.faction);
+    }
+
+  ask( ){
     // Make the HTTP request:
     const data_info : Info[]=[
-      {id:idR,nb:qty,/*user*/}
-    ]
-    
-    this.http.post('/api/ask/',data_info)
+      {id:this.model.id,nb:this.model.qty,userId:this.currentUser.id}
+    ];
+    this.http.post('/api/ask/',data_info);
   }
-
-  ///
 
   displayedColumns = ['id', 'nbunit', 'button'];
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
-  //dataressources = new MatTableDataSource<Ressource>(ressources);
     ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
     }
@@ -81,6 +79,7 @@ export class MessagerieComponent  {
   export interface Info {
     nb: number ;
     id: number ;
+    userId: number;
   }
 
   export interface Ressource {

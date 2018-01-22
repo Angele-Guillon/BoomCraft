@@ -208,6 +208,7 @@ namespace Boomcraft.DAL
           //  Erreur dans l'exécution du traitement SQL.
           sErreur = "\n" + ex.ToString();
         }
+<<<<<<< HEAD
         return iIdResult;
     }
     //*****************************************************INSERT COMBAT *********************************************************//
@@ -289,6 +290,38 @@ namespace Boomcraft.DAL
     #region VEGGIECRUSH
     // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
     public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
+=======
+        //***************************************************** COMBAT **************************************************************//
+
+        public DataSet GetAll_Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
+        //  Renvoie la liste des combat présents dans la base.
+        {
+            DataSet ds = new DataSet();
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_GetAll_Combat", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération des données de la procédures dans un adapter.
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            adapter.SelectCommand = cmd;
+            //  Stockage des données dans un dataset.
+            adapter.Fill(ds);
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return ds;
+        }
+        // ************************************************************************************************************************ //
+        #endregion ACCOUNT
+        #region VEGGIECRUSH
+        // ************************************************** VC UPDATE JOUEUR BONUS ************************************************** //
+        public Boolean VC_Update_JoueurBonus(string sUUID, int iQuantite)
+>>>>>>> 1bd18d6f6809b12fab61d31fd541782fd0525422
         //  Renvoie un booléen qui indique si le bonus a été consommé ou non.
         {
             Boolean bResult = false;
@@ -328,7 +361,7 @@ namespace Boomcraft.DAL
             cmd.CommandType = CommandType.StoredProcedure;
             //  Déclaration des paramètres d'entrée de la procédure.
             cmd.Parameters.AddWithValue("@sUUID", sUUID);
-            //  Déclaration des paramètres d'entrée de la procédure.
+            //  Déclaration des paramètres de sortie de la procédure.
             MySqlParameter out_iConsommationBonus = new MySqlParameter("@out_iConsommationBonus", MySqlDbType.Int16);
             out_iConsommationBonus.Direction = ParameterDirection.Output;
             cmd.Parameters.Add(out_iConsommationBonus);
@@ -341,8 +374,8 @@ namespace Boomcraft.DAL
         // **************************************************  ************************************************** //
         #endregion VEGGIECRUSH
         #region FARMVILLAGE
-        // ************************************************************************************************************************ //
-        public int FV_envoyerDon(string sId_Global, int iIdRessource, int iQuantite)
+        // ************************************************** FV ENVOYER DON ************************************************** //
+        public int FV_EnvoyerDon(string sId_Global, int iIdRessource, int iQuantite)
         {
             //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
             int iResult = 0;
@@ -365,23 +398,33 @@ namespace Boomcraft.DAL
             return iResult;
         }
         // ************************************************************************************************************************ //
-        public void FV_DoTransaction(string sUUID, int iWood, int iFood, int iGold, int iRock, int iCentralise)
+        public int FV_DemanderTroupe(string sUUID, string sFaction, int iQuantite)
         {
-            //  TODO : EST-CE QUE LA STRUCTURE DE LA BASE EST PERTINENTE ??????????????????
-            //string sMessageBase = string.Empty;
-            //var dbCon = aDb_Connection;
-            //dbCon.DatabaseName = "boomcraft";
-            //if (dbCon.IsConnect())
-            //{
-            //    //  Requête à exécuter dans la base.
-            //    string sQuery =
-            //        "UPDATE boomcraft.userressource "
-            //            + "SET qty = qty + " + iQuantite + " WHERE id_User = " + sUUID + " AND id_Ressource = " + iIdRessource + ";";
-            //    var cmd = new MySqlCommand(sQuery, dbCon.Connection);
-            //    cmd.ExecuteNonQuery();
-            //}
-            //dbCon.Close();
-            //return iResult;
+            //  Variable de retour qui indique le nombre de lignes qui ont été affectées par la requête.
+            int iIdResult = 0;
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_Insert_TroopRequest", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Transmission des paramètres à la procédure stockée.
+            cmd.Parameters.AddWithValue("@sUUID", sUUID);
+            cmd.Parameters.AddWithValue("@sFaction", sFaction);
+            cmd.Parameters.AddWithValue("@iQuantite", iQuantite);
+            //  Déclaration des paramètres de sortie de la procédure.
+            MySqlParameter out_iIdDemandeTroupe = new MySqlParameter("@out_iIdDemandeTroupe", MySqlDbType.Int16);
+            out_iIdDemandeTroupe.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(out_iIdDemandeTroupe);
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération du dernier id créé.
+            iIdResult = Int16.Parse(out_iIdDemandeTroupe.Value.ToString());
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return iIdResult;
         }
         // ************************************************************************************************************************ //
         #endregion FARMVILLAGE

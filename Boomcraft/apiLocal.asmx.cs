@@ -2,8 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Web.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Web.Services;
 using System.Web.Script.Services;
 using System.Web.Script.Serialization;
@@ -78,37 +78,114 @@ namespace Boomcraft
         //  Retourne une erreur si les identifiants de connexions ne sont pas dans la base de données Boomcraft.
         //  TODO : Etendre cette API aux joueurs de tous les jeux.
         {
-            //  Déclaration d'une variable pour stocker les données d'un utilisateur.
+            //  Déclaration d'une variable pour récupérer stocker les informations d'un joueur sous forme de JSON.
             string sResult = string.Empty;
+            //  Déclaration d'un objet dans lequel est stocké la réponse à la requête web.
+            Object oResult = new Object();
+            oResult = null;
             List<WebRequest> liste_WebRequest = new List<WebRequest>();
             //  Déclaration de la variable HttpWebRequest et spécification de l'URL.
-            liste_WebRequest.Add(WebRequest.Create("http://boomcraft.masi-henallux.be:8080/api.asmx/signin"));
-            //liste_WebRequest.Add(WebRequest.Create("http://artshared.fr/andev1/distribue/api/auth/signin/"));
-            //liste_WebRequest.Add(WebRequest.Create("http://howob.masi-henallux.be/api/auth/signin"));
-            //liste_WebRequest.Add(WebRequest.Create("https://veggiecrush.masi-henallux.be/rest_server/api/account/signin/"));
+            const string sUrlBoomcraft = "http://boomcraft.masi-henallux.be:8080/api.asmx/signin";
+            const string sUrlFarmvillage = "http://artshared.fr/andev1/distribue/api/auth/signin/";
+            const string sUrlHowob = "https://howob.masi-henallux.be/api/auth/signin";
+            const string sUrlVeggieCrush = "https://veggiecrush.masi-henallux.be/rest_server/api/account/signin/";
+            liste_WebRequest.Add(WebRequest.Create(sUrlBoomcraft));
+            liste_WebRequest.Add(WebRequest.Create(sUrlFarmvillage));
+            liste_WebRequest.Add(WebRequest.Create(sUrlHowob));
+            liste_WebRequest.Add(WebRequest.Create(sUrlVeggieCrush));
             //  Boucle sur les apis signin des différents groupes.
             foreach (HttpWebRequest request in liste_WebRequest)
             {
-                var postData = "username=" + sNomUtilisateur + "&password=" + sMdp;
-                var data = Encoding.ASCII.GetBytes(postData);
+                #region  Ensemble de paramètres qui fonctionnent pour communiquer avec les apis C#.
+                ////var postData = "username=" + sNomUtilisateur + "&password=" + sMdp;
+                ////  Formatage du retour en de la requête.
+                //request.ContentType = "application/x-www-form-urlencoded";
+                //var postData = "username=" + sNomUtilisateur + "&password=" + sMdp;
+                #endregion
+                //var jsonData = "{\"username\": \"veggie\",\"password\": \"veggie\"}";
+                var jsonData = "{\"username\":\"" + sNomUtilisateur + "\",\"password\":\"" + sMdp + "\"}";
+                //jsonData = "{\"username\":\"howob\",\"password\":\"howob\"}";
+                var data = Encoding.ASCII.GetBytes(jsonData);
                 request.Method = "POST";
-                //  Formatage du retour en de la requête.
-                request.ContentType = "application/x-www-form-urlencoded";
+                //  Définition la valeur de l'en-tête de la requête.
+                request.ContentType = "application/json";
                 request.ContentLength = data.Length;
                 using (var stream = request.GetRequestStream())
                 {
                     stream.Write(data, 0, data.Length);
                 }
-                //  Déclaration de la variable HttpWebResponse et récupération du résultat de la requête.
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                //  Déclaration de la variable HttpWebResponse pour récupérer le résultat de la requête.
+                HttpWebResponse response;
+                try
+                {
+                    response = (HttpWebResponse)request.GetResponse();
+                }
+                catch (Exception ex)
+                {
+                    aLog.ecrire("Erreur lors de la connexion au serveur : " + request.RequestUri + ".\r" + ex);
+                    //  Passage à l'itération suivante. On ignore le serveur défectueux.
+                    continue;
+                }
                 //  Déclaration d'un string pour récupérer le résultat de la réponse qui est un JSON.
-                sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                if(sresu)
+                string sSigninJson = new StreamReader(response.GetResponseStream()).ReadToEnd();
                 response.Close();
+                //  Parse la réponse de l'api signin dans un objet permetant d'exploiter un json.
+                dynamic d = JObject.Parse(sSigninJson);
+                //aLog.ecrire((String)d.user.id);
+                //aLog.ecrire((String)d.user.globalId);
+                //aLog.ecrire((String)d.user.username);
+                //aLog.ecrire((String)d.user.email);
+                //aLog.ecrire((String)d.user.faction);
+                //aLog.ecrire((String)d.user.dateCreation);
+                try
+                {
+                    //  Instanciation d'un objet Joueur.
+                    Joueur aJoueur;
+                    switch (request.RequestUri.ToString())
+                    {
+                        case sUrlBoomcraft:
+                            aJoueur = new Joueur((String)d.user.id, (String)d.user.globalId, (String)d.user.username, (String)d.user.email, (String)d.user.faction);
+                            //aJoueur = new Joueur("123", "321", "poi", "poi.poi@poi", "light");
+                            sResult = aJoueur.get_JoueurJSON();
+                            break;
+                        case sUrlFarmvillage:
+                            aJoueur = new Joueur((String)d.user._id , (String)d.user.globalId, (String)d.user.username, (String)d.user.email, (String)d.user.faction);
+                            sResult = aJoueur.get_JoueurJSON();
+                            break;
+                        case sUrlHowob:
+                            //aJoueur = new Joueur((String)d.user._id, (String)d.user.globalId, (String)d.user.username, (String)d.user.email, (String)d.user.faction);
+                            aJoueur = new Joueur(1.ToString(), (String)d.user.globalId, (String)d.user.username, (String)d.user.email, (String)d.user.faction);
+                            sResult = aJoueur.get_JoueurJSON();
+                            break;
+                        case sUrlVeggieCrush:
+                            aJoueur = new Joueur((String)d.user._id, (String)d.user.globalId, (String)d.user.username, (String)d.user.email, (String)d.user.faction);
+                            sResult = aJoueur.get_JoueurJSON();
+                            break;
+                        default:
+                            aLog.ecrire("L'Url du serveur joint est inconnue.");
+                            break;
+                    }
+                    if (sResult != string.Empty)
+                    {
+                        //  Les informations du joueur ont été récupérées avec succès.
+                        oResult = JsonConvert.DeserializeObject<Object>(sResult);
+                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    aLog.ecrire(sResult + "\rDétails : \r" + ex);
+                }
             }
-            //  Sérialisation de la réponse en Objet.
-            Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);
-            //  Sérialisation de la réponse au format JSON.
+            if (oResult == null)
+            {
+                //  Aucun utilisateur ne correspondant aux identifiants saisis. Définition d'un message d'erreur.
+                oResult = JsonConvert.DeserializeObject<Object>(
+                "{ \"error\": { \"message\": \"Les identifiants ("
+                + sNomUtilisateur + " - " + sMdp + ") n'existent pas.\", \"code\": 401 } }");
+            }
+            //  Ecrit la réponse finale de l'api BC_ObtenirJoueur.
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
             //  Formatage du retour en json.
