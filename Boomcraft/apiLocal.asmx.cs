@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Web.Services;
@@ -41,15 +42,16 @@ namespace Boomcraft
         #region API BC JOUEUR
         // ************************************************** BC CREER JOUEUR ************************************************** //
         [WebMethod]
-        public void BC_CreerJoueur(string sNomUtilisateur, string sEmail, string sMdp, string sFaction)
+        public void BC_CreerJoueur(string sNomUtilisateur, string sEmail, string sMdp, int iFaction)
         //  Création d'un joueur dans la base.
         {
             string sResult;
             //  Instanciation d'un joueur.
-            Joueur aJoueur = new Joueur(sNomUtilisateur, sEmail, sMdp, sFaction);
+            Joueur aJoueur = new Joueur(sNomUtilisateur, sEmail, sMdp, iFaction);
             if (aJoueur.Get_Id() > 0)
             {
                 sResult = "Le joueur a été créé.";
+                aREP.Insert_RessourceJoueur(aJoueur.Get_Id());
             }
             else
             {
@@ -264,8 +266,88 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
+        // ************************************************** BC NEW ************************************************** //
+        [WebMethod]
+        public void BC_New(int iId)
+        //  Suppression des informations d'un joueur de Boomcraft dans la base.
+        {
+            //  Déclaration de la réponse de la fonction qui sera transformée en JSON.
+            string sResult = String.Empty;
+        }
         // **************************************************  ************************************************** //
-        #endregion API VERIFY EXISTENCE LOGIN
+        #endregion
+        #region API BC FACTION
+        // ************************************************** BC GET ALL FACTION ************************************************** //
+        [WebMethod]
+        public void BC_GetAll_Faction()
+        //  Renvoie la liste des factions présentes dans la base.
+        {
+            //  Récupération des informations dans un objet DataTable.
+            DataTable dt = aREP.GetAll_Faction().Tables[0];
+            //  Conversion de l'objet DataTable en objet Object.
+            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // **************************************************  ************************************************** //
+        #endregion API BC FACTION
+        #region API BC RESSOURCE
+        // ************************************************** BC GET ALL RESSOURCE ************************************************** //
+        [WebMethod]
+        public void BC_GetAll_Ressource()
+        //  Renvoie la liste des ressources présentes dans la base.
+        {
+            //  Récupération des informations dans un objet DataTable.
+            DataTable dt = aREP.GetAll_Ressource().Tables[0];
+            //  Conversion de l'objet DataTable en objet Object.
+            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** BC GET ALL RESSOURCE ************************************************** //
+        [WebMethod]
+        public void BC_GetAll_RessourceJoueur(int iIdJoueur)
+        //  Renvoie la liste des ressources présentes dans la base.
+        {
+            //  Récupération des informations dans un objet DataTable.
+            DataTable dt = aREP.GetAll_RessourceJoueur(iIdJoueur).Tables[0];
+            //  Conversion de l'objet DataTable en objet Object.
+            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // **************************************************  ************************************************** //
+        #endregion API BC RESSOURCE
 
         #region API BC TEST
         // ************************************************** BC TEST GET ************************************************** //
@@ -316,7 +398,6 @@ namespace Boomcraft
             //request.Credentials = CredentialCache.DefaultCredentials;
             var postData = "username=boomcraft" + "&email=boomcraft@boomcraft.boomcraft";
             var data = Encoding.ASCII.GetBytes(postData);
-
             request.Method = "POST";
             //  Formatage du retour en de la requête.
             request.ContentType = "application/x-www-form-urlencoded";

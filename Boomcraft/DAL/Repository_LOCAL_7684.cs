@@ -24,7 +24,7 @@ namespace Boomcraft.DAL
         }
         // **************************************************  ************************************************** //
         #endregion VARIABLES ET CONSTRUCTEUR
-        #region JOUEUR
+        #region ACCOUNT
         // ************************************************** CHECK EXISTENCE JOUEUR ************************************************** //
         public string Check_ExistenceJoueur(string sNom, string sEmail)
         {
@@ -108,51 +108,6 @@ namespace Boomcraft.DAL
             sConnexionLocal.Close();
             return ds;
         }
-        // ************************************************** INSERT JOUEUR ************************************************** //
-        public int Insert_Joueur(string sId_Global, string sNom, string sEmail, string sMdp, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, int iFaction)
-        {
-            //  Retourne l'id de l'account créé si la requête a fonctionné.
-            //  Retourne l'erreur s'il la requête n'a pas fonctionné.
-            int iIdResult = 0;
-            //  variable pour stocker l'erreur en cas d'échec de la procédure.
-            string sErreur = string.Empty;
-            try
-            {
-                if (sConnexionLocal.State == ConnectionState.Closed)
-                {
-                    //  Ouverture d'une connexion avec la base.
-                    sConnexionLocal.Open();
-                }
-                //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-                MySqlCommand cmd = new MySqlCommand("ps_Insert_Account", sConnexionLocal);
-                cmd.CommandType = CommandType.StoredProcedure;
-                //  Déclaration des paramètres d'entrée de la procédure.
-                cmd.Parameters.AddWithValue("@sId_Global", sId_Global);
-                cmd.Parameters.AddWithValue("@sNom", sNom);
-                cmd.Parameters.AddWithValue("@sMdp", sMdp);
-                cmd.Parameters.AddWithValue("@sEmail", sEmail);
-                cmd.Parameters.AddWithValue("@dtCreation", dtCreation);
-                cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
-                cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
-                cmd.Parameters.AddWithValue("@iFaction", iFaction);
-                //  Déclaration des paramètres d'entrée de la procédure.
-                MySqlParameter out_Id = new MySqlParameter("@out_Id", MySqlDbType.Int32);
-                out_Id.Direction = ParameterDirection.Output;
-                cmd.Parameters.Add(out_Id);
-                //  Exécution de la procédure stockée.
-                cmd.ExecuteNonQuery();
-                //  Récupération du dernier id créé.
-                iIdResult = Int32.Parse(out_Id.Value.ToString());
-                //  Fermeture de la connexion avec la base.
-                sConnexionLocal.Close();
-            }
-            catch (Exception ex)
-            {
-                //  Erreur dans l'exécution du traitement SQL.
-                sErreur = "\n" + ex.ToString();
-            }
-            return iIdResult;
-        }
         // ************************************************** UPDATE JOUEUR ************************************************** //
         public int Update_Joueur(int iId, string sNom, string sMdp, string sEmail, string sFaction)
         //  Met à jour toutes les informations d'un joueur à partir de son id (local).
@@ -201,115 +156,13 @@ namespace Boomcraft.DAL
             sConnexionLocal.Close();
             return iResult;
         }
-        // ************************************************************************************************************************ //
-        #endregion JOUEUR
-        #region BOOMCRAFT FACTION
-        // ************************************************** GET ALL FACTION ************************************************** //
-        public DataSet GetAll_Faction()
-        //  Renvoie la liste des factions présentes dans la base.
-        {
-            DataSet ds = new DataSet();
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-            MySqlCommand cmd = new MySqlCommand("ps_GetAll_Faction", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-            return ds;
-        }
-        #endregion BOOMCRAFT FACTION
-        #region BOOMCRAFT RESSOURCE
-        // ************************************************** INSERT RESSOURCE JOUEUR ************************************************** //
-        public void Insert_RessourceJoueur(int iIdJoueur)
-        {
-            //  Insert des ressources à la quantité nulle dans la table userressource.
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-            MySqlCommand cmd = new MySqlCommand("ps_Insert_AccountRessource", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Déclaration des paramètres d'entrée de la procédure.
-            cmd.Parameters.AddWithValue("@iIdJoueur", iIdJoueur);
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-        }
-        // ************************************************** GET ALL RESSOURCE ************************************************** //
-        public DataSet GetAll_Ressource()
-        //  Renvoie la liste des ressources présentes dans la base.
-        {
-            DataSet ds = new DataSet();
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-            MySqlCommand cmd = new MySqlCommand("ps_GetAll_Ressource", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-            return ds;
-        }
-        // ************************************************** GET ALL RESSOURCE JOUEUR ************************************************** //
-        public DataSet GetAll_RessourceJoueur(int iIdJoueur)
-        //  Renvoie la liste des ressources présentes dans la base.
-        {
-            DataSet ds = new DataSet();
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-            MySqlCommand cmd = new MySqlCommand("ps_GetAll_RessourceByAccount", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Déclaration des paramètres d'entrée de la procédure.
-            cmd.Parameters.AddWithValue("@iIdJoueur", iIdJoueur);
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-            return ds;
-        }
-        // ************************************************************************************************************************ //
-        #endregion BOOMCRAFT RESSOURCE
-        #region COMBAT
-        //***************************************************** INSERT COMBAT *********************************************************//
-        public int Insert_Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
-        //  Renvoie la liste des combat présents dans la base.
+        // ************************************************** INSERT JOUEUR ************************************************** //
+        public int Insert_Joueur(string sId_Global, string sNom, string sEmail, string sMdp, DateTime dtCreation, DateTime? dtEdition, DateTime? dtSuppression, string sFaction)
         {
             //  Retourne l'id de l'account créé si la requête a fonctionné.
             //  Retourne l'erreur s'il la requête n'a pas fonctionné.
             int iIdResult = 0;
-            //  variable pour stocker l'erreur en cas d'échec de la procédure.
+            //  variable pour stocker l'erreur e cas d'échec de la procédure.
             string sErreur = string.Empty;
             try
             {
@@ -319,25 +172,25 @@ namespace Boomcraft.DAL
                     sConnexionLocal.Open();
                 }
                 //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-                MySqlCommand cmd = new MySqlCommand("ps_Insert_Combat", sConnexionLocal);
+                MySqlCommand cmd = new MySqlCommand("ps_Insert_Account", sConnexionLocal);
                 cmd.CommandType = CommandType.StoredProcedure;
                 //  Déclaration des paramètres d'entrée de la procédure.
-                cmd.Parameters.AddWithValue("@iIdCombat", iIdCombat);
-                cmd.Parameters.AddWithValue("@iIdAttaquant", iIdAttaquant);
-                cmd.Parameters.AddWithValue("@iIdDefenseur", iIdDefenseur);
-                cmd.Parameters.AddWithValue("@iDureeAvantCombat", iDureeAvantCombat);
-                cmd.Parameters.AddWithValue("@iIdVainqueur", iIdVainqueur);
-                //  Exécution de la procédure stockée.
-                cmd.ExecuteNonQuery();
-                //  Récupération du dernier id créé.
-
-                MySqlParameter out_Id = new MySqlParameter("@out_Id", MySqlDbType.Int32);
+                cmd.Parameters.AddWithValue("@sId_Global", sId_Global);
+                cmd.Parameters.AddWithValue("@sNom", sNom);
+                cmd.Parameters.AddWithValue("@sMdp", sMdp);
+                cmd.Parameters.AddWithValue("@sEmail", sEmail);
+                cmd.Parameters.AddWithValue("@dtCreation", dtCreation);
+                cmd.Parameters.AddWithValue("@dtEdition", dtEdition);
+                cmd.Parameters.AddWithValue("@dtSuppression", dtSuppression);
+                cmd.Parameters.AddWithValue("@sFaction", sFaction);
+                //  Déclaration des paramètres d'entrée de la procédure.
+                MySqlParameter out_Id = new MySqlParameter("@out_Id", MySqlDbType.Int16);
                 out_Id.Direction = ParameterDirection.Output;
                 cmd.Parameters.Add(out_Id);
                 //  Exécution de la procédure stockée.
                 cmd.ExecuteNonQuery();
                 //  Récupération du dernier id créé.
-                iIdResult = Int32.Parse(out_Id.Value.ToString());
+                iIdResult = int.Parse(out_Id.Value.ToString());
                 //  Fermeture de la connexion avec la base.
                 sConnexionLocal.Close();
             }
@@ -347,33 +200,8 @@ namespace Boomcraft.DAL
                 sErreur = "\n" + ex.ToString();
             }
             return iIdResult;
-
         }
-        //****************************************************** GET COMBAT *********************************************************//
-        public DataSet Get_Combat()
-        //  Renvoie la liste des joueurs présents dans la base.
-        {
-            DataSet ds = new DataSet();
-            if (sConnexionLocal.State == ConnectionState.Closed)
-            {
-                //  Ouverture d'une connexion avec la base.
-                sConnexionLocal.Open();
-            }
-            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
-            MySqlCommand cmd = new MySqlCommand("ps_Get_Combat", sConnexionLocal);
-            cmd.CommandType = CommandType.StoredProcedure;
-            //  Exécution de la procédure stockée.
-            cmd.ExecuteNonQuery();
-            //  Récupération des données de la procédures dans un adapter.
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            adapter.SelectCommand = cmd;
-            //  Stockage des données dans un dataset.
-            adapter.Fill(ds);
-            //  Fermeture de la connexion avec la base.
-            sConnexionLocal.Close();
-            return ds;
-        }
-        //****************************************************** GET ALL COMBAT *********************************************************//
+        //***************************************************** COMBAT **************************************************************//
         public DataSet GetAll_Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
         //  Renvoie la liste des combat présents dans la base.
         {
@@ -398,7 +226,7 @@ namespace Boomcraft.DAL
             return ds;
         }
         // ************************************************************************************************************************ //
-        #endregion COMBAT
+        #endregion ACCOUNT
         #region FARMVILLAGE
         // ************************************************** FV ENVOYER DON ************************************************** //
         public string[] FV_EnvoyerDon(string sUUID, int iQteWood, int iQteFood, int iQteGold, int iQteRock)
@@ -436,7 +264,7 @@ namespace Boomcraft.DAL
             sConnexionLocal.Close();
             return sResult;
         }
-        // ************************************************** FV DEMANDER TROUPE ************************************************** //
+        // ************************************************************************************************************************ //
         public int FV_DemanderTroupe(string sUUID, int iFaction, int iQuantite)
         //  Permet à un joueur de Farmvillage de faire une demande de troupes à un joueur de Boomcraft.
         {

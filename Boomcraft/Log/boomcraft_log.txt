@@ -1,0 +1,3 @@
+2018-01-22 20:46:59		"[{\"name\":\"wood\"},{\"name\":\"food\"},{\"name\":\"gold\"},{\"name\":\"rock\"}]"
+2018-01-22 20:51:21		"[{\"id_Ressource\":1,\"qty\":0},{\"id_Ressource\":2,\"qty\":0},{\"id_Ressource\":3,\"qty\":0},{\"id_Ressource\":4,\"qty\":0}]"
+2018-01-22 20:51:25		"[{\"id_Ressource\":1,\"qty\":1684},{\"id_Ressource\":2,\"qty\":1684},{\"id_Ressource\":3,\"qty\":1684},{\"id_Ressource\":4,\"qty\":1684}]"
