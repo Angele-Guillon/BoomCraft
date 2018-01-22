@@ -58,7 +58,7 @@ namespace Boomcraft.METIER
             }
         }
         // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
-        public Joueur(string sNom, string sEmail, string sMdp, string sFaction)
+        public Joueur(string sNom,  string sMdp, string sEmail, string sFaction)
         //  Constructeur utilisé lors de la création du compte du joueur.
         {
             //  Instanciation d'un objet permettant l'accès à la base de données.
@@ -72,8 +72,8 @@ namespace Boomcraft.METIER
             //  Génération d'un id aléatoire unique.
             this.sUUID = Guid.NewGuid().ToString();
             this.sNom = sNom;
-            this.sEmail = sEmail;
             this.sMdp = sMdp;
+            this.sEmail = sEmail;
             this.dtCreation = dtActuelle;
             this.dtEdition = dtNull;
             this.dtSupression = dtNull;

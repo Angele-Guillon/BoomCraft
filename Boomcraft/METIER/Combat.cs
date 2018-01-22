@@ -29,7 +29,7 @@ namespace Boomcraft
             //  Instanciation d'un objet permettant l'accès à la base de données.
             Repository aREP = new Repository();
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
-            DataTable dt = aREP.GetAll_Combat(iIdCombat, iIdAttaquant, iIdDefenseur, iDureeAvantCombat, iIdVainqueur).Tables[0];
+            DataTable dt = aREP.Insert_Combat(iIdCombat, iIdAttaquant, iIdDefenseur, iDureeAvantCombat, iIdVainqueur).Tables[0];
 
             //  TODO : Gérer le cas où les identifiants saisis sont erronés.
             this.iIdCombat = int.Parse(dt.Rows[0][0].ToString());
