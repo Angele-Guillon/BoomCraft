@@ -83,7 +83,7 @@ namespace Boomcraft.METIER
             //  Récupération des données du joueur en fonction des ses identifiants de connexion.
             this.iId = aREP.Insert_Joueur(sUUID, sNom, sEmail, sMdp, DateTime.Parse(dtCreation.ToString()), dtEdition, dtSupression, sFaction);
         }
-        // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
+        // ************************************************** CONSTRUCTEUR RECUPERATION COMPTE JOUEUR ************************************************** //
         public Joueur(string sId, string sUUID, string sNomUtilisateur, string sEmail, string sFaction)
         //  Constructeur utilisé lors de la récupération du compte du joueur.
         {

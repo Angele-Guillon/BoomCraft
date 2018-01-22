@@ -264,6 +264,14 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
+        // ************************************************** BC NEW ************************************************** //
+        [WebMethod]
+        public void BC_New(int iId)
+        //  Suppression des informations d'un joueur de Boomcraft dans la base.
+        {
+            //  Déclaration de la réponse de la fonction qui sera transformée en JSON.
+            string sResult = String.Empty;
+        }
         // **************************************************  ************************************************** //
         #endregion API VERIFY EXISTENCE LOGIN
 

@@ -1,0 +1,20 @@
+2018-01-22 18:20:57		{ 'error': { 'message': 'Une erreur s est produite lors de la demande de troupes.', 'code': 401 } }Détails : MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'iFaction' in 'field list'
+   à MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   à MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   à MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   à MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   à MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   à MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   à MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   à Boomcraft.DAL.Repository.FV_DemanderTroupe(String sUUID, Int32 iFaction, Int32 iQuantite) dans C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\DAL\Repository.cs:ligne 290
+   à Boomcraft.api.FV_DemanderTroupe(String sUUID, Int32 iFaction, Int32 iQuantite) dans C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\api.asmx.cs:ligne 144
+2018-01-22 18:21:11		{ 'error': { 'message': 'Une erreur s est produite lors de la demande de troupes.', 'code': 401 } }Détails : MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'iFaction' in 'field list'
+   à MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   à MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   à MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   à MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   à MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   à MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   à MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   à Boomcraft.DAL.Repository.FV_DemanderTroupe(String sUUID, Int32 iFaction, Int32 iQuantite) dans C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\DAL\Repository.cs:ligne 290
+   à Boomcraft.api.FV_DemanderTroupe(String sUUID, Int32 iFaction, Int32 iQuantite) dans C:\Users\asuss\Documents\Visual Studio 2015\Projects\BoomCraft\Boomcraft\api.asmx.cs:ligne 144
