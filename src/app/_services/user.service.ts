@@ -19,9 +19,9 @@ export class UserService {
         let url = 'http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur';
         console.log(model);
         //if (!model.faction){
-            console.log(this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username, sEmail:model.mail,sMdp:model.password,sFaction:model.faction}));
+            console.log(this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username,sEmail:model.mail,sMdp:model.password,sFaction:model.faction}));
         //}
-        return this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username, sEmail:model.mail,sMdp:model.password,sFaction:model.faction});
+        return this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_CreerJoueur', {sNomUtilisateur: model.username, sMdp:model.password,sEmail:model.mail,sFaction:model.faction});
     }
 
     update(user: User) {
