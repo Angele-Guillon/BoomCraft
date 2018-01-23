@@ -37,7 +37,7 @@ export class AttackComponent implements OnInit {
     
   ];
   attack(){
-    this.http.post('/api/attack/',this.currentUser.id_global);
+    this.http.post('/api/attack/',this.currentUser.globalId);
   }
   ngOnInit() {
 

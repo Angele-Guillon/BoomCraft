@@ -36,7 +36,9 @@ export class SubscribeComponent implements OnInit {
                   this.loading = false;
               });
   }
-  ngOnInit() {}
+  ngOnInit() {
+      
+  }
 
 }
 

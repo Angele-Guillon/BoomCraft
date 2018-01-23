@@ -62,6 +62,9 @@ import {AlertComponent} from './_directives/alert.component';
 import { NavRessourceComponent } from './nav-ressource/nav-ressource.component';
 import { JwtInterceptor } from './_helpers/index';
 import { DemandeService } from './_services/demande.service';
+import { PotionService } from './_services/potion.service';
+import { RessourceService } from './_services/ressource.service';
+
 
 @NgModule({
   declarations: [
@@ -128,6 +131,8 @@ import { DemandeService } from './_services/demande.service';
     AlertService,
     AuthGuard,
     UserService,
+    PotionService,
+    RessourceService,
     DemandeService,
     {
       provide: HTTP_INTERCEPTORS,

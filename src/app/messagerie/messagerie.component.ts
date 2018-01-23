@@ -9,6 +9,7 @@ import { UserService } from '../_services/index';
 import { User, Potion } from '../_models/index';
 import { Jsonp } from '@angular/http';
 import { DemandeService } from '../_services/demande.service';
+import { PotionService } from '../_services/potion.service';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class MessagerieComponent  {
     {id: 3, name: 10000},
   ];
  
-  constructor(private userService: UserService,private http: HttpClient,private demande: DemandeService) {
+  constructor(private userService: UserService,private http: HttpClient,private potionService: PotionService,private demande: DemandeService) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       console.log(this.currentUser);
       
@@ -49,27 +50,36 @@ export class MessagerieComponent  {
     //jsonp: Jsonp;
     demandes: Promise<Demande[]>;
 
-    Potions: Potion[];
-
+    Potions: Potion[]=[];
+    potionArray=[];
     private loading: boolean = false;
     private searchField: FormControl;
   
     ngOnInit() {
       this.faction=this.currentUser.faction;
-      this.demandes=this.http.get<Array<Demande>>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/demande/params?:'+this.faction).toPromise();
-      console.log(this.demandes);
-
+      //this.demandes=this.http.get<Array<Demande>>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/demande/params?:'+this.faction).toPromise();
+      this.potionService.getAllPotion(this.currentUser.globalId);
+      this.potionArray=JSON.parse(localStorage.getItem('potion'));
+      console.log(JSON.parse(localStorage.getItem('potion')));
+      if(this.potionArray!=null){
+      this.potionArray.forEach(potion => {
+        console.log(potion);
+        this.Potions.push(potion);
+      });
+    }
     }
 
   ask(){
     // Make the HTTP request:
-    console.log(this.model);
+    //console.log(this.model);
     
-    this.http.post('/api/ask/',this.model);
+    this.http.post('/api/ask/',JSON.parse(this.model));
   }
 
-  getPotion(){
-    this.http.post('/api/Potion',this.currentUser.id_global);
+  use(){
+    console.log(this.currentUser.globalId);
+    return this.potionService.usePotionbyId(this.currentUser.globalId,this.model.potion);
+    
   }
 
   displayedColumns = ['id', 'nbunit', 'button'];
