@@ -21,21 +21,16 @@ export class NavRessourceComponent implements OnInit {
 }
 
   ngOnInit() {
-    console.log(this.currentUser.globalId);
-    this.ressourceService.getAllRessourcebyUser(this.currentUser.globalId);
+    
+    /*console.log(this.currentUser.globalId);
+    this.ressourceService.getAllRessourcebyUser(this.currentUser.id);
     console.log(localStorage);
     this.ressourceArray=JSON.parse(localStorage.getItem('ressourceUser'));
     console.log(this.ressourceArray);
-    if(this.ressourceArray!=null){
       this.ressourceArray.forEach(ressource => {
         console.log(ressource);
-        this.Ressources.push(ressource);
-      });
-    }
-    
-
-
-
+        this.Ressources.push(ressource);*/
+    //}
 
   }
 
