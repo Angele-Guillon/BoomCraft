@@ -20,6 +20,12 @@ export class ArmeeComponent implements OnInit {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log(this.currentUser);
     this.faction=this.currentUser.faction;
+    if(this.faction='lumiere'){
+      this.faction="light";
+    }
+    if(this.faction='ombre'){
+      this.faction="shadow";
+    }
     
 }
 

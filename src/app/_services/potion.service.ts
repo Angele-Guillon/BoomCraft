@@ -7,8 +7,8 @@ export class PotionService {
     constructor(private http: HttpClient) { }
 
     getAllPotion(test: Text) {
-        //console.log(test);
-         return this.http.post<Potion[]>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_GetAll_PotionJoueur',{sUUID: '307c7442-5da2-4c4e-8199-2d12fe21533d'}).subscribe(potion => {
+        console.log(test);
+         return this.http.post<Potion[]>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_GetAll_PotionJoueur',{sUUID: test}).subscribe(potion => {
                  localStorage.setItem('potion', JSON.stringify(potion));
                 // console.log(localStorage);
          });;
@@ -17,7 +17,7 @@ export class PotionService {
 
     usePotionbyId(uid: Text,id: number) {
         console.log(uid);
-        return this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_Consommer_PotionJoueur',{sUUID: '307c7442-5da2-4c4e-8199-2d12fe21533d', iIdPotion: id, iQtePotion: 1}).subscribe();
+        return this.http.post('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/BC_Consommer_PotionJoueur',{sUUID: uid, iIdPotion: id, iQtePotion: 1}).subscribe();
     }
 
     

@@ -76,14 +76,16 @@
     <ng-container matColumnDef="button">
       <mat-header-cell *matHeaderCellDef> Button </mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button mat-icon-button routerLink="/">
+        <button mat-icon-button (click)="solve(row.id)">
           <mat-icon class="check-icon"> check_circle </mat-icon>
         </button>
-        <button mat-icon-button routerLink="/">
+        <button mat-icon-button (click)="delete(row.id)">
           <mat-icon class="cancel-icon"> cancel </mat-icon>
         </button>
       </mat-cell>
     </ng-container>
+
+    
     <!-- -->
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

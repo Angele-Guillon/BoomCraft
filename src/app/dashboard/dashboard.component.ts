@@ -39,6 +39,12 @@ constructor(private userService: UserService,private ressourceService: Ressource
   ngOnInit() {
     
     this.faction=this.currentUser.faction;
+    if(this.faction=="lumiere"){
+      this.faction="light";
+    }
+    if(this.faction=="ombre"){
+      this.faction="shadow";
+    }
     console.log(this.currentUser.globalId);
     this.ressourceService.getAllRessourcebyUser(this.currentUser.id);
     console.log(localStorage);

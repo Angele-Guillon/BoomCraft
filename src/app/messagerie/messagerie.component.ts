@@ -52,17 +52,25 @@ export class MessagerieComponent  {
     Potions: Potion[]=[];
     potionArray=[];
     demandeArray=[];
-    iFaction:number;
+    iFaction:number;  
+    visible:boolean=true;
     private loading: boolean = false;
     //private searchField: FormControl;
   
     ngOnInit() {
       this.faction=this.currentUser.faction;
+      if(this.faction='lumiere'){
+        this.faction="light";
+      }
+      if(this.faction='ombre'){
+        this.faction="shadow";
+      }
       if(this.faction=='light' || this.faction=='lumiere'){
         this.iFaction=1;
       }else{
         this.iFaction=2
       }
+
       this.demandeService.getALLDemandeTroupe();
       console.log(localStorage);
       this.demandeArray=JSON.parse(localStorage.getItem('demandeTroupe'));
@@ -75,7 +83,7 @@ export class MessagerieComponent  {
 
       this.potionService.getAllPotion(this.currentUser.globalId);
       this.potionArray=JSON.parse(localStorage.getItem('potion'));
-      //console.log(JSON.parse(localStorage.getItem('potion')));
+      console.log(JSON.parse(localStorage.getItem('potion')));
     if(this.potionArray!=null){
       this.potionArray.forEach(potion => {
         //console.log(potion);
@@ -94,6 +102,15 @@ export class MessagerieComponent  {
     return this.potionService.usePotionbyId(this.currentUser.globalId,this.model.potion);
     
   }
+
+  delete(id){
+    
+  }
+
+  solve(id){
+    
+  }
+
 
   displayedColumns = ['id', 'nbunit', 'button'];
   
