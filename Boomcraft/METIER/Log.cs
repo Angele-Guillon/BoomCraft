@@ -13,6 +13,8 @@ namespace Boomcraft.METIER
         #region VARIABLES
         // Chemin du fichier contenant les logs de l'application.
         private string sFichierChemin;
+        //  Variable pour récupérer l'activation des logs.
+        string sLogState;
 
         //Path.GetTempPath()
         #endregion VARIABLES
@@ -20,7 +22,9 @@ namespace Boomcraft.METIER
         #region CONSTRUCTEURS
         public Log()
         {
-            if(System.Environment.MachineName == "PC-TIM")
+            //  Récupération de l'état d'activation des logs.
+            sLogState = System.Configuration.ConfigurationManager.AppSettings["logState"];
+            if (System.Environment.MachineName == "PC-TIM")
             {
                 //  Récupération de l'adresse du répertoire du projet sur la machine.
                 sFichierChemin = AppDomain.CurrentDomain.BaseDirectory + @"Log\boomcraft_log.txt";
@@ -44,8 +48,11 @@ namespace Boomcraft.METIER
         //*****************************************************************************************************************
         public void ecrire(string sMessage)
         {
-            // Ecriture dans le fichier de Log lors de l'absence d'un tuple en base.
-            File.AppendAllText(sFichierChemin, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t\t" + sMessage + "\n");
+            if (sLogState == "true")
+            {
+                // Ecriture dans le fichier de Log lors de l'absence d'un tuple en base.
+                File.AppendAllText(sFichierChemin, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "\t\t" + sMessage + "\n");
+            }
         }
         //*****************************************************************************************************************
         #endregion METHODES ET PROPRIETES

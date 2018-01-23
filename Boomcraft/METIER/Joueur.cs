@@ -97,7 +97,7 @@ namespace Boomcraft.METIER
                 //  L'id vaut 0 car le joueur n'a pas encore été créé dans la base.
                 this.iId = Int32.Parse(sId);
                 //  Génération d'un id aléatoire unique.
-                this.sUUID = Guid.NewGuid().ToString();
+                this.sUUID = sUUID;
                 this.sNom = sNomUtilisateur;
                 this.sMdp = string.Empty;
                 this.sEmail = sEmail;
