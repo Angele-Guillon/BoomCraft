@@ -61,7 +61,7 @@ namespace Boomcraft.METIER
             }
         }
         // ************************************************** CONSTRUCTEUR CREATION JOUEUR ************************************************** //
-        public Joueur(string sNom,  string sMdp, string sEmail, int iFaction)
+        public Joueur(string sNom,  string sEmail, string sMdp, int iFaction)
         //  Constructeur utilisé lors de la création du compte du joueur.
         {
             //  Instanciation d'un objet permettant l'accès à la base de données.
