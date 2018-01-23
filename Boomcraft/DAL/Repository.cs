@@ -228,6 +228,7 @@ namespace Boomcraft.DAL
             sConnexionLocal.Close();
             return ds;
         }
+        // ************************************************************************************************************************ //
         #endregion BOOMCRAFT FACTION
         #region BOOMCRAFT RESSOURCE
         // ************************************************** INSERT RESSOURCE JOUEUR ************************************************** //
@@ -301,6 +302,81 @@ namespace Boomcraft.DAL
         }
         // ************************************************************************************************************************ //
         #endregion BOOMCRAFT RESSOURCE
+        #region BOOMCRAFT BATIMENT
+        // ************************************************** GET ALL BATIMENT JOUEUR ************************************************** //
+        public DataSet GetAll_BatimentJoueur(int iIdJoueur)
+        //  Renvoie la liste des bâtiments que possède un joueur.
+        {
+            DataSet ds = new DataSet();
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_GetAll_BuildingByAccount", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Déclaration des paramètres d'entrée de la procédure.
+            cmd.Parameters.AddWithValue("@iIdJoueur", iIdJoueur);
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération des données de la procédures dans un adapter.
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            adapter.SelectCommand = cmd;
+            //  Stockage des données dans un dataset.
+            adapter.Fill(ds);
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return ds;
+        }
+        #endregion BOOMCRAFT BATIMENT
+        #region BOOMCRAFT DEMANDE TROUPE
+        // ************************************************** GET ALL DEMANDE TROUPE ************************************************** //
+        public DataSet GetAll_DemandeTroupe()
+        //  Renvoie la liste des bâtiments que possède un joueur.
+        {
+            DataSet ds = new DataSet();
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_GetAll_TroopRequest", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération des données de la procédures dans un adapter.
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            adapter.SelectCommand = cmd;
+            //  Stockage des données dans un dataset.
+            adapter.Fill(ds);
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return ds;
+        }
+        // ************************************************** DELETE DEMANDE TROUPE ************************************************** //
+        public void Delete_DemandeTroupe(string sUUID)
+        //  Supprime une demande de troupes.
+        {
+            int iResult = 0;
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_Delete_TroopRequest", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Transmission des paramètres à la procédure stockée.
+            cmd.Parameters.AddWithValue("@sUUID", sUUID);
+            //  Exécution de la procédure stockée.
+            iResult = cmd.ExecuteNonQuery();
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+        }
+        // ************************************************************************************************************************ //
+        #endregion BOOMCRAFT DEMANDE TROUPE
         #region COMBAT
         //***************************************************** INSERT COMBAT *********************************************************//
         public int Insert_Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
