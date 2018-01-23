@@ -450,7 +450,7 @@ namespace Boomcraft.DAL
             return ds;
         }
         //****************************************************** GET ALL COMBAT *********************************************************//
-        public DataSet GetAll_Combat(int iIdCombat, int iIdAttaquant, int iIdDefenseur, int iDureeAvantCombat, int iIdVainqueur)
+        public DataSet GetAll_Combat()
         //  Renvoie la liste des combat présents dans la base.
         {
             DataSet ds = new DataSet();
@@ -472,6 +472,62 @@ namespace Boomcraft.DAL
             //  Fermeture de la connexion avec la base.
             sConnexionLocal.Close();
             return ds;
+        }
+        //****************************************************** GET ALL JOUEUR PAS COMBAT *********************************************************//
+        public DataSet GetAll_JoueurPasCombat()
+        //  Renvoie la liste des combat présents dans la base.
+        {
+            DataSet ds = new DataSet();
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_GetAll_AccountNotInCombat", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération des données de la procédures dans un adapter.
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            adapter.SelectCommand = cmd;
+            //  Stockage des données dans un dataset.
+            adapter.Fill(ds);
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return ds;
+        }
+        //***************************************************** INSERT COMBAT *********************************************************//
+        public int Insert_ParticiperCombat(int iIdAttaque, string sUUIDHowob, int iFaction, string sStats)
+        //  Insert un attaquant ou un defenseur Howob dans un combat.
+        {
+            //  Retourne l'id du combat modifié.
+            int iIdResult = 0;
+            if (sConnexionLocal.State == ConnectionState.Closed)
+            {
+                //  Ouverture d'une connexion avec la base.
+                sConnexionLocal.Open();
+            }
+            //  Déclaration d'un objet MySqlCommand pour appeler une procédure stockée.
+            MySqlCommand cmd = new MySqlCommand("ps_Insert_ParticiperCombat", sConnexionLocal);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //  Déclaration des paramètres d'entrée de la procédure.
+            cmd.Parameters.AddWithValue("@iIdAttaque", iIdAttaque);
+            cmd.Parameters.AddWithValue("@sUUIDHowob", sUUIDHowob);
+            cmd.Parameters.AddWithValue("@iFaction", iFaction);
+            cmd.Parameters.AddWithValue("@sStats", sStats);
+            //  Récupération de l'id du combat modifié.
+            MySqlParameter out_IdCombat = new MySqlParameter("@out_IdCombat", MySqlDbType.Int32);
+            out_IdCombat.Direction = ParameterDirection.Output;
+            cmd.Parameters.Add(out_IdCombat);
+            //  Exécution de la procédure stockée.
+            cmd.ExecuteNonQuery();
+            //  Récupération du dernier id créé.
+            iIdResult = Int32.Parse(out_IdCombat.Value.ToString());
+            //  Fermeture de la connexion avec la base.
+            sConnexionLocal.Close();
+            return iIdResult;
+
         }
         // ************************************************************************************************************************ //
         #endregion COMBAT

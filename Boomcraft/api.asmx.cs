@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using Newtonsoft.Json;
 using System.Web.Services;
 using System.Web.Script.Services;
@@ -242,27 +243,47 @@ namespace Boomcraft
         // **************************************************  ************************************************** //
         #endregion API VEGGIECRUSH
         #region API HOWOB
-        // ************************************************** HW LISTE COMBATS ************************************************** //
+        // ************************************************** HW LISTE COMBAT ************************************************** //
         [WebMethod]
         [ScriptMethod(UseHttpGet = true)]
-        //  TODO : Quels sont les paramètres d'entrées ?
-        //  TODO : Coder le corps de la fonction...
-        public void HW_ListeCombats()
-        //  HOWOB => Boomcraft. Permet à un joueur Howob d'obtenir une list des combats qu'il peut rejoindre.
+        public void HW_ListeCombat()
+        //  HOWOB => Boomcraft. Permet à un joueur Howob d'obtenir une liste des combats qu'il peut rejoindre.
         {
             string sResult = string.Empty;
-            try
+            //  Déclaration d'un objet DataTable pour stocker la liste des combats à venir.
+            DataTable dt = aREP.GetAll_Combat().Tables[0];
+            //  Conversion de l'objet DataTable en objet Object.
+            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            //  Sérialisation de la réponse au format JSON.
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // ************************************************** HW PARTICIPER COMBAT ************************************************** //
+        [WebMethod]
+        public void HW_ParticiperCombat(int iIdAttaque, string sUUIDHowob, int iFaction, string sStats)
+        //  HOWOB => Boomcraft. Permet à un joueur Howob d'obtenir une liste des combats qu'il peut rejoindre.
+        {
+            string sResult = string.Empty;
+            //  Récupération du résultat de la demande de consommation de bonus.
+            int iResult = aREP.Insert_ParticiperCombat(iIdAttaque, sUUIDHowob, iFaction, sStats);
+            if (iResult == 1)
             {
-                //  Création d'un objet joueur à l'aide du nom et du mot de passe.
-                Joueur aJoueur = new Joueur("boomcraft", "boomcraft");
-                //  Obtention de l'objet joueur en format JSON.
-                sResult = aJoueur.get_JoueurJSON();
+                sResult = "{ \"result\": \"true.\","
+                    + "\"msg_code\": \"La participation au combat a bien été prise en compte.\"}";
             }
-            catch (Exception ex)
+            else
             {
-                //  Renvoie d'erreur en cas d'échec.
-                sResult = "{ 'error': { 'message': 'Une erreur s'est produite lors de la vérification des identifiants du joueur.', 'code': 401 } }";
-                aLog.ecrire(sResult + "\rDétails : \r" + ex);
+                sResult = "{ \"result\": \"false.\","
+                    + "\"msg_code\": \"La participation au combat n'a pas été prise en compte. La place est déjà prise !\"}";
             }
             //  Sérialisation de la réponse en Objet.
             Object oResult = new JavaScriptSerializer().DeserializeObject(sResult);

@@ -373,7 +373,7 @@ namespace Boomcraft
             //  Récupération des informations dans un objet DataTable.
             DataTable dt = aREP.GetAll_Faction().Tables[0];
             //  Conversion de l'objet DataTable en objet Object.
-            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            Object oResult = JsonConvert.SerializeObject(dt);
             aLog.ecrire(JsonConvert.SerializeObject(oResult));
             var jsonSerializer = new JsonSerializer();
             jsonSerializer.Serialize(Context.Response.Output, oResult);
@@ -412,7 +412,7 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
-        // ************************************************** BC GET ALL RESSOURCE ************************************************** //
+        // ************************************************** BC GET ALL RESSOURCE JOUEUR ************************************************** //
         [WebMethod]
         public void BC_GetAll_RessourceJoueur(int iIdJoueur)
         //  Renvoie la liste des ressources présentes dans la base.
@@ -434,10 +434,61 @@ namespace Boomcraft
             Context.ApplicationInstance.CompleteRequest();
             Context.Response.End();
         }
+        // ************************************************** BC DEMANDER RESSOURCE ************************************************** //
+        [WebMethod]
+        public void BC_DemanderRessource(string sUUID, int iFaction, int iQteWood, int iQteFood, int iQteGold, int iQteRock)
+        //  Envoie une demande de ressources au joueur de Farmvillage
+        {
+            //  Déclaration d'une variable pour stocker le résultat de la requête.
+            string sResult = String.Empty;
+            //  Définition de l'adresse de l'api ciblée.
+            string sUrlFarmvillage = "http://artshared.fr/andev1/distribue/api/boomcraft/add_request.php";
+            //  Déclaratione de la requête Http.
+            var request = (HttpWebRequest)WebRequest.Create(sUrlFarmvillage);
+            //  Définition des paramètres d'entrée de la requête.
+            var jsonData = "{\"uid\":\"" + sUUID + "\",\"id_faction\":" + iFaction + ",\"qd1\":" + iQteWood
+                + ",\"qd2\":" + iQteFood + ",\"qd3\":" + iQteGold + ",\"qd4\":" + iQteRock + "}";
+            var data = Encoding.ASCII.GetBytes(jsonData);
+            request.Method = "POST";
+            //  Définition la valeur de l'en-tête de la requête.
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+            try
+            {
+                //  Déclaration de la réponse à la requête.
+                var response = (HttpWebResponse)request.GetResponse();
+                //  Récupération du retour de la réponse.
+                sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
+                response.Close();
+            }
+            catch (Exception ex)
+            {
+                aLog.ecrire("Erreur lors de la connexion au serveur : " + request.RequestUri + ".\r" + ex);
+            }
+            //  Sérialisation de la réponse en objet JSON.
+            Object oResult = JsonConvert.DeserializeObject<Object>(sResult);
+            //  Ecrit la réponse finale de l'api BC_ObtenirJoueur.
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
         // **************************************************  ************************************************** //
         #endregion API BC RESSOURCE
         #region API BC BATIMENT
-        // ************************************************** BC GET ALL RESSOURCE ************************************************** //
+        // ************************************************** BC GET ALL BATIMENT JOUEUR ************************************************** //
         [WebMethod]
         public void BC_GetAll_BatimentJoueur(int iIdJoueur)
         //  Renvoie la liste des ressources présentes dans la base.
@@ -461,6 +512,31 @@ namespace Boomcraft
         }
         // **************************************************  ************************************************** //
         #endregion API BC BATIMENT
+        #region API BC COMBAT
+        // ************************************************** BC GET ALL JOUEUR PAS COMBAT ************************************************** //
+        [WebMethod]
+        public void BC_GetAll_JoueurPasCombat()
+        //  Renvoie la liste des ressources présentes dans la base.
+        {
+            //  Récupération des informations dans un objet DataTable.
+            DataTable dt = aREP.GetAll_JoueurPasCombat().Tables[0];
+            //  Conversion de l'objet DataTable en objet Object.
+            Object oResult = JsonConvert.SerializeObject(dt, Formatting.None);
+            aLog.ecrire(JsonConvert.SerializeObject(oResult));
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.Serialize(Context.Response.Output, oResult);
+            //  Formatage du retour en json.
+            Context.Response.ContentType = "application/json";
+            // Sends all currently buffered output to the client.
+            Context.Response.Flush();
+            // Gets or sets a value indicating whether to send HTTP content to the client.
+            Context.Response.SuppressContent = true;
+            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
+            Context.ApplicationInstance.CompleteRequest();
+            Context.Response.End();
+        }
+        // **************************************************  ************************************************** //
+        #endregion API BC COMBAT
         #region API BC ARMEE
         // ************************************************** GET ALL DEMANDE TROUPE ************************************************** //
         [WebMethod]
@@ -581,60 +657,6 @@ namespace Boomcraft
         }
         // **************************************************  ************************************************** //
         #endregion API BC POTION
-        #region API BC REQUETE DON
-        // ************************************************** BC DEMANDER RESSOURCE ************************************************** //
-        [WebMethod]
-        public void BC_DemanderRessource(string sUUID, int iFaction, int iQteWood, int iQteFood, int iQteGold, int iQteRock)
-        //  Envoie une demande de ressources au joueur de Farmvillage
-        {
-            //  Déclaration d'une variable pour stocker le résultat de la requête.
-            string sResult = String.Empty;
-            //  Définition de l'adresse de l'api ciblée.
-            string sUrlFarmvillage = "http://artshared.fr/andev1/distribue/api/boomcraft/add_request.php";
-            //  Déclaratione de la requête Http.
-            var request = (HttpWebRequest)WebRequest.Create(sUrlFarmvillage);
-            //  Définition des paramètres d'entrée de la requête.
-            var jsonData = "{\"uid\":\"" + sUUID + "\",\"id_faction\":" + iFaction + ",\"qd1\":" + iQteWood
-                + ",\"qd2\":" + iQteFood + ",\"qd3\":" + iQteGold + ",\"qd4\":" + iQteRock + "}";
-            var data = Encoding.ASCII.GetBytes(jsonData);
-            request.Method = "POST";
-            //  Définition la valeur de l'en-tête de la requête.
-            request.ContentType = "application/json";
-            request.ContentLength = data.Length;
-            using (var stream = request.GetRequestStream())
-            {
-                stream.Write(data, 0, data.Length);
-            }
-            try
-            {
-                //  Déclaration de la réponse à la requête.
-                var response = (HttpWebResponse)request.GetResponse();
-                //  Récupération du retour de la réponse.
-                sResult = new StreamReader(response.GetResponseStream()).ReadToEnd();
-                response.Close();
-            }
-            catch (Exception ex)
-            {
-                aLog.ecrire("Erreur lors de la connexion au serveur : " + request.RequestUri + ".\r" + ex);
-            }
-            //  Sérialisation de la réponse en objet JSON.
-            Object oResult = JsonConvert.DeserializeObject<Object>(sResult);
-            //  Ecrit la réponse finale de l'api BC_ObtenirJoueur.
-            aLog.ecrire(JsonConvert.SerializeObject(oResult));
-            var jsonSerializer = new JsonSerializer();
-            jsonSerializer.Serialize(Context.Response.Output, oResult);
-            //  Formatage du retour en json.
-            Context.Response.ContentType = "application/json";
-            // Sends all currently buffered output to the client.
-            Context.Response.Flush();
-            // Gets or sets a value indicating whether to send HTTP content to the client.
-            Context.Response.SuppressContent = true;
-            // Causes ASP.NET to bypass all events and filtering in the HTTP pipeline chain of execution and directly execute the EndRequest event.
-            Context.ApplicationInstance.CompleteRequest();
-            Context.Response.End();
-        }
-        // **************************************************  ************************************************** //
-        #endregion API BC REQUETE DON
         #region API BC REPONDRE REQUETE ARMEE
         // ************************************************** BC DONNER ARMEE ************************************************** //
         [WebMethod]
