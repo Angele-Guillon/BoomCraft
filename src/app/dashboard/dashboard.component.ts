@@ -10,6 +10,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
 import { User } from '../_models/index';
 import { UserService } from '../_services/index';
+import { Ressource } from '../_models/Ressource';
+import { RessourceService } from '../_services/ressource.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,10 +25,11 @@ export class DashboardComponent implements OnInit {
 faction :string;
 currentUser: User;
 users: User[] = [];
+Ressources:Ressource[]=[];
+ressourceArray=[];
 
 
-
-constructor(private userService: UserService) {
+constructor(private userService: UserService,private ressourceService: RessourceService) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log(this.currentUser);
 }
@@ -36,7 +39,15 @@ constructor(private userService: UserService) {
   ngOnInit() {
     
     this.faction=this.currentUser.faction;
-
+    console.log(this.currentUser.globalId);
+    this.ressourceService.getAllRessourcebyUser(this.currentUser.id);
+    console.log(localStorage);
+    this.ressourceArray=JSON.parse(localStorage.getItem('ressourceUser'));
+    console.log(localStorage.getItem('ressourceUser'));
+      this.ressourceArray.forEach(ressource => {
+        console.log(ressource);
+        this.Ressources.push(ressource);
+    });
     }
   
 }

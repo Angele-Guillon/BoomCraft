@@ -37,9 +37,9 @@ export class MessagerieComponent  {
     {id: 3, name: 10000},
   ];
  
-  constructor(private userService: UserService,private http: HttpClient,private potionService: PotionService,private demande: DemandeService) {
+  constructor(private userService: UserService,private http: HttpClient,private potionService: PotionService,private demandeService: DemandeService) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      console.log(this.currentUser);
+      //console.log(this.currentUser);
       
   }
 
@@ -47,44 +47,59 @@ export class MessagerieComponent  {
 
  
     model: any = [{}];
-    //jsonp: Jsonp;
-    demandes: Promise<Demande[]>;
+    demandes: Demande[] = [];
 
     Potions: Potion[]=[];
     potionArray=[];
+    demandeArray=[];
+    iFaction:number;
     private loading: boolean = false;
-    private searchField: FormControl;
+    //private searchField: FormControl;
   
     ngOnInit() {
       this.faction=this.currentUser.faction;
-      //this.demandes=this.http.get<Array<Demande>>('http://boomcraft.masi-henallux.be:8080/apiLocal.asmx/demande/params?:'+this.faction).toPromise();
+      if(this.faction=='light' || this.faction=='lumiere'){
+        this.iFaction=1;
+      }else{
+        this.iFaction=2
+      }
+      this.demandeService.getALLDemandeTroupe();
+      console.log(localStorage);
+      this.demandeArray=JSON.parse(localStorage.getItem('demandeTroupe'));
+      if(this.demandeArray!=null){
+        this.demandeArray.forEach(demande => {
+          console.log(demande);
+          this.demandes.push(demande);
+        });
+      }
+
       this.potionService.getAllPotion(this.currentUser.globalId);
       this.potionArray=JSON.parse(localStorage.getItem('potion'));
-      console.log(JSON.parse(localStorage.getItem('potion')));
-      if(this.potionArray!=null){
+      //console.log(JSON.parse(localStorage.getItem('potion')));
+    if(this.potionArray!=null){
       this.potionArray.forEach(potion => {
-        console.log(potion);
+        //console.log(potion);
         this.Potions.push(potion);
       });
     }
     }
 
   ask(){
-    // Make the HTTP request:
     //console.log(this.model);
-    
-    this.http.post('/api/ask/',JSON.parse(this.model));
-  }
+    return this.demandeService.postdemande(this.model,this.currentUser.globalId,this.iFaction);
+    }
 
   use(){
-    console.log(this.currentUser.globalId);
+    //console.log(this.model.potion);
     return this.potionService.usePotionbyId(this.currentUser.globalId,this.model.potion);
     
   }
 
   displayedColumns = ['id', 'nbunit', 'button'];
-  dataSource = new MatTableDataSource<Demande>(Demande_DATA);
+  
+  dataSource = new MatTableDataSource<Demande>(this.demandes);
     ngAfterViewInit() {
+      console.log(this.demandes);
       this.dataSource.paginator = this.paginator;
     }
   }
@@ -104,31 +119,4 @@ export class MessagerieComponent  {
   }
 
 
-  const Demande_DATA: Demande[] = [
-    {id: 1, nbUnit: 1},
-    {id: 2, nbUnit: 1},
-    {id: 3, nbUnit: 1},
-    {id: 4, nbUnit: 1},
-    {id: 5, nbUnit: 1},
-    {id: 6, nbUnit: 1},
-    {id: 7, nbUnit: 1},
-    {id: 8, nbUnit: 1},
-    {id: 78, nbUnit: 300},
-    {id: 300, nbUnit: 400},
-    {id: 34, nbUnit: 500},
-    {id: 23, nbUnit: 600},
-    {id: 24, nbUnit: 700},
-    {id: 56, nbUnit: 800},
-    {id: 20, nbUnit: 1222},
-    {id: 70, nbUnit: 1112},
-    {id: 80, nbUnit: 1},
-    {id: 67, nbUnit: 1},
-    {id: 89, nbUnit: 1},
-    {id: 90, nbUnit: 1},
-    {id: 58, nbUnit: 1},
-    {id: 60, nbUnit: 1},
-    {id: 50, nbUnit: 1},
-    {id: 30, nbUnit: 1},
-    {id: 42, nbUnit: 1},
-
-  ];
+  
